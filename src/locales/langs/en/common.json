@@ -1,0 +1,244 @@
+{
+  "dashboard": {
+    "login": {
+      "title": "Enter password to access dashboard",
+      "password_label": "Password",
+      "login_button": "Login",
+      "error": {
+        "unauthorized": "Incorrect password!",
+        "bad_request": "Missing or invalid input.",
+        "not_found": "Dashboard access not found.",
+        "default": "Something went wrong! Refresh the page and try again."
+      },
+      "success_message" : "Login successful",
+      "error_message" : "Failed to login"
+    },
+    "session_delete_confirm_modal": {
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "delete_confirm": "Are you sure you want to delete {{name}}'s session?"
+    },
+    "check_in_comfirm_modal": {
+      "check_in_confirm": "Do you want to check in {{name}}?",
+      "confirm": "OK",
+      "cancel": "Cancel"
+    },
+    "navbar": {
+      "history_button": "History",
+      "check_in_button": "Check-in",
+      "refresh_button": "Refresh"
+    },
+    "sort": "Sort by",
+    "team_and_income": "Team and income",
+    "stat_card": {
+      "salon_income": {
+        "title": "Salon's income",
+        "modal_title": "Payment methods and income details",
+        "payment_methods": "Payment methods",
+        "cash": "Cash",
+        "card": "Card",
+        "treatwell": "Treatwell",
+        "gift_card": "Gift cards",
+        "others": "Others",
+        "total_income": "Total income",
+        "total_shared_bonus": "Total shared bonus",
+        "total_daily_bonus": "Total daily bonus",
+        "total_expenses": "Total expenses",
+        "total_salon_income": "Total salon's income",
+        "view_button": "View"
+      },
+      "total_basic_income": "Total basic income",
+      "total_bonus": {
+        "title": "Total bonus",
+        "view_modal_title": "Total bonus and details",
+        "shared_bonus": "Shared bonus",
+        "daily_bonus": "Daily bonus",
+        "total_bonus": "Total bonus",
+        "view_button": "View"
+      },
+      "total_expenses": {
+        "title": "Total expenses",
+        "add_button": "Add",
+        "update_expense_success": "Expense updated successfully",
+        "update_expense_fail": "Failed to update expense",
+        "delete_expense_success": "Expense deleted successfully",
+        "delete_expense_fail": "Failed to delete expense",
+        "expense_button": "Expense",
+        "save_button": "Save",
+        "cancel_button": "Cancel",
+        "add_expenses": "Add expenses",
+        "description_placeholder": "Write the new expense here",
+        "confirm_delete": "Are you sure you want to delete this expense?",
+        "total_label": "Total expense"
+      }
+    },
+    "history_modal": {
+      "no_logs_message": "No logs found for this date",
+      "fail_to_load_message": "Failed to load logs",
+      "invalid_date": "Invalid date"
+    },
+    "add_user_modal": {
+      "choose_your_profile_message": "Choose your profile",
+      "all_profiles_are_checked_in_message": "All profiles have been checked-in"
+    },
+    "user_card": {
+      "basic_income": "Basic Income",
+      "shard_bonus": "Shared bonus",
+      "daily_bonus": "Daily bonus",
+      "check_in": "Check-in",
+      "check_out": "Check-out",
+      "add_ticket_button": "Add ticket",
+      "view_tickets_button": "View tickets",
+      "check_out_button": "Check-out",
+      "add_ticket_modal": {
+        "title": "Add ticket",
+        "sub_title": "Amount and payment methods",
+        "cash": "Cash",
+        "card": "Card",
+        "treatwell": "Treatwell",
+        "gift_card": "Gift card",
+        "others": "Others",
+        "bonus_button": "Bonus",
+        "cancel_button": "Cancel",
+        "save_button": "Save"
+      },
+      "edit_ticket_modal": {
+        "title": "Edit ticket"
+      },
+      "edit_time_modal": {
+        "title": "Edit {{type}} time",
+        "save_button": "Save",
+        "cancel_button": "Cancel"
+      },
+      "view_tickets_modal": {
+        "empty_table_message": "No tickets added yet. Use the ‘Add Ticket’ button to create one.",
+        "edit_button": "Edit",
+        "delete_button": "Delete",
+        "ticket": "Ticket",
+        "create_time": "Created Time",
+        "bonus_income": "Bonus Income",
+        "actions": "Actions",
+        "deleting": "deleting",
+        "payment_type": "Payment type"
+      }
+    },
+    "alert": {
+      "check_in_success": "{{name}} checked in successfully!",
+      "check_out_success": "{{name}} checked out successfully!",
+      "check_out_fail": "Failed to check out for {{name}}",
+      "add_ticket_success": "Ticket created for {{name}} successfully!",
+      "add_ticket_fail": "Failed to add ticket for {{name}}!",
+      "delete_ticket_success": "Ticket deleted for {{name}} successfully!",
+      "delete_ticket_fail": "Failed to delete ticket!",
+      "edit_ticket_success": "Ticket edited for {{name}} successfully!",
+      "edit_ticket_fail": "Failed to edit ticket for {{name}}",
+      "edit_check_in_success": "Check-in time edited for {{name}} successfully!",
+      "edit_check_in_fail": "Failed to edit check-in time for {{name}}",
+      "edit_check_out_success": "Check-out time edited for {{name}} successfully!",
+      "edit_check_out_fail": "Failed to edit check-out time for {{name}}",
+      "invalid_time_range": "Check-out time cannot be earlier than check-in time.",
+      "add_history_fail": "Faild to add history",
+      "delete_session_success": "Session deleted successfully for {{name}}.",
+      "delete_session_fail": "Failed to delete session for {{name}}."
+    }
+  },
+  "sign_in": {
+    "email": "Email",
+    "password": "Password",
+    "error_message": "Invalid email or password!",
+    "sign_in_button": "Sign in",
+    "success_message": "Signed in successfully!",
+    "fail_message": "Failed to sign in!"
+  },
+  "sign_out": {
+    "sign_out_button": "Sign out",
+    "confirm_message": "Are you sure you want to sign out?",
+    "confirm_button": "Sign out",
+    "cancel_button": "Cancel",
+    "success_message": "Signed out successfully!",
+    "fail_message": "Failed to sign out!"
+  },
+  "admin": {
+    "password_expires_message" : "Password expires",
+    "password_set_new_message": "Password expired. Set a new one.",
+
+    "snackbar": {
+      "create_password_success": "New password created successfully.",
+      "create_password_error": "Failed to create new password. Please try again.",
+      "extend_password_success": "Password session extended successfully.",
+      "extend_password_error": "Failed to extend password session. Please try again."
+    },
+
+    "profiles_button": "Profiles",
+    "sign_out_button": "Sign out",
+    "view_button": "View",
+    "password_button": "Password",
+    "create_password": "Create new password",
+    "extend_password": "Extend session",
+    "confirm_extend_password_button": "Extend",
+    "cancel_button": "Cancel",
+    "save_password_button": "Save",
+    "password_label": "Password",
+    "password_expiration_text": "Password will expire at",
+    "warning_text": "Notice: After extending, your password will remain valid for the next 7 days.",
+    "admin_stat_card": {
+      "salon_income": "Salon’s income",
+      "profit": "Profit",
+      "total_salary": "Total salary",
+      "total_shared_bonus": "Total shared bonus",
+      "total_daily_bonus": "Total daily bonus",
+      "view_button": "View"
+    },
+    "view_modal": {
+      "date": "Date",
+      "check_in_time": "Check-in time",
+      "check_out_time": "Check-out time",
+      "working_hour": "Working hour",
+      "salary": "Salary"
+    }
+  },
+  "profiles": {
+    "employee_list": "Employee list",
+    "add_employee": "Add employee",
+    "view_employee": "View employee",
+    "edit_employee": "Edit employee",
+    "add_employee_button": "Add employee",
+    "back_button": "Back",
+    "full_name_label": "Full name",
+    "phone_number_label": "Phone number",
+    "dob_label": "Date of birth",
+    "address_label": "Address",
+    "basic_salary_label": "Basic salary per hour",
+    "shared_bonus_label": "Shared bonus rate",
+    "daily_bonus_limit_label": "Limit to earn a daily bonus",
+    "failed_to_load_users": "Failed to load users",
+    "add_user_success": "Employee {{name}} has been added successfully!",
+    "add_user_fail": "Failed to add employee {{name}}. Please try again.",
+    "edit_user_success": "Employee {{name}} has been updated successfully!",
+    "edit_user_fail": "Failed to update employee {{name}}. Please try again.",
+    "delete_user_success": "User {{name}} was deleted successfully.",
+    "delete_user_fail": "Failed to delete user {{name}}.",
+    "card_basic_salary_label": "Basic salary per hour:",
+    "card_shared_bonus_label": "Shared bonus rate:",
+    "card_daily_bonus_limit_label": "Limit to earn a daily bonus:",
+    "avatars_modal": {
+      "title": "Choose a profile photo",
+      "no_avatars_message": "No avatars available."
+    },
+    "upload_photo_button": "Upload photo",
+    "remove_photo_button": "Remove photo",
+    "cancel_button": "Cancel",
+    "save_button": "Save",
+    "view_button": "View",
+    "edit_button": "Edit",
+    "delete_button": "Delete",
+    "close_button": "Close",
+    "confirm_button": "Confirm",
+    "delete_confirm_description": "Are you sure you want to delete {{name}}? This action cannot be undone!",
+    "form_error": {
+      "name": "Name is required",
+      "amount": "Please enter a valid number",
+      "bonus_rate": "Shared bonus rate cannot exceed 99.99%"
+    }
+  }
+}
