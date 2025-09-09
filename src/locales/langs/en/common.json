@@ -10,8 +10,8 @@
         "not_found": "Dashboard access not found.",
         "default": "Something went wrong! Refresh the page and try again."
       },
-      "success_message" : "Login successful",
-      "error_message" : "Failed to login"
+      "success_message": "Login successful",
+      "error_message": "Failed to login"
     },
     "session_delete_confirm_modal": {
       "delete": "Delete",
@@ -24,7 +24,7 @@
       "cancel": "Cancel"
     },
     "navbar": {
-      "history_button": "History",
+      "history_button": "Long added",
       "check_in_button": "Check-in",
       "refresh_button": "Refresh"
     },
@@ -159,7 +159,7 @@
     "fail_message": "Failed to sign out!"
   },
   "admin": {
-    "password_expires_message" : "Password expires",
+    "password_expires_message": "Password expires",
     "password_set_new_message": "Password expired. Set a new one.",
 
     "snackbar": {
