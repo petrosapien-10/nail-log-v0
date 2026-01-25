@@ -214,7 +214,8 @@ export default function ProfilesPage() {
         <Box
           pb={4}
           sx={{
-            backgroundColor: theme.palette.secondary.dark,
+            backgroundColor: theme.custom.colors.slateLight,
+            border: `1px solid ${theme.custom.colors.darkGrey}`,
             borderRadius: 2,
           }}
         >

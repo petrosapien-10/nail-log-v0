@@ -48,8 +48,7 @@ export default function DateSelector({
         slotProps={{
           textField: {
             variant: 'outlined',
-            label:
-              label ?? (dayjs(selectedDate).isSame(dayjs(), 'day') ? 'Current date' : undefined),
+            label: label ?? (dayjs(selectedDate).isSame(dayjs(), 'day') ? 'Today' : undefined),
             sx: {
               maxWidth: 312,
               '& .MuiOutlinedInput-root': {
@@ -94,10 +93,10 @@ export default function DateSelector({
                 color: theme.palette.text.primary,
               },
               '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                borderColor: theme.palette.secondary.dark,
+                borderColor: theme.custom.colors.slateDark,
               },
               '& .MuiInputLabel-root.Mui-focused': {
-                color: theme.palette.secondary.dark,
+                color: theme.custom.colors.slateDark,
               },
               ...sx,
             },

@@ -77,7 +77,11 @@ export default function AdminLoginModal({
               height: 40,
               borderRadius: '8px',
               marginLeft: '280px',
-              backgroundColor: theme.palette.secondary.dark,
+              backgroundColor: theme.custom.colors.slateLight,
+              border: `1px solid ${theme.custom.colors.darkGrey}`,
+              '&:hover': {
+                backgroundColor: theme.custom.colors.grey,
+              },
             }}
           >
             <CloseIcon />

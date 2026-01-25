@@ -18,6 +18,8 @@ export const publicApiSlice = createApi({
       return headers;
     },
   }),
+  tagTypes: ['Sessions', 'Tickets', 'Expenses', 'History'],
+  keepUnusedDataFor: 60, // Keep cached data for 60 seconds
 
   endpoints: (builder) => ({
     // users
@@ -38,6 +40,8 @@ export const publicApiSlice = createApi({
     getSessionTickets: builder.query<Ticket[], { userId: string; sessionId: string }>({
       query: ({ userId, sessionId }) => `users/${userId}/sessions/${sessionId}/tickets/`,
       transformResponse: (reponse: { data: Ticket[] }) => reponse.data,
+      providesTags: ['Tickets'],
+      keepUnusedDataFor: 45, // Keep ticket data cached longer
     }),
     getTicket: builder.query<Ticket, { userId: string; sessionId: string; ticketId: string }>({
       query: ({ userId, sessionId, ticketId }) =>
@@ -56,6 +60,7 @@ export const publicApiSlice = createApi({
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: ['Tickets', 'Sessions'],
     }),
     deleteTicket: builder.mutation<
       { id: string },
@@ -65,6 +70,7 @@ export const publicApiSlice = createApi({
         url: `users/${userId}/sessions/${sessionId}/tickets/${ticketId}/`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['Tickets', 'Sessions'],
     }),
     updateTicket: builder.mutation<
       Ticket,
@@ -83,11 +89,14 @@ export const publicApiSlice = createApi({
         method: 'PATCH',
         body: data,
       }),
+      invalidatesTags: ['Tickets', 'Sessions'],
     }),
 
     getHistoryByDate: builder.query<History[], string>({
       query: (dateString) => `history/?date=${dateString}`,
       transformResponse: (response: { message: string; data: History[] }) => response.data,
+      providesTags: ['History'],
+      keepUnusedDataFor: 30,
     }),
 
     createHistory: builder.mutation<void, Omit<History, 'id' | 'createdAt' | 'performedBy'>>({
@@ -96,6 +105,7 @@ export const publicApiSlice = createApi({
         method: 'POST',
         body: history,
       }),
+      invalidatesTags: ['History'],
     }),
 
     // expenses
@@ -106,6 +116,8 @@ export const publicApiSlice = createApi({
     getExpensesByDate: builder.query<Expense[], string>({
       query: (dateString) => `expenses/?date=${dateString}`,
       transformResponse: (res: { message: string; data: Expense[] }) => res.data,
+      providesTags: ['Expenses'],
+      keepUnusedDataFor: 45,
     }),
 
     createExpense: builder.mutation<Expense, NewExpenseInput>({
@@ -114,6 +126,7 @@ export const publicApiSlice = createApi({
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: ['Expenses'],
     }),
 
     updateExpense: builder.mutation<
@@ -125,6 +138,7 @@ export const publicApiSlice = createApi({
         method: 'PATCH',
         body: data,
       }),
+      invalidatesTags: ['Expenses'],
     }),
 
     deleteExpense: builder.mutation<{ id: string }, string>({
@@ -132,6 +146,7 @@ export const publicApiSlice = createApi({
         url: `expenses/${expenseId}/`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['Expenses'],
     }),
 
     // session
@@ -144,6 +159,7 @@ export const publicApiSlice = createApi({
         method: 'POST',
         body: data,
       }),
+      invalidatesTags: ['Sessions'],
     }),
 
     updateSessionTime: builder.mutation<
@@ -162,11 +178,14 @@ export const publicApiSlice = createApi({
         method: 'PATCH',
         body: data,
       }),
+      invalidatesTags: ['Sessions'],
     }),
 
     getSessionsByDate: builder.query<UserWithSession[], { date: string; timeZone: string }>({
       query: ({ date, timeZone }) => `sessions/?date=${date}&timeZone=${timeZone}`,
       transformResponse: (response: { message: string; data: UserWithSession[] }) => response.data,
+      providesTags: ['Sessions'],
+      keepUnusedDataFor: 30, // Keep session data for 30 seconds for quick navigation
     }),
 
     //login

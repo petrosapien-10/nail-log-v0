@@ -63,7 +63,10 @@ export default function ExpensesModal({
   const [updateExpense, { isLoading: isUpdating }] = useUpdateExpenseMutation();
 
   const [expenseToDelete, setExpenseToDelete] = useState<Expense | null>(null);
-  const { data: expenses = [], isLoading, refetch } = useGetExpensesByDateQuery(formattedDate);
+  const { data: expenses = [], isLoading } = useGetExpensesByDateQuery(formattedDate, {
+    refetchOnMountOrArgChange: 45,
+    refetchOnFocus: false,
+  });
 
   const [editedExpenses, setEditedExpenses] = useState<Record<string, Partial<Expense>>>({});
   const [newExpenses, setNewExpenses] = useState<{ description: string; amount: string }[]>([]);
@@ -113,7 +116,6 @@ export default function ExpensesModal({
         Promise.all(creations),
       ]);
 
-      await refetch();
       setEditedExpenses({});
       setNewExpenses([]);
 
@@ -136,7 +138,6 @@ export default function ExpensesModal({
     try {
       await deleteExpense(expenseToDelete.id).unwrap();
       setExpenseToDelete(null);
-      await refetch();
       onSuccess(t('dashboard.stat_card.total_expenses.delete_expense_success'));
       logAction(HistoryActionType.DeleteExpense, 'Deleted expense', undefined);
     } catch {

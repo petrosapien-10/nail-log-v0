@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import {
   Dialog,
   DialogContent,
@@ -23,7 +24,7 @@ interface BonusRowProps {
   highlight?: boolean;
 }
 
-function BonusRow({ label, value, boldLabel = false, highlight }: BonusRowProps) {
+const BonusRow = React.memo(({ label, value, boldLabel = false, highlight }: BonusRowProps) => {
   return (
     <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between">
       <Typography fontWeight={boldLabel ? 'bold' : 500}>{label}</Typography>
@@ -37,9 +38,10 @@ function BonusRow({ label, value, boldLabel = false, highlight }: BonusRowProps)
               fontWeight: boldLabel ? 'bold' : 500,
               textAlign: 'right',
               backgroundColor: highlight
-                ? theme.palette.secondary.dark
-                : theme.palette.secondary.main,
+                ? theme.custom.colors.grey
+                : theme.custom.colors.slateLight,
               color: theme.palette.text.primary,
+              border: `1px solid ${theme.custom.colors.darkGrey}`,
             },
             startAdornment: <InputAdornment position="start">€</InputAdornment>,
           },
@@ -47,7 +49,9 @@ function BonusRow({ label, value, boldLabel = false, highlight }: BonusRowProps)
       />
     </Stack>
   );
-}
+});
+
+BonusRow.displayName = 'BonusRow';
 
 interface ViewBonusModalProps {
   open: boolean;
@@ -57,73 +61,77 @@ interface ViewBonusModalProps {
   totalBonus: number;
 }
 
-export default function ViewBonusModal({
-  open,
-  onClose,
-  totalSharedBonus,
-  totalDailyBonus,
-  totalBonus,
-}: ViewBonusModalProps) {
-  const { t } = useTranslate();
+const ViewBonusModal = React.memo(
+  ({ open, onClose, totalSharedBonus, totalDailyBonus, totalBonus }: ViewBonusModalProps) => {
+    const { t } = useTranslate();
 
-  return (
-    <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-          px: 2,
-          pt: 4,
-        }}
-      >
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
+    return (
+      <Dialog open={open} onClose={onClose} fullWidth maxWidth="xs">
+        <Box
           sx={{
-            mr: 2,
-            width: 40,
-            height: 40,
-            borderRadius: 2,
-            backgroundColor: theme.palette.secondary.dark,
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+            px: 2,
+            pt: 4,
           }}
         >
-          <CloseIcon />
-        </IconButton>
-      </Box>
-      <DialogTitle
-        variant="h3"
-        fontWeight="bold"
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          px: 4,
-          pt: 4,
-        }}
-      >
-        {t('dashboard.stat_card.total_bonus.view_modal_title')}
-      </DialogTitle>
+          <IconButton
+            aria-label="close"
+            onClick={onClose}
+            sx={{
+              mr: 2,
+              width: 40,
+              height: 40,
+              borderRadius: 2,
+              backgroundColor: theme.custom.colors.slateLight,
+              border: `1px solid ${theme.custom.colors.darkGrey}`,
+              '&:hover': {
+                backgroundColor: theme.custom.colors.grey,
+              },
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </Box>
+        <DialogTitle
+          variant="h3"
+          fontWeight="bold"
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            px: 4,
+            pt: 4,
+          }}
+        >
+          {t('dashboard.stat_card.total_bonus.view_modal_title')}
+        </DialogTitle>
 
-      <DialogContent sx={{ p: 4, mb: 4 }}>
-        <Stack spacing={2} sx={{ pt: 3 }}>
-          <BonusRow
-            label={t('dashboard.stat_card.total_bonus.shared_bonus')}
-            value={totalSharedBonus}
-          />
-          <BonusRow
-            label={t('dashboard.stat_card.total_bonus.daily_bonus')}
-            value={totalDailyBonus}
-          />
-          <Divider sx={{ my: 1 }} />
-          <BonusRow
-            label={t('dashboard.stat_card.total_bonus.total_bonus')}
-            value={totalBonus}
-            boldLabel
-            highlight
-          />
-        </Stack>
-      </DialogContent>
-    </Dialog>
-  );
-}
+        <DialogContent sx={{ p: 4, mb: 4 }}>
+          <Stack spacing={2} sx={{ pt: 3 }}>
+            <BonusRow
+              label={t('dashboard.stat_card.total_bonus.shared_bonus')}
+              value={totalSharedBonus}
+            />
+            <BonusRow
+              label={t('dashboard.stat_card.total_bonus.daily_bonus')}
+              value={totalDailyBonus}
+            />
+            <Divider sx={{ my: 1 }} />
+            <BonusRow
+              label={t('dashboard.stat_card.total_bonus.total_bonus')}
+              value={totalBonus}
+              boldLabel
+              highlight
+            />
+          </Stack>
+        </DialogContent>
+      </Dialog>
+    );
+  }
+);
+
+ViewBonusModal.displayName = 'ViewBonusModal';
+
+export default ViewBonusModal;

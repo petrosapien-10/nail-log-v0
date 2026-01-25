@@ -21,6 +21,7 @@ import {
 } from '@/app/store/secureApiSlice';
 
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import LockIcon from '@mui/icons-material/Lock';
 import SnackbarMessage from '@/app/components/SnackBarMessage';
 import dayjs from 'dayjs';
 
@@ -115,7 +116,7 @@ export default function PasswordMenu({ onRefetchExpiryInfo }: PasswordMenuProps)
 
       <Button
         variant="contained"
-        size="xlarge"
+        size="xxlarge"
         onClick={handleMenuClick}
         sx={{
           backgroundColor: theme.custom.colors.darkPink,
@@ -125,9 +126,11 @@ export default function PasswordMenu({ onRefetchExpiryInfo }: PasswordMenuProps)
           },
           display: 'flex',
           alignItems: 'center',
-          gap: 0.2,
+          gap: 0.5,
+          whiteSpace: 'nowrap',
         }}
       >
+        <LockIcon fontSize="small" />
         {t('admin.password_button')}
         <MoreHorizIcon fontSize="small" />
       </Button>

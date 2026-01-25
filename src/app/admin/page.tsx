@@ -1,7 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useCallback } from 'react';
 import { useAuthContext } from '@/app/hooks/context/AuthContext';
 import { Button, Container, useTheme } from '@mui/material';
 import { useNavbarContext } from '../hooks/context/navbar-context';
@@ -41,7 +41,8 @@ export default function AdminPage() {
     },
     {
       skip: !isAuthenticated,
-      refetchOnMountOrArgChange: true,
+      refetchOnMountOrArgChange: 45,
+      refetchOnFocus: false,
     }
   );
 
@@ -56,14 +57,16 @@ export default function AdminPage() {
     },
     {
       skip: !isAuthenticated,
-      refetchOnMountOrArgChange: true,
+      refetchOnMountOrArgChange: 45,
+      refetchOnFocus: false,
     }
   );
 
   const { isFetching: isFetchingDashboardLoginSession, refetch: refetchDashboardLoginSession } =
     useGetDashboardSessionQuery(undefined, {
       skip: !isAuthenticated,
-      refetchOnMountOrArgChange: true,
+      refetchOnMountOrArgChange: 60,
+      refetchOnFocus: false,
     });
 
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
@@ -171,6 +174,9 @@ export default function AdminPage() {
     ]
   );
 
+  const handleCloseUserModal = useCallback(() => setSelectedUserId(null), []);
+  const handleCloseSalonIncomeModal = useCallback(() => setShowSalonIncomeModal(false), []);
+
   useEffect(() => {
     setRefetchMap((prev) => ({
       ...prev,
@@ -206,7 +212,7 @@ export default function AdminPage() {
         <AdminUserViewModal
           user={selectedUser}
           dateRange={selectedRangeString}
-          onClose={() => setSelectedUserId(null)}
+          onClose={handleCloseUserModal}
         />
       )}
       <Container
@@ -237,11 +243,13 @@ export default function AdminPage() {
                   variant="contained"
                   size="xsmall"
                   sx={{
-                    backgroundColor: theme.palette.secondary.dark,
-                    color: theme.palette.text.primary,
-                    border: `0.5px solid ${theme.palette.text.primary}`,
+                    backgroundColor: theme.custom.colors.slateLight,
+                    color: theme.custom.colors.slateDeep,
+                    border: `1px solid ${theme.custom.colors.darkGrey}`,
+                    fontWeight: 500,
                     '&:hover': {
-                      backgroundColor: theme.palette.secondary.main,
+                      backgroundColor: theme.custom.colors.grey,
+                      borderColor: theme.custom.colors.slate,
                     },
                   }}
                   onClick={onClick}
@@ -273,7 +281,7 @@ export default function AdminPage() {
 
         <SalonIncomeViewModal
           open={showSalonIncomeModal}
-          onClose={() => setShowSalonIncomeModal(false)}
+          onClose={handleCloseSalonIncomeModal}
           data={salonIncomeData}
         />
       </Container>

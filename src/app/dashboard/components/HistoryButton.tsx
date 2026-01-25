@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Button } from '@mui/material';
+import HistoryIcon from '@mui/icons-material/History';
 import { useTranslate } from '../../../locales/hooks/useTranslate';
 import { useTheme } from '@mui/material/styles';
 interface HistoryButtonProps {
@@ -22,9 +23,13 @@ export default function HistoryButton({ onClick }: HistoryButtonProps) {
         '&:hover': {
           backgroundColor: theme.palette.primary.light,
         },
+        display: 'flex',
+        alignItems: 'center',
+        gap: 1,
       }}
       onClick={onClick}
     >
+      <HistoryIcon fontSize="small" />
       {t('dashboard.navbar.history_button')}
     </Button>
   );

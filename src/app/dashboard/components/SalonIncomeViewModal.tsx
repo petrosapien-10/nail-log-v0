@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -33,46 +34,51 @@ interface Props {
   };
 }
 
-const IncomeRow = ({
-  label,
-  value,
-  bold = false,
-  highlight = false,
-}: {
-  label: string;
-  value: number;
-  bold?: boolean;
-  highlight?: boolean;
-}) => {
-  const theme = useTheme();
-  return (
-    <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between">
-      <Typography fontWeight={bold ? 'bold' : 500} fontSize={highlight ? '1rem' : '0.875rem'}>
-        {label}
-      </Typography>
-      <TextField
-        value={value.toFixed(2)}
-        sx={{ width: 120, borderRadius: 1 }}
-        slotProps={{
-          input: {
-            readOnly: true,
-            sx: {
-              fontSize: highlight ? '1rem' : '0.875rem',
-              fontWeight: bold ? 'bold' : 500,
-              textAlign: 'right',
-              backgroundColor: highlight
-                ? theme.palette.secondary.dark
-                : theme.palette.secondary.main,
+const IncomeRow = React.memo(
+  ({
+    label,
+    value,
+    bold = false,
+    highlight = false,
+  }: {
+    label: string;
+    value: number;
+    bold?: boolean;
+    highlight?: boolean;
+  }) => {
+    const theme = useTheme();
+    return (
+      <Stack direction="row" spacing={2} alignItems="center" justifyContent="space-between">
+        <Typography fontWeight={bold ? 'bold' : 500} fontSize={highlight ? '1rem' : '0.875rem'}>
+          {label}
+        </Typography>
+        <TextField
+          value={value.toFixed(2)}
+          sx={{ width: 120, borderRadius: 1 }}
+          slotProps={{
+            input: {
+              readOnly: true,
+              sx: {
+                fontSize: highlight ? '1rem' : '0.875rem',
+                fontWeight: bold ? 'bold' : 500,
+                textAlign: 'right',
+                backgroundColor: highlight
+                  ? theme.custom.colors.grey
+                  : theme.custom.colors.slateLight,
+                border: `1px solid ${theme.custom.colors.darkGrey}`,
+              },
+              startAdornment: <InputAdornment position="start">€</InputAdornment>,
             },
-            startAdornment: <InputAdornment position="start">€</InputAdornment>,
-          },
-        }}
-      />
-    </Stack>
-  );
-};
+          }}
+        />
+      </Stack>
+    );
+  }
+);
 
-export default function SalonIncomeViewModal({ open, onClose, data }: Props) {
+IncomeRow.displayName = 'IncomeRow';
+
+const SalonIncomeViewModal = React.memo(({ open, onClose, data }: Props) => {
   const { t } = useTranslate();
   const theme = useTheme();
 
@@ -99,7 +105,11 @@ export default function SalonIncomeViewModal({ open, onClose, data }: Props) {
             height: 40,
             borderRadius: '8px',
             mr: 0.2,
-            backgroundColor: theme.palette.secondary.dark,
+            backgroundColor: theme.custom.colors.slateLight,
+            border: `1px solid ${theme.custom.colors.darkGrey}`,
+            '&:hover': {
+              backgroundColor: theme.custom.colors.grey,
+            },
           }}
         >
           <CloseIcon />
@@ -173,4 +183,8 @@ export default function SalonIncomeViewModal({ open, onClose, data }: Props) {
       </DialogContent>
     </Dialog>
   );
-}
+});
+
+SalonIncomeViewModal.displayName = 'SalonIncomeViewModal';
+
+export default SalonIncomeViewModal;

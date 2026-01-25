@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { memo } from 'react';
 import { Avatar, Box, Button, Card, CircularProgress, IconButton, Typography } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { UserWithSession } from '@/types/user';
@@ -26,13 +26,15 @@ function DeleteButton({ onClick }: { onClick?: () => void }) {
         width: 32,
         height: 32,
         borderRadius: '4px',
-        backgroundColor: theme.palette.secondary.dark,
+        backgroundColor: theme.custom.colors.slateLight,
+        border: `1px solid ${theme.custom.colors.darkGrey}`,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         padding: 0,
         '&:hover': {
-          backgroundColor: theme.custom.colors.morelightGrey,
+          backgroundColor: theme.custom.colors.grey,
+          borderColor: theme.custom.colors.slate,
         },
       }}
     >
@@ -60,13 +62,16 @@ function IncomeBox({
         justifyContent: 'center',
         width: theme.spacing(16),
         height: theme.spacing(10),
-        borderRadius: '4px',
+        borderRadius: '8px',
         paddingTop: '4px',
         paddingRight: '4px',
         paddingLeft: '4px',
         gap: '4px',
-        backgroundColor: theme.palette.secondary.dark,
-        border: highlighted ? `3px solid ${theme.custom.colors.pink}` : 'none',
+        backgroundColor: theme.custom.colors.slateLight,
+        border: highlighted 
+          ? `2px solid ${theme.custom.colors.yellow}` 
+          : `1px solid ${theme.custom.colors.darkGrey}`,
+        boxShadow: highlighted ? '0 2px 8px rgba(249, 203, 35, 0.2)' : 'none',
       }}
     >
       <Typography
@@ -153,7 +158,7 @@ interface Props {
   onDeleteSession?: () => void;
 }
 
-export default function UserCard({
+const UserCard = ({
   isToday,
   isReadOnly,
   data,
@@ -165,7 +170,7 @@ export default function UserCard({
   isAdmin,
   isAuthenticated,
   onDeleteSession,
-}: Props) {
+}: Props) => {
   const { session, ...user } = data;
   const { t } = useTranslate();
   const theme = useTheme();
@@ -182,8 +187,14 @@ export default function UserCard({
         display: 'flex',
         flexDirection: 'column',
         gap: 2,
-        boxShadow: 'none',
+        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+        border: `1px solid ${theme.custom.colors.darkGrey}`,
         mx: 'auto',
+        transition: 'all 0.2s ease',
+        '&:hover': {
+          boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+          transform: 'translateY(-2px)',
+        },
       }}
     >
       {/* Avatar + Name + staricon + deleteicon*/}
@@ -260,7 +271,6 @@ export default function UserCard({
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
-            border: `0.5px solid ${theme.custom.colors.morelightGrey}`,
             backgroundColor: theme.custom.colors.pink,
             color: theme.palette.text.primary,
           }}
@@ -281,9 +291,12 @@ export default function UserCard({
             whiteSpace: 'nowrap',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
-            border: `0.5px solid ${theme.custom.colors.morelightGrey}`,
-            backgroundColor: theme.palette.secondary.dark,
-            color: theme.palette.text.primary,
+            backgroundColor: theme.custom.colors.slateLight,
+            color: theme.custom.colors.slateDeep,
+            fontWeight: 500,
+            '&:hover': {
+              backgroundColor: theme.custom.colors.grey,
+            },
           }}
           onClick={onViewTickets}
         >
@@ -302,7 +315,6 @@ export default function UserCard({
             overflow: 'hidden',
             textOverflow: 'ellipsis',
             fontSize: theme.typography.body1.fontSize,
-            border: `0.5px solid ${theme.custom.colors.morelightGrey}`,
             backgroundColor: theme.custom.colors.mint,
             color: theme.palette.text.primary,
           }}
@@ -318,4 +330,8 @@ export default function UserCard({
       </Box>
     </Card>
   );
-}
+};
+
+UserCard.displayName = 'UserCard';
+
+export default memo(UserCard);

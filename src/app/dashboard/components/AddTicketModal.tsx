@@ -23,45 +23,49 @@ import { handleNumberInputKeyDown } from '@/utils/handleNumberInputKeyDown';
 import { sanitizeAmount } from '@/utils/sanitizeAmount';
 import { useTheme } from '@mui/material/styles';
 
-const PaymentInput = ({
-  label,
-  value,
-  onChange,
-}: {
-  label: string;
-  value: string;
-  onChange: (val: string) => void;
-}) => {
-  const theme = useTheme();
+const PaymentInput = React.memo(
+  ({
+    label,
+    value,
+    onChange,
+  }: {
+    label: string;
+    value: string;
+    onChange: (val: string) => void;
+  }) => {
+    const theme = useTheme();
 
-  return (
-    <Box display="flex" alignItems="center" gap={2} flex={1}>
-      <Typography width={80} fontSize={theme.typography.body1.fontSize}>
-        {label}
-      </Typography>
+    return (
+      <Box display="flex" alignItems="center" gap={2} flex={1}>
+        <Typography width={80} fontSize={theme.typography.body1.fontSize}>
+          {label}
+        </Typography>
 
-      <TextField
-        type="number"
-        placeholder="00.00"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        onKeyDown={handleNumberInputKeyDown}
-        sx={{
-          width: 140,
-          fontSize: theme.typography.body1.fontSize,
-          '& input': {
+        <TextField
+          type="number"
+          placeholder="00.00"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          onKeyDown={handleNumberInputKeyDown}
+          sx={{
+            width: 140,
             fontSize: theme.typography.body1.fontSize,
-          },
-        }}
-        slotProps={{
-          input: {
-            startAdornment: <InputAdornment position="start">€</InputAdornment>,
-          },
-        }}
-      />
-    </Box>
-  );
-};
+            '& input': {
+              fontSize: theme.typography.body1.fontSize,
+            },
+          }}
+          slotProps={{
+            input: {
+              startAdornment: <InputAdornment position="start">€</InputAdornment>,
+            },
+          }}
+        />
+      </Box>
+    );
+  }
+);
+
+PaymentInput.displayName = 'PaymentInput';
 
 const DEFAULT_AMOUNTS = {
   [PaymentMethod.Cash]: '',
@@ -217,7 +221,8 @@ export default function AddTicketModal({
           display="flex"
           alignItems="center"
           justifyContent="space-between"
-          bgcolor={theme.palette.secondary.dark}
+          bgcolor={theme.custom.colors.slateLight}
+          border={`1px solid ${theme.custom.colors.darkGrey}`}
           p={1}
           borderRadius={2}
           mx="auto"

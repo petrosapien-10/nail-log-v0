@@ -80,7 +80,8 @@ export default function EditTimeModal({
             px: 1,
             py: 0.5,
             borderRadius: 1,
-            backgroundColor: theme.palette.secondary.dark,
+            backgroundColor: theme.custom.colors.slateLight,
+            border: `1px solid ${theme.custom.colors.darkGrey}`,
             height: 56,
           }}
         >

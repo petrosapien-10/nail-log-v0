@@ -4,6 +4,7 @@ import React from 'react';
 import { Button, CircularProgress } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useTranslate } from '../../../locales/hooks/useTranslate';
+import RefreshIcon from '@mui/icons-material/Refresh';
 
 interface RefreshButtonProps {
   onClick?: () => void;
@@ -24,11 +25,20 @@ export default function RefreshButton({ onClick, isLoading }: RefreshButtonProps
         '&:hover': {
           backgroundColor: theme.palette.primary.light,
         },
+        display: 'flex',
+        alignItems: 'center',
+        gap: 1,
       }}
       onClick={onClick}
     >
-      {!isLoading && t('dashboard.navbar.refresh_button')}
-      {isLoading && <CircularProgress size={20} color="secondary" />}
+      {isLoading ? (
+        <CircularProgress size={20} color="secondary" />
+      ) : (
+        <>
+          <RefreshIcon fontSize="small" />
+          {t('dashboard.navbar.refresh_button')}
+        </>
+      )}
     </Button>
   );
 }

@@ -9,6 +9,7 @@ import { auth } from '@/lib/firebase';
 import { useRouter } from 'next/navigation';
 import { useAuthContext } from '@/app/hooks/context/AuthContext';
 import ConfirmModal from '@/app/components/ConfirmModal';
+import LogoutIcon from '@mui/icons-material/Logout';
 
 export default function AdminSignOutButton() {
   const { t } = useTranslate();
@@ -38,7 +39,7 @@ export default function AdminSignOutButton() {
     <>
       <Button
         variant="contained"
-        size="xlarge"
+        size="xxlarge"
         onClick={() => setOpenConfirm(true)}
         disabled={isSigningOut}
         sx={{
@@ -47,8 +48,13 @@ export default function AdminSignOutButton() {
           '&:hover': {
             backgroundColor: theme.palette.primary.light,
           },
+          display: 'flex',
+          alignItems: 'center',
+          gap: 0.5,
+          whiteSpace: 'nowrap',
         }}
       >
+        <LogoutIcon fontSize="small" />
         {t('admin.sign_out_button')}
       </Button>
 

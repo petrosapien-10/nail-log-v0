@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {
   Box,
   Dialog,
@@ -38,13 +38,16 @@ export default function HistoryModal({ open, onClose }: HistoryModalProps) {
   const theme = useTheme();
   const { t } = useTranslate();
 
-  const { data: logs = [], isLoading, error, refetch } = useGetHistoryByDateQuery(formattedDate);
+  const { data: logs = [], isLoading, error } = useGetHistoryByDateQuery(formattedDate, {
+    refetchOnMountOrArgChange: 30,
+    refetchOnFocus: false,
+  });
 
-  const handleDateChange = (date: Dayjs) => {
+  const handleDateChange = useCallback((date: Dayjs) => {
     setSelectedDate(date.toDate());
-  };
+  }, []);
 
-  const formatCreatedAt = (createdAt: { seconds: number; nanoseconds: number }) => {
+  const formatCreatedAt = useCallback((createdAt: { seconds: number; nanoseconds: number }) => {
     if (!createdAt?.seconds) return t('dashboard.history_modal.invalid_date');
 
     const logTime = dayjs.unix(createdAt.seconds);
@@ -52,9 +55,9 @@ export default function HistoryModal({ open, onClose }: HistoryModalProps) {
     const diffInMinutes = now.diff(logTime, 'minute');
 
     return diffInMinutes < 30 ? `${diffInMinutes} min` : logTime.format('HH:mm');
-  };
+  }, [t]);
 
-  const renderSortedLogs = (logs: History[]) => {
+  const renderSortedLogs = useCallback((logs: History[]) => {
     return [...logs]
       .sort((a, b) => b.createdAt.seconds - a.createdAt.seconds)
       .map((log) => (
@@ -70,13 +73,11 @@ export default function HistoryModal({ open, onClose }: HistoryModalProps) {
           <Divider />
         </Box>
       ));
-  };
+  }, [theme.palette.text.primary, formatCreatedAt]);
 
   useEffect(() => {
-    if (open) {
-      refetch();
-    }
-  }, [open, formattedDate, refetch]);
+    // RTK Query will automatically refetch when the modal opens due to query options
+  }, [open, formattedDate]);
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
@@ -90,7 +91,11 @@ export default function HistoryModal({ open, onClose }: HistoryModalProps) {
                 width: 40,
                 height: 40,
                 borderRadius: 2,
-                backgroundColor: theme.palette.secondary.dark,
+                backgroundColor: theme.custom.colors.slateLight,
+                border: `1px solid ${theme.custom.colors.darkGrey}`,
+                '&:hover': {
+                  backgroundColor: theme.custom.colors.grey,
+                },
               }}
             >
               <CloseIcon />

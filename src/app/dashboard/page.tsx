@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Suspense, useEffect, useMemo, useState } from 'react';
+import React, { Suspense, useEffect, useMemo, useState, useCallback } from 'react';
 import {
   Box,
   Button,
@@ -76,12 +76,13 @@ export default function Page() {
 
   const {
     data: checkedInUsers = [],
-    refetch: refetchSessions,
     isFetching: isFetchingSessions,
+    refetch: refetchSessions,
   } = useGetSessionsByDateQuery(
     { date: selectedDateString, timeZone },
     {
-      refetchOnMountOrArgChange: true,
+      refetchOnMountOrArgChange: 30, // Only refetch if data is older than 30 seconds
+      refetchOnFocus: false, // Don't refetch when window regains focus
     }
   );
 
@@ -95,7 +96,10 @@ export default function Page() {
     data: expenses = [],
     refetch: refetchExpenses,
     isFetching: isFetchingExpenses,
-  } = useGetExpensesByDateQuery(selectedDateString);
+  } = useGetExpensesByDateQuery(selectedDateString, {
+    refetchOnMountOrArgChange: 30,
+    refetchOnFocus: false,
+  });
   const [updateSessionTime] = useUpdateSessionTimeMutation();
 
   const [deleteSession, { isLoading: isDeleting }] = useDeleteSessionMutation();
@@ -113,7 +117,7 @@ export default function Page() {
   const [sortOption, setSortOption] = useState<SortOption>(SortOption.Basic);
 
   const { isTicketModalOpen, openTicketModal, closeTicketModal, handleCreateTicket, isCreating } =
-    useTicketManager({ refetch: refetchSessions });
+    useTicketManager();
 
   const [checkingOutId, setCheckingOutId] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -140,12 +144,19 @@ export default function Page() {
     userImage?: string;
   } | null>(null);
 
-  const handleUserCheckIn = (user: User) => {
-    refetchSessions();
+  const logAction = useCallback(async (actionType: HistoryActionType, description: string, userId?: string) => {
+    try {
+      await createHistory({ actionType, description, userId }).unwrap();
+    } catch {
+      setErrorMessage(t('dashboard.alert.add_history_fail'));
+    }
+  }, [createHistory, t]);
+
+  const handleUserCheckIn = useCallback((user: User) => {
     setSuccessMessage(t('dashboard.alert.check_in_success', { name: user.name }));
     logAction(HistoryActionType.CheckIn, `Checked in ${user.name}`, user.id);
-  };
-  const handleUserCheckOut = async (userId: string, sessionId: string, userName: string) => {
+  }, [t, logAction]);
+  const handleUserCheckOut = useCallback(async (userId: string, sessionId: string, userName: string) => {
     try {
       setCheckingOutId(sessionId);
       const checkOutTime = new Date().toTimeString().slice(0, 5);
@@ -156,7 +167,6 @@ export default function Page() {
         data: { checkOut: checkOutTime },
       }).unwrap();
 
-      await refetchSessions();
       setSuccessMessage(t('dashboard.alert.check_out_success', { name: userName }));
       logAction(HistoryActionType.CheckOut, `Checked out ${userName}`, userId);
     } catch (error) {
@@ -169,16 +179,16 @@ export default function Page() {
     } finally {
       setCheckingOutId(null);
     }
-  };
-  const handleViewTickets = (
+  }, [updateSessionTime, t, logAction]);
+  const handleViewTickets = useCallback((
     userId: string,
     sessionId: string,
     userName: string,
     userImage?: string
   ) => {
     setViewingTicketsInfo({ userId, sessionId, userName, userImage });
-  };
-  const handleEditTime = (
+  }, []);
+  const handleEditTime = useCallback((
     userId: string,
     sessionId: string,
     type: TimeEditType,
@@ -194,8 +204,8 @@ export default function Page() {
       userName,
       userImage,
     });
-  };
-  const handleSaveEditedTime = async (newTime: string) => {
+  }, []);
+  const handleSaveEditedTime = useCallback(async (newTime: string) => {
     if (!editingTimeInfo) return;
     const { userId, sessionId, type, userName } = editingTimeInfo;
 
@@ -216,7 +226,6 @@ export default function Page() {
           { name: userName }
         )
       );
-      refetchSessions();
       logAction(
         type === 'check-in' ? HistoryActionType.EditCheckIn : HistoryActionType.EditCheckOut,
         `Edited ${type} time for ${userName}`,
@@ -237,7 +246,7 @@ export default function Page() {
     } finally {
       setEditingTimeInfo(null);
     }
-  };
+  }, [editingTimeInfo, updateSessionTime, t, logAction]);
 
   //Calculation
   const totalExpenses = useMemo(() => {
@@ -293,15 +302,7 @@ export default function Page() {
     }
   }, [checkedInUsers, sortOption]);
 
-  const logAction = async (actionType: HistoryActionType, description: string, userId?: string) => {
-    try {
-      await createHistory({ actionType, description, userId }).unwrap();
-    } catch {
-      setErrorMessage(t('dashboard.alert.add_history_fail'));
-    }
-  };
-
-  const confirmDeleteSession = async () => {
+  const confirmDeleteSession = useCallback(async () => {
     if (!deletingSessionInfo) return;
 
     const { userId, sessionId, userName } = deletingSessionInfo;
@@ -309,7 +310,6 @@ export default function Page() {
     try {
       await deleteSession({ userId, sessionId }).unwrap();
       setSuccessMessage(t('dashboard.alert.delete_session_success', { name: userName }));
-      refetchSessions();
       logAction(HistoryActionType.DeleteSession, `Deleted session for ${userName}`, userId);
     } catch {
       setErrorMessage(t('dashboard.alert.delete_session_fail', { name: userName }));
@@ -317,7 +317,7 @@ export default function Page() {
       setIsConfirmModalOpen(false);
       setDeletingSessionInfo(null);
     }
-  };
+  }, [deletingSessionInfo, deleteSession, t, logAction]);
 
   useEffect(() => {
     setRefetchMap((prev: RefetchMap) => ({
@@ -506,11 +506,13 @@ export default function Page() {
                   variant="contained"
                   size="xsmall"
                   sx={{
-                    backgroundColor: theme.palette.secondary.dark,
-                    color: theme.palette.text.primary,
-                    border: `0.5px solid ${theme.palette.text.primary}`,
+                    backgroundColor: theme.custom.colors.slateLight,
+                    color: theme.custom.colors.slateDeep,
+                    border: `1px solid ${theme.custom.colors.darkGrey}`,
+                    fontWeight: 500,
                     '&:hover': {
-                      backgroundColor: theme.palette.secondary.main,
+                      backgroundColor: theme.custom.colors.grey,
+                      borderColor: theme.custom.colors.slate,
                     },
                   }}
                   onClick={onClick}
@@ -535,7 +537,11 @@ export default function Page() {
           pt: 2,
         }}
       >
-        <Box pb={4} sx={{ backgroundColor: theme.palette.secondary.dark, borderRadius: 1 }}>
+        <Box pb={4} sx={{ 
+          backgroundColor: theme.custom.colors.slateLight, 
+          borderRadius: 2,
+          border: `1px solid ${theme.custom.colors.darkGrey}`,
+        }}>
           <Box
             display="flex"
             justifyContent="space-between"
@@ -560,6 +566,12 @@ export default function Page() {
                 px: 1,
                 py: 1,
                 mr: 0.3,
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                border: `1px solid ${theme.custom.colors.darkGrey}`,
+                transition: 'all 0.2s ease',
+                '&:hover': {
+                  boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                },
               }}
             >
               <Typography variant="h5" component="label">
@@ -583,7 +595,10 @@ export default function Page() {
                   PaperProps: {
                     sx: {
                       '& .MuiMenuItem-root.Mui-selected': {
-                        backgroundColor: theme.palette.secondary.dark,
+                        backgroundColor: theme.custom.colors.grey,
+                        '&:hover': {
+                          backgroundColor: theme.custom.colors.slate,
+                        },
                       },
                     },
                   },

@@ -1,4 +1,5 @@
 'use client';
+import { memo } from 'react';
 import { useNavbarContext } from '@/app/hooks/context/navbar-context';
 import { Card, CardContent, Typography, Box, useTheme, CircularProgress } from '@mui/material';
 import { ReactNode } from 'react';
@@ -10,7 +11,7 @@ interface StatCardProps {
   maxWidth?: string;
 }
 
-export default function StatCard({ title, value, action, maxWidth }: StatCardProps) {
+const StatCard = ({ title, value, action, maxWidth }: StatCardProps) => {
   const theme = useTheme();
   const { refetchMap } = useNavbarContext();
   const isFetching = refetchMap?.expenses?.isFetching;
@@ -61,4 +62,8 @@ export default function StatCard({ title, value, action, maxWidth }: StatCardPro
       </CardContent>
     </Card>
   );
-}
+};
+
+StatCard.displayName = 'StatCard';
+
+export default memo(StatCard);

@@ -95,7 +95,6 @@ export default function ViewTicketsModal({
   sessionId,
   onSuccess,
   onError,
-  refetchSessions,
   logAction,
 }: ViewTicketsModalProps) {
   const { t } = useTranslate();
@@ -105,8 +104,14 @@ export default function ViewTicketsModal({
     isLoading,
     isError,
     isFetching,
-    refetch,
-  } = useGetSessionTicketsQuery({ userId, sessionId }, { skip: !open });
+  } = useGetSessionTicketsQuery(
+    { userId, sessionId },
+    {
+      skip: !open,
+      refetchOnMountOrArgChange: 30,
+      refetchOnFocus: false,
+    }
+  );
 
   const { paymentTotals, incomeMap, ticketPaymentMaps } = useMemo(
     () => summarizeTicketPayments(tickets),
@@ -114,7 +119,7 @@ export default function ViewTicketsModal({
   );
 
   const { isTicketModalOpen, openTicketModal, closeTicketModal, handleCreateTicket, isCreating } =
-    useTicketManager({ refetch });
+    useTicketManager();
 
   const [updateTicket] = useUpdateTicketMutation();
   const [deleteTicket] = useDeleteTicketMutation();
@@ -131,8 +136,8 @@ export default function ViewTicketsModal({
   );
 
   useEffect(() => {
-    if (open) refetch();
-  }, [open, refetch]);
+    // RTK Query will automatically refetch when modal opens
+  }, [open]);
 
   const handleMenuOpen = useCallback((event: React.MouseEvent<HTMLElement>, ticketId: string) => {
     setAnchorEl(event.currentTarget);
@@ -152,7 +157,6 @@ export default function ViewTicketsModal({
   ) => {
     const result = await handleCreateTicket(userId, sessionId, ticketData);
     if (result.success) {
-      await Promise.all([refetch(), refetchSessions()]);
       onSuccess(t('dashboard.alert.add_ticket_success', { name: userName }));
 
       const ticketNumber = sortedTickets.length + 1;
@@ -175,7 +179,6 @@ export default function ViewTicketsModal({
     setIsUpdating(true);
     try {
       await updateTicket({ userId, sessionId, ticketId, data: ticketData }).unwrap();
-      await Promise.all([refetch(), refetchSessions()]);
       onSuccess(t('dashboard.alert.edit_ticket_success', { name: userName }));
 
       const editedIndex = sortedTickets.findIndex((ticket) => ticket.id === ticketId);
@@ -208,7 +211,6 @@ export default function ViewTicketsModal({
     try {
       await deleteTicket({ userId, sessionId, ticketId: selectedTicketId }).unwrap();
       onSuccess(t('dashboard.alert.delete_ticket_success', { name: userName }));
-      await Promise.all([refetch(), refetchSessions()]);
 
       logAction(
         HistoryActionType.DeleteTicket,
@@ -228,8 +230,6 @@ export default function ViewTicketsModal({
     onSuccess,
     onError,
     t,
-    refetch,
-    refetchSessions,
     handleMenuClose,
     userName,
     sortedTickets,
@@ -299,7 +299,8 @@ export default function ViewTicketsModal({
               position: 'absolute',
               left: '50%',
               transform: 'translateX(-50%)',
-              backgroundColor: theme.palette.secondary.dark,
+              backgroundColor: theme.custom.colors.slateLight,
+              border: `1px solid ${theme.custom.colors.darkGrey}`,
             }}
           >
             <Avatar src={userImage} sx={{ width: 40, height: 40 }} />
@@ -322,9 +323,11 @@ export default function ViewTicketsModal({
                 width: 40,
                 height: 40,
                 borderRadius: 2,
-                backgroundColor: theme.palette.secondary.dark,
+                backgroundColor: theme.custom.colors.slateLight,
+                border: `1px solid ${theme.custom.colors.darkGrey}`,
                 '&:hover': {
-                  backgroundColor: theme.palette.grey[300],
+                  backgroundColor: theme.custom.colors.grey,
+                  borderColor: theme.custom.colors.slate,
                 },
               }}
             >
@@ -357,7 +360,7 @@ export default function ViewTicketsModal({
               <Table
                 size="medium"
                 sx={{
-                  border: `0.5px solid ${theme.palette.secondary.dark}`,
+                  border: `1px solid ${theme.custom.colors.darkGrey}`,
                   '& th, & td': {
                     padding: '4px 16px',
                   },
@@ -365,11 +368,13 @@ export default function ViewTicketsModal({
               >
                 <TableHead
                   sx={{
-                    backgroundColor: theme.palette.secondary.dark,
+                    backgroundColor: theme.custom.colors.grey,
                     '& th': {
                       height: 40,
                       padding: '4px 16px',
                       verticalAlign: 'middle',
+                      color: theme.custom.colors.slateDeep,
+                      fontWeight: 600,
                     },
                   }}
                 >
@@ -456,12 +461,14 @@ export default function ViewTicketsModal({
 
                   <TableRow
                     sx={{
-                      backgroundColor: theme.palette.secondary.dark,
+                      backgroundColor: theme.custom.colors.grey,
                       fontWeight: 'bold',
                       height: 60,
                       '& td': {
                         padding: '4px 16px',
                         verticalAlign: 'middle',
+                        color: theme.custom.colors.slateDeep,
+                        fontWeight: 600,
                       },
                     }}
                   >

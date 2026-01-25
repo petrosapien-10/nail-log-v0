@@ -2,6 +2,7 @@
 
 import React from 'react';
 import { Button } from '@mui/material';
+import LoginIcon from '@mui/icons-material/Login';
 
 import { useTranslate } from '../../../locales/hooks/useTranslate';
 
@@ -28,9 +29,14 @@ export default function CheckInButton({ onClick, isReadOnly }: CheckInButtonProp
         '&:hover': {
           backgroundColor: theme.palette.primary.light,
         },
+        display: 'flex',
+        alignItems: 'center',
+        gap: 1,
+        whiteSpace: 'nowrap',
       }}
       onClick={onClick}
     >
+      <LoginIcon fontSize="small" />
       {t('dashboard.navbar.check_in_button')}
     </Button>
   );

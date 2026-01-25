@@ -19,6 +19,7 @@ import dayjs from 'dayjs';
 import { UserWithSessions } from '@/types/user';
 import { useTranslate } from '@/locales/hooks/useTranslate';
 import { useMemo } from 'react';
+import { formatCurrency, formatNumber } from '@/utils/formatCurrency';
 
 const DATE_FORMAT = 'DD.MM.YYYY';
 
@@ -39,7 +40,7 @@ export default function AdminUserViewModal({ user, dateRange, onClose }: AdminUs
     return user.sessions.reduce((sum, s) => sum + s.totalSalary, 0);
   }, [user.sessions]);
 
-  const totalValues = ['', '', '', totalHours.toFixed(2), `€ ${totalSalary.toFixed(2)}`];
+  const totalValues = ['', '', '', formatNumber(totalHours), formatCurrency(totalSalary)];
 
   return (
     <Dialog
@@ -69,7 +70,11 @@ export default function AdminUserViewModal({ user, dateRange, onClose }: AdminUs
             width: 40,
             height: 40,
             borderRadius: '4px',
-            backgroundColor: theme.palette.secondary.dark,
+            backgroundColor: theme.custom.colors.slateLight,
+            border: `1px solid ${theme.custom.colors.darkGrey}`,
+            '&:hover': {
+              backgroundColor: theme.custom.colors.grey,
+            },
           }}
         >
           <CloseIcon />
@@ -89,7 +94,8 @@ export default function AdminUserViewModal({ user, dateRange, onClose }: AdminUs
           sx={{
             width: theme.spacing(26.5),
             height: theme.spacing(6),
-            background: theme.palette.secondary.dark,
+            background: theme.custom.colors.slateLight,
+            border: `1px solid ${theme.custom.colors.darkGrey}`,
           }}
         >
           <Typography variant="h5">
@@ -108,7 +114,15 @@ export default function AdminUserViewModal({ user, dateRange, onClose }: AdminUs
             minWidth: '100%',
           }}
         >
-          <TableHead sx={{ backgroundColor: theme.palette.secondary.dark }}>
+          <TableHead
+            sx={{
+              backgroundColor: theme.custom.colors.grey,
+              '& .MuiTableCell-root': {
+                color: theme.custom.colors.slateDeep,
+                fontWeight: 600,
+              },
+            }}
+          >
             <TableRow>
               {[
                 t('admin.view_modal.date'),
@@ -130,11 +144,9 @@ export default function AdminUserViewModal({ user, dateRange, onClose }: AdminUs
                 session.date?.seconds ? dayjs.unix(session.date.seconds).format(DATE_FORMAT) : '-',
                 session.checkIn || '-',
                 session.checkOut || '-',
-                typeof session.hours === 'number' ? session.hours.toFixed(2) : '-',
-                `€ ${(session.totalSalary ?? 0).toFixed(2)}`,
+                formatNumber(session.hours),
+                formatCurrency(session.totalSalary),
               ];
-
-
 
               return (
                 <TableRow key={session.id}>

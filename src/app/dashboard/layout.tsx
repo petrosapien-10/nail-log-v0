@@ -6,6 +6,7 @@ import { useTheme } from '@mui/material/styles';
 import { Box } from '@mui/material';
 import TabsBar from '../components/TabsBar';
 import { DashboardAccessProvider } from '../hooks/context/DashboardAccessContext';
+import PageTransition from '../components/PageTransition';
 
 const BACKGROUND_IMAGE = 'url(/images/nail-log-background.png)';
 
@@ -28,9 +29,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           }}
         >
           <Navbar />
-          <section>
-            <main>{children}</main>
-          </section>
+          <PageTransition>
+            <section>
+              <main>{children}</main>
+            </section>
+          </PageTransition>
         </Box>
       </DashboardAccessProvider>
     </NavbarProvider>

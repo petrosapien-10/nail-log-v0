@@ -1,44 +1,34 @@
 'use client';
 
-import { Button, Typography } from '@mui/material';
+import { Button } from '@mui/material';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { useTheme } from '@mui/material/styles';
 
 interface BackButtonProps {
   onClick: () => void;
-  label?: string;
 }
 
-export default function BackButton({ onClick, label = 'Back' }: BackButtonProps) {
+export default function BackButton({ onClick }: BackButtonProps) {
   const theme = useTheme();
 
   return (
     <Button
       onClick={onClick}
-      disableRipple
+      variant="contained"
+      size="xsmall"
       sx={{
-        height: 56,
-        color: theme.palette.text.primary,
-        fontWeight: theme.typography.fontWeightMedium,
-        textTransform: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        gap: 1,
-        boxShadow: 'none',
-        outline: 'none',
-        '&:focus': {
-          outline: 'none',
-          boxShadow: 'none',
-        },
+        minWidth: 'auto',
+        backgroundColor: theme.custom.colors.slateLight,
+        color: theme.custom.colors.slateDeep,
+        border: `1px solid ${theme.custom.colors.darkGrey}`,
+        fontWeight: 500,
         '&:hover': {
-          boxShadow: 'none',
+          backgroundColor: theme.custom.colors.grey,
+          borderColor: theme.custom.colors.slate,
         },
       }}
     >
       <ArrowBackIosNewIcon fontSize="small" />
-      <Typography variant="h3" fontWeight={400}>
-        {label}
-      </Typography>
     </Button>
   );
 }

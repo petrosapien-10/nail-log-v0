@@ -37,6 +37,7 @@ export const DashboardAccessProvider = ({ children }: { children: React.ReactNod
   const [password, setPassword] = useState('');
   const [hasDashboardAccess, setHasDashboardAccess] = useState(false);
   const [error, setError] = useState('');
+  const [isCheckingSession, setIsCheckingSession] = useState(true);
   const [validatePassword, { isLoading }] = useValidateDashboardPasswordMutation();
 
   const [isManualLogin, setIsManualLogin] = useState(false);
@@ -68,6 +69,23 @@ export const DashboardAccessProvider = ({ children }: { children: React.ReactNod
       },
     }));
   }, [isFetchingDashboardSession, refetchDashboardLoginSession, setRefetchMap]);
+
+  useEffect(() => {
+    // If there's no session in localStorage, we're not checking anymore
+    if (!session) {
+      setIsCheckingSession(false);
+      return;
+    }
+
+    // If we're fetching, keep checking state true
+    if (isFetchingDashboardSession) {
+      setIsCheckingSession(true);
+      return;
+    }
+
+    // Once fetching is complete, we can stop checking
+    setIsCheckingSession(false);
+  }, [session, isFetchingDashboardSession]);
 
   useEffect(() => {
     if (isManualLogin || !session || !isSuccess || !sessionData?.success) return;
@@ -153,7 +171,11 @@ export const DashboardAccessProvider = ({ children }: { children: React.ReactNod
         refetchDashboardLoginSession,
       }}
     >
-      {hasDashboardAccess ? (
+      {isCheckingSession ? (
+        <Box display="flex" justifyContent="center" alignItems="center" minHeight="80vh">
+          <CircularProgress size={60} />
+        </Box>
+      ) : hasDashboardAccess ? (
         children
       ) : (
         <Box display="flex" justifyContent="center" alignItems="center" minHeight="80vh">

@@ -90,8 +90,8 @@ function AdminMainNavbar({
         <Box display="flex" gap={2} flexWrap="wrap">
           <RefreshButton onClick={handleRefreshData} isLoading={isRefreshing} />
           <ProfilesButton onClick={goToProfilesPage} />
-          <AdminSignOutButton />
           <PasswordMenu onRefetchExpiryInfo={refetchExpiryInfo} />
+          <AdminSignOutButton />
         </Box>
       </Box>
 
@@ -140,8 +140,8 @@ function UserDashboardNavbar({
         onChange={(date, dateString) => setSelectedDate(date.toDate(), dateString)}
       />
       <Box display="flex" gap={4} flexWrap="wrap">
-        <CheckInButton onClick={openUserModal} isReadOnly={isReadOnly} />
         <RefreshButton onClick={handleRefreshData} isLoading={isRefreshing} />
+        <CheckInButton onClick={openUserModal} isReadOnly={isReadOnly} />
         <HistoryButton onClick={openHistoryModal} />
       </Box>
     </Box>

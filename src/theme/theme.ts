@@ -92,14 +92,14 @@ export const theme = createTheme({
       dark: colors.moreDarkGrey,
     },
     secondary: {
-      light: colors.lightGrey,
+      light: colors.slateLight,
       main: colors.grey,
-      dark: colors.darkGrey,
+      dark: colors.slate,        // Using slate-400 for better contrast
     },
     text: {
       primary: '#191818',
-      secondary: '#A5A4A8',
-      disabled: '#E3E3E3',
+      secondary: '#64748B',        // slate-500 for better readability
+      disabled: '#CBD5E1',         // slate-300
     },
   },
 

@@ -36,13 +36,14 @@ function InfoField({ icon, value }: { icon: React.ReactNode; value: string }) {
       {icon}
       <Box
         sx={{
-          border: `1px solid ${theme.palette.grey[400]}`,
+          border: `1px solid ${theme.custom.colors.darkGrey}`,
           borderRadius: 2,
           px: 1,
           pt: 1,
           flex: 1,
           textAlign: 'left',
           minHeight: theme.spacing(5),
+          backgroundColor: theme.custom.colors.slateLight,
         }}
       >
         <Typography>{value}</Typography>
@@ -58,7 +59,7 @@ function InfoRow({ label, value }: { label: string; value: string }) {
       <Typography>{label}</Typography>
       <Box
         sx={{
-          border: `1px solid ${theme.palette.grey[400]}`,
+          border: `1px solid ${theme.custom.colors.darkGrey}`,
           borderRadius: 2,
           px: 1,
           py: 1,
@@ -66,6 +67,7 @@ function InfoRow({ label, value }: { label: string; value: string }) {
           minWidth: theme.spacing(8.75),
           minHeight: theme.spacing(5),
           textAlign: 'left',
+          backgroundColor: theme.custom.colors.slateLight,
         }}
       >
         <Typography>{value}</Typography>

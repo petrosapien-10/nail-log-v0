@@ -17,21 +17,22 @@ import {
 import { UserWithSessions } from '@/types/user';
 import { useTheme } from '@mui/material/styles';
 
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useCallback } from 'react';
 
 import AdminSortToggleIcon, { SortField, SortOrder } from './AdminSortToggleIcon';
 import { useTranslate } from '@/locales/hooks/useTranslate';
+import { formatCurrency, formatNumber } from '@/utils/formatCurrency';
 
 const sortableHeaders: {
   label: string;
   field: SortField;
 }[] = [
-    { label: 'Salary', field: 'totalSalary' },
-    { label: 'Shared Bonus', field: 'sharedBonus' },
-    { label: 'Daily Bonus', field: 'dailyBonus' },
-    { label: 'Basic Salary', field: 'basicSalary' },
-    { label: 'Hours', field: 'hours' },
-  ];
+  { label: 'Salary', field: 'totalSalary' },
+  { label: 'Shared Bonus', field: 'sharedBonus' },
+  { label: 'Daily Bonus', field: 'dailyBonus' },
+  { label: 'Basic Salary', field: 'basicSalary' },
+  { label: 'Hours', field: 'hours' },
+];
 
 interface AdminUsersTableProps {
   data: UserWithSessions[];
@@ -45,10 +46,10 @@ export default function AdminUsersTable({ data, onView, isLoading }: AdminUsersT
   const [sortField, setSortField] = useState<SortField>('totalSalary');
   const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
 
-  const handleSortChange = (field: SortField, order: SortOrder) => {
+  const handleSortChange = useCallback((field: SortField, order: SortOrder) => {
     setSortField(field);
     setSortOrder(order);
-  };
+  }, []);
 
   const rows = useMemo(() => {
     const baseRows = data.map((user) => {
@@ -140,7 +141,7 @@ export default function AdminUsersTable({ data, onView, isLoading }: AdminUsersT
                         justifyContent: 'center',
                         alignItems: 'center',
                         objectFit: 'cover',
-                        bgcolor: theme.palette.secondary.dark,
+                        bgcolor: theme.custom.colors.slate,
                       }}
                     />
                     <Typography variant="body2" sx={{ display: 'inline-block', ml: 1 }}>
@@ -148,19 +149,21 @@ export default function AdminUsersTable({ data, onView, isLoading }: AdminUsersT
                     </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="body2">€ {row.totalSalary.toFixed(2)}</Typography>
+                    <Typography variant="body2">{formatCurrency(row.totalSalary)}</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="body2">€ {row.sharedBonus.toFixed(2)}</Typography>
+                    <Typography variant="body2">{formatCurrency(row.sharedBonus)}</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="body2">€ {row.dailyBonus.toFixed(2)}</Typography>
+                    <Typography variant="body2">{formatCurrency(row.dailyBonus)}</Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="body2">€ {row.basicSalary.toFixed(2)} / hour</Typography>
+                    <Typography variant="body2">
+                      {formatCurrency(row.basicSalary)} / hour
+                    </Typography>
                   </TableCell>
                   <TableCell>
-                    <Typography variant="body2">{row.hours.toFixed(2)}</Typography>
+                    <Typography variant="body2">{formatNumber(row.hours)}</Typography>
                   </TableCell>
                   <TableCell align="left">
                     <Button
@@ -168,9 +171,14 @@ export default function AdminUsersTable({ data, onView, isLoading }: AdminUsersT
                       size="xsmall"
                       onClick={() => onView?.(row.userId)}
                       sx={{
-                        backgroundColor: theme.palette.secondary.light,
-                        border: `0.5px solid ${theme.palette.text.primary}`,
-                        color: theme.palette.text.primary,
+                        backgroundColor: theme.custom.colors.slateLight,
+                        color: theme.custom.colors.slateDeep,
+                        border: `1px solid ${theme.custom.colors.darkGrey}`,
+                        fontWeight: 500,
+                        '&:hover': {
+                          backgroundColor: theme.custom.colors.grey,
+                          borderColor: theme.custom.colors.slate,
+                        },
                       }}
                     >
                       <Typography variant="body2">{t('admin.view_button')}</Typography>

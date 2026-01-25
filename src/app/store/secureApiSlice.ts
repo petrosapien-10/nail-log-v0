@@ -18,6 +18,8 @@ export const secureApiSlice = createApi({
       return headers;
     },
   }),
+  tagTypes: ['AdminSessions', 'AdminExpenses', 'Users', 'Avatars'],
+  keepUnusedDataFor: 60,
 
   endpoints: (builder) => ({
     getAllUsers: builder.query<User[], void>({
@@ -80,6 +82,7 @@ export const secureApiSlice = createApi({
         message: string;
         data: UserWithSessions[];
       }): UserWithSessions[] => response.data,
+      providesTags: ['AdminSessions'],
     }),
 
     deleteSession: builder.mutation<void, { userId: string; sessionId: string }>({
@@ -87,6 +90,7 @@ export const secureApiSlice = createApi({
         url: `users/${userId}/sessions/${sessionId}`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['AdminSessions'],
     }),
 
     getExpensesByRange: builder.query<Expense[], { start: string; end: string }>({
@@ -96,6 +100,7 @@ export const secureApiSlice = createApi({
       },
       transformResponse: (response: { message: string; data: Expense[] }): Expense[] =>
         response.data,
+      providesTags: ['AdminExpenses'],
     }),
 
     //dashboar password

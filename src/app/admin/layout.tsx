@@ -6,6 +6,7 @@ import { NavbarProvider } from '../hooks/context/navbar-context';
 import TabsBar from '../components/TabsBar';
 import Navbar from '../components/Navbar';
 import { Box } from '@mui/material';
+import PageTransition from '../components/PageTransition';
 
 const BACKGROUND_IMAGE = 'url(/images/nail-log-background.png)';
 
@@ -27,9 +28,11 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         }}
       >
         <Navbar />
-        <section>
-          <main>{children}</main>
-        </section>
+        <PageTransition>
+          <section>
+            <main>{children}</main>
+          </section>
+        </PageTransition>
       </Box>
     </NavbarProvider>
   );
