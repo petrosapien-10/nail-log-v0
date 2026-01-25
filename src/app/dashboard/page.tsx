@@ -508,11 +508,9 @@ export default function Page() {
                   sx={{
                     backgroundColor: theme.custom.colors.slateLight,
                     color: theme.custom.colors.slateDeep,
-                    border: `1px solid ${theme.custom.colors.darkGrey}`,
                     fontWeight: 500,
                     '&:hover': {
                       backgroundColor: theme.custom.colors.grey,
-                      borderColor: theme.custom.colors.slate,
                     },
                   }}
                   onClick={onClick}
@@ -540,7 +538,6 @@ export default function Page() {
         <Box pb={4} sx={{ 
           backgroundColor: theme.custom.colors.slateLight, 
           borderRadius: 2,
-          border: `1px solid ${theme.custom.colors.darkGrey}`,
         }}>
           <Box
             display="flex"
@@ -567,7 +564,6 @@ export default function Page() {
                 py: 1,
                 mr: 0.3,
                 boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-                border: `1px solid ${theme.custom.colors.darkGrey}`,
                 transition: 'all 0.2s ease',
                 '&:hover': {
                   boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',

@@ -81,7 +81,6 @@ export default function EditTimeModal({
             py: 0.5,
             borderRadius: 1,
             backgroundColor: theme.custom.colors.slateLight,
-            border: `1px solid ${theme.custom.colors.darkGrey}`,
             height: 56,
           }}
         >

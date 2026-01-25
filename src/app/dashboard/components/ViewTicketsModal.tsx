@@ -300,7 +300,6 @@ export default function ViewTicketsModal({
               left: '50%',
               transform: 'translateX(-50%)',
               backgroundColor: theme.custom.colors.slateLight,
-              border: `1px solid ${theme.custom.colors.darkGrey}`,
             }}
           >
             <Avatar src={userImage} sx={{ width: 40, height: 40 }} />
@@ -324,10 +323,8 @@ export default function ViewTicketsModal({
                 height: 40,
                 borderRadius: 2,
                 backgroundColor: theme.custom.colors.slateLight,
-                border: `1px solid ${theme.custom.colors.darkGrey}`,
                 '&:hover': {
                   backgroundColor: theme.custom.colors.grey,
-                  borderColor: theme.custom.colors.slate,
                 },
               }}
             >
@@ -360,7 +357,6 @@ export default function ViewTicketsModal({
               <Table
                 size="medium"
                 sx={{
-                  border: `1px solid ${theme.custom.colors.darkGrey}`,
                   '& th, & td': {
                     padding: '4px 16px',
                   },

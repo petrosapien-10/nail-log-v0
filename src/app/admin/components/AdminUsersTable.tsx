@@ -173,11 +173,9 @@ export default function AdminUsersTable({ data, onView, isLoading }: AdminUsersT
                       sx={{
                         backgroundColor: theme.custom.colors.slateLight,
                         color: theme.custom.colors.slateDeep,
-                        border: `1px solid ${theme.custom.colors.darkGrey}`,
                         fontWeight: 500,
                         '&:hover': {
                           backgroundColor: theme.custom.colors.grey,
-                          borderColor: theme.custom.colors.slate,
                         },
                       }}
                     >

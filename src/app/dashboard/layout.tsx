@@ -8,8 +8,6 @@ import TabsBar from '../components/TabsBar';
 import { DashboardAccessProvider } from '../hooks/context/DashboardAccessContext';
 import PageTransition from '../components/PageTransition';
 
-const BACKGROUND_IMAGE = 'url(/images/nail-log-background.png)';
-
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const theme = useTheme();
 
@@ -21,11 +19,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           sx={{
             minHeight: '100vh',
             width: '100%',
-            backgroundImage: BACKGROUND_IMAGE,
-            backgroundRepeat: 'repeat-y',
-            backgroundPosition: `center -${theme.spacing(20)}`,
-            backgroundSize: '1026px auto',
-            backgroundColor: theme.palette.background.default,
+            background: `linear-gradient(180deg, ${theme.palette.background.default} 0%, #f1f5f9 50%, #e2e8f0 100%)`,
           }}
         >
           <Navbar />

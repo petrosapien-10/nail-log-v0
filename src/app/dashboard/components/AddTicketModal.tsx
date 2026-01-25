@@ -222,7 +222,6 @@ export default function AddTicketModal({
           alignItems="center"
           justifyContent="space-between"
           bgcolor={theme.custom.colors.slateLight}
-          border={`1px solid ${theme.custom.colors.darkGrey}`}
           p={1}
           borderRadius={2}
           mx="auto"

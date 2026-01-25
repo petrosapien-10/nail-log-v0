@@ -11,11 +11,11 @@ import {
   ListItemText,
 } from '@mui/material';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
-import SearchIcon from '@mui/icons-material/Search';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import PhoneIcon from '@mui/icons-material/Phone';
 import CakeIcon from '@mui/icons-material/Cake';
+import HomeIcon from '@mui/icons-material/Home';
 import { useTheme } from '@mui/material/styles';
 import { useTranslate } from '@/locales/hooks/useTranslate';
 import { User } from '@/types/user';
@@ -29,6 +29,10 @@ function formatDate(dateString: string): string {
   ).padStart(2, '0')}`;
 }
 
+function formatFieldValue(value: string | undefined | null): string {
+  return value && value.trim() !== '' ? value : '--';
+}
+
 function InfoField({ icon, value }: { icon: React.ReactNode; value: string }) {
   const theme = useTheme();
   return (
@@ -36,7 +40,6 @@ function InfoField({ icon, value }: { icon: React.ReactNode; value: string }) {
       {icon}
       <Box
         sx={{
-          border: `1px solid ${theme.custom.colors.darkGrey}`,
           borderRadius: 2,
           px: 1,
           pt: 1,
@@ -59,7 +62,6 @@ function InfoRow({ label, value }: { label: string; value: string }) {
       <Typography>{label}</Typography>
       <Box
         sx={{
-          border: `1px solid ${theme.custom.colors.darkGrey}`,
           borderRadius: 2,
           px: 1,
           py: 1,
@@ -78,12 +80,11 @@ function InfoRow({ label, value }: { label: string; value: string }) {
 
 interface ProfileCardProps {
   user: User;
-  onView: (user: User) => void;
   onEdit: (user: User) => void;
   onDelete: (user: User) => void;
 }
 
-export default function ProfileCard({ user, onView, onEdit, onDelete }: ProfileCardProps) {
+export default function ProfileCard({ user, onEdit, onDelete }: ProfileCardProps) {
   const theme = useTheme();
   const { t } = useTranslate();
 
@@ -96,11 +97,6 @@ export default function ProfileCard({ user, onView, onEdit, onDelete }: ProfileC
 
   const handleMenuClose = () => {
     setAnchorEl(null);
-  };
-
-  const handleView = () => {
-    onView(user);
-    handleMenuClose();
   };
 
   const handleEdit = () => {
@@ -136,13 +132,6 @@ export default function ProfileCard({ user, onView, onEdit, onDelete }: ProfileC
         </IconButton>
 
         <Menu anchorEl={anchorEl} open={menuOpen} onClose={handleMenuClose}>
-          <MenuItem onClick={handleView}>
-            <ListItemIcon>
-              <SearchIcon fontSize="small" />
-            </ListItemIcon>
-            <ListItemText primary={t('profiles.view_button')} />
-          </MenuItem>
-
           <MenuItem onClick={handleEdit}>
             <ListItemIcon>
               <EditIcon fontSize="small" />
@@ -160,8 +149,12 @@ export default function ProfileCard({ user, onView, onEdit, onDelete }: ProfileC
       </Box>
 
       <Box display="flex" flexDirection="column" gap={1}>
-        <InfoField icon={<PhoneIcon fontSize="small" />} value={user.phone} />
-        <InfoField icon={<CakeIcon fontSize="small" />} value={formatDate(user.dob)} />
+        <InfoField icon={<PhoneIcon fontSize="small" />} value={formatFieldValue(user.phone)} />
+        <InfoField
+          icon={<CakeIcon fontSize="small" />}
+          value={formatFieldValue(formatDate(user.dob))}
+        />
+        <InfoField icon={<HomeIcon fontSize="small" />} value={formatFieldValue(user.address)} />
       </Box>
 
       <Box display="flex" flexDirection="column" gap={1}>

@@ -8,8 +8,6 @@ import Navbar from '../components/Navbar';
 import { Box } from '@mui/material';
 import PageTransition from '../components/PageTransition';
 
-const BACKGROUND_IMAGE = 'url(/images/nail-log-background.png)';
-
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const theme = useTheme();
 
@@ -20,11 +18,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         sx={{
           minHeight: '100vh',
           width: '100%',
-          backgroundImage: BACKGROUND_IMAGE,
-          backgroundRepeat: 'repeat-y',
-          backgroundPosition: `center -${theme.spacing(20)}`,
-          backgroundSize: '1026px auto',
-          backgroundColor: theme.palette.background.default,
+          background: `linear-gradient(180deg, ${theme.palette.background.default} 0%, #f1f5f9 50%, #e2e8f0 100%)`,
         }}
       >
         <Navbar />

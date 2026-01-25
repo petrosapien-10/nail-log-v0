@@ -92,7 +92,6 @@ export default function HistoryModal({ open, onClose }: HistoryModalProps) {
                 height: 40,
                 borderRadius: 2,
                 backgroundColor: theme.custom.colors.slateLight,
-                border: `1px solid ${theme.custom.colors.darkGrey}`,
                 '&:hover': {
                   backgroundColor: theme.custom.colors.grey,
                 },

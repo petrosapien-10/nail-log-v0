@@ -71,7 +71,6 @@ export default function AdminUserViewModal({ user, dateRange, onClose }: AdminUs
             height: 40,
             borderRadius: '4px',
             backgroundColor: theme.custom.colors.slateLight,
-            border: `1px solid ${theme.custom.colors.darkGrey}`,
             '&:hover': {
               backgroundColor: theme.custom.colors.grey,
             },
@@ -95,7 +94,6 @@ export default function AdminUserViewModal({ user, dateRange, onClose }: AdminUs
             width: theme.spacing(26.5),
             height: theme.spacing(6),
             background: theme.custom.colors.slateLight,
-            border: `1px solid ${theme.custom.colors.darkGrey}`,
           }}
         >
           <Typography variant="h5">

@@ -41,7 +41,6 @@ const BonusRow = React.memo(({ label, value, boldLabel = false, highlight }: Bon
                 ? theme.custom.colors.grey
                 : theme.custom.colors.slateLight,
               color: theme.palette.text.primary,
-              border: `1px solid ${theme.custom.colors.darkGrey}`,
             },
             startAdornment: <InputAdornment position="start">€</InputAdornment>,
           },
@@ -85,7 +84,6 @@ const ViewBonusModal = React.memo(
               height: 40,
               borderRadius: 2,
               backgroundColor: theme.custom.colors.slateLight,
-              border: `1px solid ${theme.custom.colors.darkGrey}`,
               '&:hover': {
                 backgroundColor: theme.custom.colors.grey,
               },

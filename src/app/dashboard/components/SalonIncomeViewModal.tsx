@@ -65,7 +65,6 @@ const IncomeRow = React.memo(
                 backgroundColor: highlight
                   ? theme.custom.colors.grey
                   : theme.custom.colors.slateLight,
-                border: `1px solid ${theme.custom.colors.darkGrey}`,
               },
               startAdornment: <InputAdornment position="start">€</InputAdornment>,
             },
@@ -106,7 +105,6 @@ const SalonIncomeViewModal = React.memo(({ open, onClose, data }: Props) => {
             borderRadius: '8px',
             mr: 0.2,
             backgroundColor: theme.custom.colors.slateLight,
-            border: `1px solid ${theme.custom.colors.darkGrey}`,
             '&:hover': {
               backgroundColor: theme.custom.colors.grey,
             },

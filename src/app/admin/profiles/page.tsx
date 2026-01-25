@@ -10,6 +10,7 @@ import {
   useUpdateUserMutation,
 } from '@/app/store/secureApiSlice';
 import { Box, Button, CircularProgress, Container, Typography } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 import { useTranslate } from '@/locales/hooks/useTranslate';
 import { useTheme } from '@mui/material/styles';
 import ProfileCard from '../components/ProfileCard';
@@ -215,7 +216,6 @@ export default function ProfilesPage() {
           pb={4}
           sx={{
             backgroundColor: theme.custom.colors.slateLight,
-            border: `1px solid ${theme.custom.colors.darkGrey}`,
             borderRadius: 2,
           }}
         >
@@ -233,10 +233,14 @@ export default function ProfilesPage() {
             <Button
               variant="contained"
               size="xxlarge"
+              startIcon={<AddIcon />}
               onClick={handleAddUser}
               sx={{
                 backgroundColor: theme.custom.colors.darkPink,
                 color: theme.palette.text.primary,
+                '&:hover': {
+                  backgroundColor: theme.palette.primary.light,
+                },
               }}
             >
               {t('profiles.add_employee_button')}
@@ -261,7 +265,6 @@ export default function ProfilesPage() {
                   <ProfileCard
                     key={user.id}
                     user={user}
-                    onView={() => handleOpenUserModal(user, ModalMode.View)}
                     onEdit={() => handleOpenUserModal(user, ModalMode.Edit)}
                     onDelete={() => handleDeleteUser(user)}
                   />

@@ -15,6 +15,8 @@ import {
   CircularProgress,
   Typography,
 } from '@mui/material';
+import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { useTheme } from '@mui/material/styles';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -379,15 +381,20 @@ export default function AddUserModal({
           />
 
           {(mode === ModalMode.Add || mode === ModalMode.Edit) && (
-            <Box display="flex" justifyContent="center" gap={2} mb={4}>
+            <Box display="flex" justifyContent="center" gap={2} mb={4} flexWrap="wrap">
               <Button
                 variant="contained"
                 size="xxlarge"
+                startIcon={<PhotoCameraIcon fontSize="small" />}
                 onClick={() => setIsAvatarModalOpen(true)}
                 sx={{
                   backgroundColor: theme.palette.secondary.light,
-                  border: `0.5px solid ${theme.palette.text.primary}`,
                   color: theme.palette.text.primary,
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                  px: 2,
+                  py: 1,
+                  fontSize: '0.875rem',
+                  whiteSpace: 'nowrap',
                 }}
               >
                 {t('profiles.upload_photo_button')}
@@ -396,12 +403,17 @@ export default function AddUserModal({
               <Button
                 variant="contained"
                 size="xxlarge"
+                startIcon={<DeleteOutlineIcon fontSize="small" />}
                 onClick={() => handleChange('image', '')}
                 disabled={!formData.image}
                 sx={{
                   backgroundColor: theme.palette.secondary.light,
-                  border: `0.5px solid ${theme.palette.text.primary}`,
                   color: theme.palette.text.primary,
+                  boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
+                  px: 2,
+                  py: 1,
+                  fontSize: '0.875rem',
+                  whiteSpace: 'nowrap',
                 }}
               >
                 {t('profiles.remove_photo_button')}

@@ -78,7 +78,6 @@ export default function AdminLoginModal({
               borderRadius: '8px',
               marginLeft: '280px',
               backgroundColor: theme.custom.colors.slateLight,
-              border: `1px solid ${theme.custom.colors.darkGrey}`,
               '&:hover': {
                 backgroundColor: theme.custom.colors.grey,
               },
@@ -94,12 +93,6 @@ export default function AdminLoginModal({
               height: '48px',
               '& .MuiOutlinedInput-root': {
                 height: '100%',
-              },
-              '& label.MuiInputLabel-root': {
-                transform: 'translate(14px, 12px) scale(1)',
-              },
-              '& label.MuiInputLabel-shrink': {
-                transform: 'translate(10px, -8px) scale(0.75)',
               },
             }}
           >
@@ -135,12 +128,6 @@ export default function AdminLoginModal({
               height: '48px',
               '& .MuiOutlinedInput-root': {
                 height: '100%',
-              },
-              '& label.MuiInputLabel-root': {
-                transform: 'translate(14px, 12px) scale(1)',
-              },
-              '& label.MuiInputLabel-shrink': {
-                transform: 'translate(10px, -8px) scale(0.75)',
               },
             }}
           >
@@ -183,9 +170,11 @@ export default function AdminLoginModal({
           sx={{
             width: 92,
             height: 40,
-            backgroundColor: theme.palette.secondary.main,
+            backgroundColor: theme.custom.colors.darkPink,
             color: theme.palette.text.primary,
-            border: `0.5px solid ${theme.palette.text.primary}`,
+            '&:hover': {
+              backgroundColor: theme.palette.primary.light,
+            },
             mt: 2,
             mb: 2,
             fontSize: theme.typography.body1.fontSize,

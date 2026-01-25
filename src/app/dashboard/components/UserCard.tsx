@@ -27,14 +27,12 @@ function DeleteButton({ onClick }: { onClick?: () => void }) {
         height: 32,
         borderRadius: '4px',
         backgroundColor: theme.custom.colors.slateLight,
-        border: `1px solid ${theme.custom.colors.darkGrey}`,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         padding: 0,
         '&:hover': {
           backgroundColor: theme.custom.colors.grey,
-          borderColor: theme.custom.colors.slate,
         },
       }}
     >
@@ -68,10 +66,7 @@ function IncomeBox({
         paddingLeft: '4px',
         gap: '4px',
         backgroundColor: theme.custom.colors.slateLight,
-        border: highlighted 
-          ? `2px solid ${theme.custom.colors.yellow}` 
-          : `1px solid ${theme.custom.colors.darkGrey}`,
-        boxShadow: highlighted ? '0 2px 8px rgba(249, 203, 35, 0.2)' : 'none',
+        boxShadow: highlighted ? '0 4px 12px rgba(249, 203, 35, 0.3)' : 'none',
       }}
     >
       <Typography
@@ -188,7 +183,6 @@ const UserCard = ({
         flexDirection: 'column',
         gap: 2,
         boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-        border: `1px solid ${theme.custom.colors.darkGrey}`,
         mx: 'auto',
         transition: 'all 0.2s ease',
         '&:hover': {
