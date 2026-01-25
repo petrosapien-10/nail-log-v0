@@ -1,7 +1,18 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { TextField, Button, Typography, CircularProgress, Box, Paper } from '@mui/material';
+import {
+  TextField,
+  Button,
+  Typography,
+  CircularProgress,
+  Box,
+  Paper,
+  IconButton,
+  InputAdornment,
+} from '@mui/material';
+import Visibility from '@mui/icons-material/Visibility';
+import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {
   useValidateDashboardPasswordMutation,
   useGetDashboardSessionQuery,
@@ -35,6 +46,7 @@ export const DashboardAccessProvider = ({ children }: { children: React.ReactNod
   const { t } = useTranslate();
 
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [hasDashboardAccess, setHasDashboardAccess] = useState(false);
   const [error, setError] = useState('');
   const [isCheckingSession, setIsCheckingSession] = useState(true);
@@ -186,7 +198,7 @@ export const DashboardAccessProvider = ({ children }: { children: React.ReactNod
             <TextField
               label={t('dashboard.login.password_label')}
               fullWidth
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               disabled={isLoading}
@@ -194,6 +206,21 @@ export const DashboardAccessProvider = ({ children }: { children: React.ReactNod
               margin="dense"
               onKeyDown={(e) => {
                 if (e.key === 'Enter') handleLogin();
+              }}
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => setShowPassword((prev) => !prev)}
+                        edge="end"
+                        aria-label="toggle password visibility"
+                      >
+                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                },
               }}
             />
             {error && (

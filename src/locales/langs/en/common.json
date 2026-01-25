@@ -143,6 +143,7 @@
     }
   },
   "sign_in": {
+    "admin_sign_in_title": "Admin Sign In",
     "email": "Email",
     "password": "Password",
     "error_message": "Invalid email or password!",

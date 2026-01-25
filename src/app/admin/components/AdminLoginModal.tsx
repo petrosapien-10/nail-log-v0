@@ -69,22 +69,39 @@ export default function AdminLoginModal({
       }}
     >
       <DialogContent>
-        <Box display="flex" flexDirection="column" gap={3} position="relative" alignItems="center">
-          <IconButton
-            onClick={onClose}
-            sx={{
-              width: 40,
-              height: 40,
-              borderRadius: '8px',
-              marginLeft: '280px',
-              backgroundColor: theme.custom.colors.slateLight,
-              '&:hover': {
-                backgroundColor: theme.custom.colors.grey,
-              },
-            }}
+        <Box
+          display="flex"
+          flexDirection="column"
+          gap={3}
+          position="relative"
+          alignItems="center"
+          pt={2}
+        >
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+            width="320px"
+            mb={1}
           >
-            <CloseIcon />
-          </IconButton>
+            <Typography variant="h3" component="span">
+              {t('sign_in.admin_sign_in_title')}
+            </Typography>
+            <IconButton
+              onClick={onClose}
+              sx={{
+                width: 40,
+                height: 40,
+                borderRadius: '8px',
+                backgroundColor: theme.custom.colors.slateLight,
+                '&:hover': {
+                  backgroundColor: theme.custom.colors.grey,
+                },
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+          </Box>
 
           <FormControl
             variant="outlined"
@@ -167,6 +184,7 @@ export default function AdminLoginModal({
           variant="contained"
           size="large"
           onClick={handleLogin}
+          disabled={!email || !password}
           sx={{
             width: 92,
             height: 40,
