@@ -2,6 +2,12 @@
 
 A modern salon management system built with Next.js, featuring employee time tracking, ticket management, salary calculations, and comprehensive reporting.
 
+## 🚀 Live Demo
+
+**Deployment URL**: [Add your Vercel URL here]
+
+> Test credentials provided in the [Testing Guide](#testing-the-application) below.
+
 ## Features
 
 - **Employee Check-in/Check-out**: Track working hours with precise time management
@@ -76,26 +82,57 @@ A modern salon management system built with Next.js, featuring employee time tra
 
 ## Testing the Application
 
-### Dashboard Access (Employee View)
+### Initial Setup & Authentication Flow
 
-1. Go to `http://localhost:3000/dashboard`
-2. No authentication required for basic access
-3. Test features:
-   - Check-in employees
-   - Add tickets to sessions
-   - View working hours and earnings
-   - Check-out employees
+The application uses a two-tier authentication system designed for salon operations:
 
-### Admin Access
+**Step 1: Admin Login (Owner Access)**
 
-1. Click the **"Admin"** tab in the navigation
-2. Use Firebase admin credentials to sign in
-3. Test features:
-   - View all employees across date ranges
-   - Manage employee profiles (add, edit, delete)
-   - View salon income breakdown
-   - Track expenses and profitability
-   - Access system history logs
+1. Click the **"Admin"** tab in the navigation bar
+2. An admin login modal will appear
+3. Enter the following test credentials:
+   - **Email**: `test-user@gmail.com`
+   - **Password**: `test-password`
+4. Click "Sign in" to access the admin dashboard
+
+**Step 2: Set Dashboard Password**
+
+1. Once in the admin page, navigate to the **Password** menu
+2. Create a new dashboard password (e.g., "1234")
+3. This password will be used by employees to access the Dashboard
+4. Click "Save" to confirm
+
+**Step 3: Access Dashboard (Employee Access)**
+
+1. Click the **"Home"** tab in the navigation bar
+2. Enter the dashboard password you just created
+3. You now have access to the employee dashboard
+
+**Why This Design?**
+
+This two-tier system serves a practical purpose:
+
+- **Dashboard Password**: Simple password that employees can use for daily operations (check-in, tickets, check-out)
+- **Admin Access**: Secure Firebase authentication for owners to manage employees, view reports, and control settings
+- **Security & Convenience**: Employees only need to know one simple password, while sensitive operations require full admin authentication
+- **Operational Flexibility**: The dashboard works independently - employees can continue working even if the admin is not logged in
+
+### Testing Features
+
+**Dashboard (Employee View)**:
+
+- Check-in employees from the employee list
+- Add tickets with multiple payment methods
+- Edit check-in/check-out times
+- Mark tickets as bonus tickets
+- Check-out employees and view salary calculations
+
+**Admin Panel**:
+
+- **Profiles**: Add, edit, or delete employees with custom salary rates and bonus configurations
+- **Sessions**: View all employee sessions with date range filtering
+- **Reports**: Analyze salon income, expenses, and profitability
+- **History**: Track all system activities with detailed logs
 
 ### Key Test Scenarios
 
