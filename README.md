@@ -5,7 +5,7 @@ A modern salon management system built with Next.js, featuring employee time tra
 ## 🚀 Live Demo
 
 **Deployment URL**:  
-👉 https://nail-log-v0-outdb7a8l-nhutlong-nguyens-projects.vercel.app
+👉 https://nail-log-v0.vercel.app/dashboard/
 
 > Test credentials provided in the [Testing Guide](#testing-the-application) below.
 
