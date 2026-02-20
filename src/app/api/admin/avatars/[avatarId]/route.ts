@@ -3,8 +3,6 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { NextRequest, NextResponse } from 'next/server';
 import status from 'http-status';
 
-// ----------------------------------------------------------------------
-
 export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ avatarId: string }> }

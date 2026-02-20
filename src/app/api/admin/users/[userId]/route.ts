@@ -4,8 +4,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import status from 'http-status';
 import { UserUpdatePayload } from '@/types/user';
 
-// ----------------------------------------------------------------------
-
 export async function DELETE(
   req: NextRequest,
   { params }: { params: Promise<{ userId: string }> }

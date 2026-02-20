@@ -5,8 +5,6 @@ import status from 'http-status';
 import { updateSessionIncome } from '../../../../../../../utils/updateSessionIncome.helper';
 import { calculateTicketData } from '../../../../../../../utils/calculateTicketData.helper';
 
-// ----------------------------------------------------------------------
-
 export async function GET(
   _: Request,
   context: { params: Promise<{ userId?: string; sessionId?: string }> }

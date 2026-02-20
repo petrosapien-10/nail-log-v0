@@ -16,7 +16,6 @@ export type RefetchMap = {
   sessions?: RefetchEntry;
   expenses?: RefetchEntry;
   users?: RefetchEntry;
-
   dashboardLoginSession?: RefetchEntry;
 };
 
@@ -25,12 +24,10 @@ type NavbarContextType = {
   selectedDateString: YYYYMMDD;
   setSelectedDate: (date: Date, dateString: YYYYMMDD) => void;
 
-  // for date range picker
   selectedRange: { start: Date; end: Date };
   selectedRangeString: { start: string; end: string };
   setSelectedRange: (range: { start: Date; end: Date }) => void;
 
-  // Modal controls
   isUserModalOpen: boolean;
   openUserModal: () => void;
   closeUserModal: () => void;
@@ -38,11 +35,9 @@ type NavbarContextType = {
   openHistoryModal: () => void;
   closeHistoryModal: () => void;
 
-  // Admin redirect
   goToProfilesPage: () => void;
   goToAdminPage: () => void;
 
-  // Refetch
   refetchMap: RefetchMap;
   setRefetchMap: React.Dispatch<React.SetStateAction<RefetchMap>>;
 };

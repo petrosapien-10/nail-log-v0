@@ -19,8 +19,6 @@ import { serverTimestamp } from 'firebase/firestore';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-// ----------------------------------------------------------------------
-
 export async function GET(_: Request, context: { params: Promise<{ userId: string }> }) {
   const { userId } = await context.params;
 
@@ -61,8 +59,6 @@ export async function GET(_: Request, context: { params: Promise<{ userId: strin
     );
   }
 }
-
-// ----------------------------------------------------------------------
 
 export async function POST(req: Request, context: { params: Promise<{ userId?: string }> }) {
   const { userId } = await context.params;

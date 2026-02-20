@@ -5,8 +5,6 @@ import status from 'http-status';
 import { updateSessionTotalSalary } from '@/utils/updateSessionTotalSalary.helper';
 import { isValidTimeRange } from '@/utils/isValidTimeRange.helper';
 
-// ----------------------------------------------------------------------
-
 export async function GET(
   _: Request,
   context: { params: Promise<{ userId?: string; sessionId?: string }> }

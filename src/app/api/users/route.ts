@@ -3,8 +3,6 @@ import { collection, getDocs } from 'firebase/firestore';
 import { NextResponse } from 'next/server';
 import status from 'http-status';
 
-// ----------------------------------------------------------------------
-
 export async function GET() {
   try {
     const usersRef = collection(firestore, 'users');

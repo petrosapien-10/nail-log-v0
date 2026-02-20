@@ -38,7 +38,11 @@ export default function HistoryModal({ open, onClose }: HistoryModalProps) {
   const theme = useTheme();
   const { t } = useTranslate();
 
-  const { data: logs = [], isLoading, error } = useGetHistoryByDateQuery(formattedDate, {
+  const {
+    data: logs = [],
+    isLoading,
+    error,
+  } = useGetHistoryByDateQuery(formattedDate, {
     refetchOnMountOrArgChange: 30,
     refetchOnFocus: false,
   });
@@ -47,37 +51,41 @@ export default function HistoryModal({ open, onClose }: HistoryModalProps) {
     setSelectedDate(date.toDate());
   }, []);
 
-  const formatCreatedAt = useCallback((createdAt: { seconds: number; nanoseconds: number }) => {
-    if (!createdAt?.seconds) return t('dashboard.history_modal.invalid_date');
+  const formatCreatedAt = useCallback(
+    (createdAt: { seconds: number; nanoseconds: number }) => {
+      if (!createdAt?.seconds) return t('dashboard.history_modal.invalid_date');
 
-    const logTime = dayjs.unix(createdAt.seconds);
-    const now = dayjs();
-    const diffInMinutes = now.diff(logTime, 'minute');
+      const logTime = dayjs.unix(createdAt.seconds);
+      const now = dayjs();
+      const diffInMinutes = now.diff(logTime, 'minute');
 
-    return diffInMinutes < 30 ? `${diffInMinutes} min` : logTime.format('HH:mm');
-  }, [t]);
+      return diffInMinutes < 30 ? `${diffInMinutes} min` : logTime.format('HH:mm');
+    },
+    [t]
+  );
 
-  const renderSortedLogs = useCallback((logs: History[]) => {
-    return [...logs]
-      .sort((a, b) => b.createdAt.seconds - a.createdAt.seconds)
-      .map((log) => (
-        <Box key={log.id} my={2}>
-          <Box display="flex" justifyContent="space-between">
-            <Typography variant="h6">
-              {log.performedBy} {log.description}
-            </Typography>
-            <Typography variant="h6" sx={{ color: theme.palette.text.primary }}>
-              {formatCreatedAt(log.createdAt)}
-            </Typography>
+  const renderSortedLogs = useCallback(
+    (logs: History[]) => {
+      return [...logs]
+        .sort((a, b) => b.createdAt.seconds - a.createdAt.seconds)
+        .map((log) => (
+          <Box key={log.id} my={2}>
+            <Box display="flex" justifyContent="space-between">
+              <Typography variant="h6">
+                {log.performedBy} {log.description}
+              </Typography>
+              <Typography variant="h6" sx={{ color: theme.palette.text.primary }}>
+                {formatCreatedAt(log.createdAt)}
+              </Typography>
+            </Box>
+            <Divider />
           </Box>
-          <Divider />
-        </Box>
-      ));
-  }, [theme.palette.text.primary, formatCreatedAt]);
+        ));
+    },
+    [theme.palette.text.primary, formatCreatedAt]
+  );
 
-  useEffect(() => {
-    // RTK Query will automatically refetch when the modal opens due to query options
-  }, [open, formattedDate]);
+  useEffect(() => {}, [open, formattedDate]);
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">

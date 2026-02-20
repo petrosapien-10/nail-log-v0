@@ -3,8 +3,6 @@ import { collection, getDocs, query, where, Timestamp } from 'firebase/firestore
 import { NextResponse } from 'next/server';
 import status from 'http-status';
 
-// ----------------------------------------------------------------------
-
 // GET /admin/expenses?start=YYYY-MM-DD&end=YYYY-MM-DD
 export async function GET(req: Request) {
   const authHeader = req.headers.get('authorization');

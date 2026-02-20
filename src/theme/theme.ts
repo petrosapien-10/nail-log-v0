@@ -84,7 +84,6 @@ export const theme = createTheme({
     },
   },
 
-  //colors
   palette: {
     primary: {
       light: colors.lightPink,
@@ -94,12 +93,12 @@ export const theme = createTheme({
     secondary: {
       light: colors.slateLight,
       main: colors.grey,
-      dark: colors.slate,        // Using slate-400 for better contrast
+      dark: colors.slate,
     },
     text: {
       primary: '#191818',
-      secondary: '#64748B',        // slate-500 for better readability
-      disabled: '#CBD5E1',         // slate-300
+      secondary: '#64748B',
+      disabled: '#CBD5E1',
     },
   },
 

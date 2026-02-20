@@ -5,8 +5,6 @@ import status from 'http-status';
 import { calculateTicketData } from '../../../../../../../../utils/calculateTicketData.helper';
 import { updateSessionIncome } from '../../../../../../../../utils/updateSessionIncome.helper';
 
-// ----------------------------------------------------------------------
-
 export async function GET(
   _: Request,
   context: {

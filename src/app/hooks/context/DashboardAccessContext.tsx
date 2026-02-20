@@ -83,19 +83,16 @@ export const DashboardAccessProvider = ({ children }: { children: React.ReactNod
   }, [isFetchingDashboardSession, refetchDashboardLoginSession, setRefetchMap]);
 
   useEffect(() => {
-    // If there's no session in localStorage, we're not checking anymore
     if (!session) {
       setIsCheckingSession(false);
       return;
     }
 
-    // If we're fetching, keep checking state true
     if (isFetchingDashboardSession) {
       setIsCheckingSession(true);
       return;
     }
 
-    // Once fetching is complete, we can stop checking
     setIsCheckingSession(false);
   }, [session, isFetchingDashboardSession]);
 
@@ -111,7 +108,6 @@ export const DashboardAccessProvider = ({ children }: { children: React.ReactNod
 
     if (isVersionMismatch || isExpired) {
       clearDashboardAccess();
-      setHasDashboardAccess(false);
       setPassword('');
       return;
     }
@@ -121,7 +117,6 @@ export const DashboardAccessProvider = ({ children }: { children: React.ReactNod
     const timeLeft = expiresAt - now;
     const timeoutId = setTimeout(() => {
       clearDashboardAccess();
-      setHasDashboardAccess(false);
       setPassword('');
     }, timeLeft);
 

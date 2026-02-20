@@ -1,7 +1,5 @@
 import { FirestoreTimestamp } from './firestore';
 
-// ----------------------------------------------------------------------
-
 export interface Expense {
   id: string;
   createdAt: FirestoreTimestamp;

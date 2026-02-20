@@ -7,8 +7,6 @@ import { Expense } from '@/types/expense';
 import { UserWithSession } from '@/types/user';
 import { NewExpenseInput } from '@/types/newExpenseInput';
 
-//-----------------------------------------------------------------------
-
 export const publicApiSlice = createApi({
   reducerPath: 'publicApi',
   baseQuery: fetchBaseQuery({
@@ -19,20 +17,21 @@ export const publicApiSlice = createApi({
     },
   }),
   tagTypes: ['Sessions', 'Tickets', 'Expenses', 'History'],
-  keepUnusedDataFor: 60, // Keep cached data for 60 seconds
 
   endpoints: (builder) => ({
-    // users
     getAllUsers: builder.query<User[], void>({
       query: () => 'users/',
       transformResponse: (response: { message: string; data: User[] }) => response.data,
     }),
+
     getUser: builder.query<User, string>({
       query: (userId) => `users/${userId}`,
     }),
+
     getUserSessions: builder.query<Session[], string>({
       query: (userId) => `users/${userId}/sessions/`,
     }),
+
     getUserSession: builder.query<Session, { userId: string; sessionId: string }>({
       query: ({ userId, sessionId }) => `users/${userId}/sessions/${sessionId}/`,
     }),
@@ -41,12 +40,13 @@ export const publicApiSlice = createApi({
       query: ({ userId, sessionId }) => `users/${userId}/sessions/${sessionId}/tickets/`,
       transformResponse: (reponse: { data: Ticket[] }) => reponse.data,
       providesTags: ['Tickets'],
-      keepUnusedDataFor: 45, // Keep ticket data cached longer
     }),
+
     getTicket: builder.query<Ticket, { userId: string; sessionId: string; ticketId: string }>({
       query: ({ userId, sessionId, ticketId }) =>
         `users/${userId}/sessions/${sessionId}/tickets/${ticketId}`,
     }),
+
     createTicket: builder.mutation<
       Ticket,
       {
@@ -62,6 +62,7 @@ export const publicApiSlice = createApi({
       }),
       invalidatesTags: ['Tickets', 'Sessions'],
     }),
+
     deleteTicket: builder.mutation<
       { id: string },
       { userId: string; sessionId: string; ticketId: string }
@@ -72,6 +73,7 @@ export const publicApiSlice = createApi({
       }),
       invalidatesTags: ['Tickets', 'Sessions'],
     }),
+
     updateTicket: builder.mutation<
       Ticket,
       {
@@ -96,7 +98,6 @@ export const publicApiSlice = createApi({
       query: (dateString) => `history/?date=${dateString}`,
       transformResponse: (response: { message: string; data: History[] }) => response.data,
       providesTags: ['History'],
-      keepUnusedDataFor: 30,
     }),
 
     createHistory: builder.mutation<void, Omit<History, 'id' | 'createdAt' | 'performedBy'>>({
@@ -108,7 +109,6 @@ export const publicApiSlice = createApi({
       invalidatesTags: ['History'],
     }),
 
-    // expenses
     getAllExpenses: builder.query<Expense[], void>({
       query: () => 'expenses/',
     }),
@@ -117,7 +117,6 @@ export const publicApiSlice = createApi({
       query: (dateString) => `expenses/?date=${dateString}`,
       transformResponse: (res: { message: string; data: Expense[] }) => res.data,
       providesTags: ['Expenses'],
-      keepUnusedDataFor: 45,
     }),
 
     createExpense: builder.mutation<Expense, NewExpenseInput>({
@@ -149,7 +148,6 @@ export const publicApiSlice = createApi({
       invalidatesTags: ['Expenses'],
     }),
 
-    // session
     createSession: builder.mutation<
       Session,
       { userId: string; data: { date: string; timeZone: string } }
@@ -185,10 +183,8 @@ export const publicApiSlice = createApi({
       query: ({ date, timeZone }) => `sessions/?date=${date}&timeZone=${timeZone}`,
       transformResponse: (response: { message: string; data: UserWithSession[] }) => response.data,
       providesTags: ['Sessions'],
-      keepUnusedDataFor: 30, // Keep session data for 30 seconds for quick navigation
     }),
 
-    //login
     validateDashboardPassword: builder.mutation<
       { success: boolean; message: string; version: string },
       { password: string }
@@ -200,7 +196,6 @@ export const publicApiSlice = createApi({
       }),
     }),
 
-    //login session check
     getDashboardSession: builder.query<
       {
         success: boolean;
@@ -240,6 +235,5 @@ export const {
   useDeleteExpenseMutation,
   useGetExpensesByDateQuery,
   useValidateDashboardPasswordMutation,
-
   useGetDashboardSessionQuery,
 } = publicApiSlice;

@@ -1,4 +1,3 @@
-// app/api/sessions/route.ts
 import { firestore } from '@/lib/firebase';
 import { collection, getDocs, query, where, Timestamp } from 'firebase/firestore';
 import { NextResponse } from 'next/server';
@@ -12,9 +11,6 @@ import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
 dayjs.extend(utc);
 dayjs.extend(timezone);
-
-
-// ----------------------------------------------------------------------
 
 export async function GET(req: Request) {
   const authHeader = req.headers.get('authorization');
@@ -51,7 +47,6 @@ export async function GET(req: Request) {
 
     start = startDate.startOf('day').utc().toDate();
     end = endDate.endOf('day').utc().toDate();
-
   } catch (err) {
     return NextResponse.json({ message: (err as Error).message }, { status: status.BAD_REQUEST });
   }

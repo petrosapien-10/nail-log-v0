@@ -1,7 +1,5 @@
 import { FirestoreTimestamp } from './firestore';
 
-// ----------------------------------------------------------------------
-
 export interface TicketPayment {
   amount: number;
   method: string;

@@ -3,8 +3,6 @@ import { collection, getDocs, query, where } from 'firebase/firestore';
 import { NextRequest, NextResponse } from 'next/server';
 import status from 'http-status';
 
-// ----------------------------------------------------------------------
-
 export async function GET(req: NextRequest) {
   const authHeader = req.headers.get('authorization');
   if (!authHeader || !authHeader.startsWith('Bearer ')) {

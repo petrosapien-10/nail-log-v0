@@ -4,8 +4,6 @@ import { NextResponse } from 'next/server';
 import status from 'http-status';
 import { Expense } from '@/types/expense';
 
-// ----------------------------------------------------------------------
-
 export async function GET(_: Request, context: { params: Promise<{ expenseId?: string }> }) {
   const { expenseId } = await context.params;
 
