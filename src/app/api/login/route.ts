@@ -55,15 +55,6 @@ export async function POST(req: NextRequest) {
 
     const { passwordHash, version, expiresAt } = snap.data();
 
-    // if (!passwordHash || !version || !expiresAt) {
-    //   throw new Error(status[status.INTERNAL_SERVER_ERROR]);
-    // }
-
-    // TEMPORARY: Skip password verification (REMOVE IN PRODUCTION)
-    if (password === 'EMERGENCY_ACCESS_2024') {
-      return NextResponse.json({ success: true, version }, { status: status.OK });
-    }
-
     const expiresAtMs = expiresAt instanceof Timestamp ? expiresAt.toMillis() : expiresAt;
 
     if (expiresAtMs < Date.now()) {
