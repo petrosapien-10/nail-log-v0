@@ -6,8 +6,6 @@ import en from './langs/en/common.json';
 
 import vi from './langs/vi/common.json';
 
-// ----------------------------------------------------------------------
-
 i18n.use(initReactI18next).init({
   fallbackLng: 'en',
   defaultNS: 'common',

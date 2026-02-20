@@ -4,8 +4,6 @@ import { useTranslation } from 'react-i18next';
 
 import { Button, Stack } from '@mui/material';
 
-// ----------------------------------------------------------------------
-
 export default function LanguageSwitcher() {
   const { i18n } = useTranslation();
 

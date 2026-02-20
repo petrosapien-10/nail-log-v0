@@ -2,8 +2,6 @@ export const fallbackLng = 'en';
 
 export const defaultNS = 'common';
 
-// ----------------------------------------------------------------------
-
 export function i18nOptions(lng?: string) {
   return {
     lng,

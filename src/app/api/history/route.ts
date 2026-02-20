@@ -3,8 +3,6 @@ import { collection, getDocs, query, where, Timestamp, addDoc } from 'firebase/f
 import { NextResponse } from 'next/server';
 import status from 'http-status';
 
-// ----------------------------------------------------------------------
-
 export async function GET(req: Request) {
   try {
     const { searchParams } = new URL(req.url);
@@ -40,8 +38,6 @@ export async function GET(req: Request) {
     return NextResponse.json({ message: (error as Error).message }, { status: errorStatus });
   }
 }
-
-// ----------------------------------------------------------------------
 
 export async function POST(req: Request) {
   try {

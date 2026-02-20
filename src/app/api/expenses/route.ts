@@ -3,9 +3,6 @@ import { collection, getDocs, query, where, Timestamp, addDoc } from 'firebase/f
 import { NextResponse } from 'next/server';
 import status from 'http-status';
 
-// ----------------------------------------------------------------------
-
-// Helpers
 async function getAllExpenses() {
   const expensesRef = collection(firestore, 'expenses');
   const snapshot = await getDocs(expensesRef);
@@ -32,8 +29,6 @@ async function getExpensesByDate(dateParam: string) {
   const snapshot = await getDocs(expensesQuery);
   return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 }
-
-// ----------------------------------------------------------------------
 
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
@@ -63,8 +58,6 @@ export async function GET(req: Request) {
     );
   }
 }
-
-// ----------------------------------------------------------------------
 
 export async function POST(req: Request) {
   try {

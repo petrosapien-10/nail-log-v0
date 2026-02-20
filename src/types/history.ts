@@ -1,7 +1,5 @@
 import { FirestoreTimestamp } from './firestore';
 
-// ----------------------------------------------------------------------
-
 export enum HistoryActionType {
   CheckIn = 'checkIn',
   CheckOut = 'checkOut',

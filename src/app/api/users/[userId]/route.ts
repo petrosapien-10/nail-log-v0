@@ -3,8 +3,6 @@ import { doc, getDoc } from 'firebase/firestore';
 import { NextResponse } from 'next/server';
 import status from 'http-status';
 
-// ----------------------------------------------------------------------
-
 export async function GET(_: Request, context: { params: Promise<{ userId?: string }> }) {
   const { userId } = await context.params;
 

@@ -103,7 +103,6 @@ export const secureApiSlice = createApi({
       providesTags: ['AdminExpenses'],
     }),
 
-    //dashboar password
     createDashboardPassword: builder.mutation<
       { success: boolean; message: string; updatedAt: number; version: string },
       { password: string }

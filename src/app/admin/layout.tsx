@@ -17,7 +17,6 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       <Box
         sx={{
           minHeight: '100vh',
-          width: '100%',
           background: `linear-gradient(180deg, ${theme.palette.background.default} 0%, #f1f5f9 50%, #e2e8f0 100%)`,
         }}
       >

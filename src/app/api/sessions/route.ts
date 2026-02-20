@@ -13,8 +13,6 @@ import timezone from 'dayjs/plugin/timezone';
 dayjs.extend(utc);
 dayjs.extend(timezone);
 
-// ----------------------------------------------------------------------
-
 export async function GET(req: Request) {
   const { searchParams } = new URL(req.url);
   const dateParam = searchParams.get('date');

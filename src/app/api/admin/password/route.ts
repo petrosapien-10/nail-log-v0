@@ -1,12 +1,8 @@
-// route: /api/admin/password/validate/route.ts
-
 import { firestore } from '@/lib/firebase';
 import { doc, getDoc, setDoc, Timestamp, updateDoc } from 'firebase/firestore';
 import { NextRequest, NextResponse } from 'next/server';
 import status from 'http-status';
 import bcrypt from 'bcrypt';
-
-//-----------------------------------------------------------------------
 
 const SALT_ROUNDS = 10;
 const SESSION_DURATION_MS = 7 * 24 * 60 * 60 * 1000; // 7 days

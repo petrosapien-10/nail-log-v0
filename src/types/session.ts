@@ -1,7 +1,5 @@
 import { FirestoreTimestamp } from './firestore';
 
-// ----------------------------------------------------------------------
-
 export interface Session {
   id: string;
   date: FirestoreTimestamp;

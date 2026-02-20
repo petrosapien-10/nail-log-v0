@@ -2,8 +2,6 @@ import { FirestoreTimestamp } from './firestore';
 import { Session } from './session';
 import { Ticket } from './ticket';
 
-// ----------------------------------------------------------------------
-
 export interface LiteUser {
   id: string;
   name: string;

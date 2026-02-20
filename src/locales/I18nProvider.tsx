@@ -10,14 +10,10 @@ import type { LanguageValue } from './config-locales';
 
 import 'src/locales/i18n';
 
-// ----------------------------------------------------------------------
-
 type Props = {
   lang?: LanguageValue;
   children: React.ReactNode;
 };
-
-// ----------------------------------------------------------------------
 
 export function I18nProvider({ lang, children }: Props) {
   useEffect(() => {

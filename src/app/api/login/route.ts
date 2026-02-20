@@ -4,8 +4,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import status from 'http-status';
 import bcrypt from 'bcrypt';
 
-//-----------------------------------------------------------------------
-
 export async function GET() {
   try {
     const ref = doc(firestore, 'settings', 'dashboardAccess');
@@ -35,8 +33,6 @@ export async function GET() {
     return NextResponse.json({ message: errorMessage }, { status: errorStatus });
   }
 }
-
-//-----------------------------------------------------------------------
 
 export async function POST(req: NextRequest) {
   try {
