@@ -6,7 +6,6 @@ import EditIcon from '@mui/icons-material/Edit';
 import { UserWithSession } from '@/types/user';
 import { TimeEditType } from '@/types/timeEdit';
 import { useTranslate } from '../../../locales/hooks/useTranslate';
-import StarIcon from '@mui/icons-material/Star';
 import { useTheme } from '@mui/material/styles';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
@@ -191,17 +190,15 @@ const UserCard = ({
         },
       }}
     >
-      {/* Avatar + Name + staricon + deleteicon*/}
+      {/* Avatar + Name + delete icon */}
       <Box display="flex" alignItems="center" justifyContent="space-between" px={6}>
-        {/* Left side: avatar + name + star */}
+        {/* Left side: avatar + name */}
         <Box display="flex" alignItems="center" gap={3}>
           <Avatar src={user.image} sx={{ width: 64, height: 64 }} />
 
           <Typography variant="h2" fontWeight={400}>
             {user.name}
           </Typography>
-
-          {session.dailyBonusIncome > 0 && <StarIcon fontSize="large" sx={{ color: '#F9CB23' }} />}
         </Box>
 
         {/* Right side: delete button */}
@@ -217,10 +214,10 @@ const UserCard = ({
         p={1}
         gap={1}
       >
-        <IncomeBox label={t('dashboard.user_card.basic_income')} value={session.basicIncome} />
-        <IncomeBox label={t('dashboard.user_card.shard_bonus')} value={session.ticketBonusIncome} />
+        <IncomeBox label={t('basic_income')} value={session.basicIncome} />
+        <IncomeBox label={t('shared_bonus')} value={session.ticketBonusIncome} />
         <IncomeBox
-          label={t('dashboard.user_card.daily_bonus')}
+          label={t('daily_bonus')}
           value={session.dailyBonusIncome}
           highlighted={session.dailyBonusIncome > 0}
         />
@@ -270,7 +267,7 @@ const UserCard = ({
           }}
           onClick={onAddTicket}
         >
-          {t('dashboard.user_card.add_ticket_button')}
+          {t('add_ticket')}
         </Button>
 
         <Button
@@ -294,7 +291,7 @@ const UserCard = ({
           }}
           onClick={onViewTickets}
         >
-          {t('dashboard.user_card.view_tickets_button')}
+          {t('view_tickets')}
         </Button>
 
         <Button
@@ -318,7 +315,7 @@ const UserCard = ({
           {isCheckingOut ? (
             <CircularProgress size={16} color="inherit" />
           ) : (
-            t('dashboard.user_card.check_out_button')
+            t('check_out')
           )}
         </Button>
       </Box>

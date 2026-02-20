@@ -55,16 +55,16 @@ export default function AdminSignOutButton() {
         }}
       >
         <LogoutIcon fontSize="small" />
-        {t('admin.sign_out_button')}
+        {t('sign_out')}
       </Button>
 
       <ConfirmModal
         open={openConfirm}
         onClose={() => setOpenConfirm(false)}
         onConfirm={handleSignOut}
-        description={t('sign_out.confirm_message')}
-        confirmText={t('sign_out.confirm_button')}
-        cancelText={t('sign_out.cancel_button')}
+        description={t('are_you_sure_you_want_to_sign_out')}
+        confirmText={t('sign_out')}
+        cancelText={t('cancel')}
         isLoading={isSigningOut}
       />
     </>

@@ -1,6 +1,7 @@
 'use client';
 
-import { Box, Container } from '@mui/material';
+import { Box, Chip, Container } from '@mui/material';
+import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import { useNavbarContext } from '../hooks/context/navbar-context';
 import DateSelector from '../admin/components/DateSelector';
 import CheckInButton from '../dashboard/components/CheckInButton';
@@ -116,6 +117,7 @@ type UserDashboardNavbarProps = {
   openUserModal: () => void;
   openHistoryModal: () => void;
   handleRefreshData: () => void;
+  isAdminUser: boolean;
 };
 
 function UserDashboardNavbar({
@@ -126,25 +128,41 @@ function UserDashboardNavbar({
   openUserModal,
   openHistoryModal,
   handleRefreshData,
+  isAdminUser,
 }: UserDashboardNavbarProps) {
   return (
-    <Box
-      display="flex"
-      alignItems="center"
-      justifyContent="space-between"
-      flexDirection={{ xs: 'column', sm: 'row' }}
-      gap={{ xs: 2, sm: 0 }}
-    >
-      <DateSelector
-        selectedDate={selectedDate}
-        onChange={(date, dateString) => setSelectedDate(date.toDate(), dateString)}
-      />
-      <Box display="flex" gap={4} flexWrap="wrap">
-        <RefreshButton onClick={handleRefreshData} isLoading={isRefreshing} />
-        <CheckInButton onClick={openUserModal} isReadOnly={isReadOnly} />
-        <HistoryButton onClick={openHistoryModal} />
+    <>
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+        flexDirection={{ xs: 'column', sm: 'row' }}
+        gap={{ xs: 2, sm: 0 }}
+      >
+        <DateSelector
+          selectedDate={selectedDate}
+          onChange={(date, dateString) => setSelectedDate(date.toDate(), dateString)}
+        />
+        <Box display="flex" gap={2} flexWrap="wrap">
+          <RefreshButton onClick={handleRefreshData} isLoading={isRefreshing} />
+          <CheckInButton onClick={openUserModal} isReadOnly={isReadOnly} />
+          <HistoryButton onClick={openHistoryModal} />
+        </Box>
       </Box>
-    </Box>
+
+      {isAdminUser && (
+        <Box mt={2} display="flex" justifyContent="flex-end">
+          <Chip
+            label="Admin mode"
+            size="small"
+            color="warning"
+            variant="outlined"
+            icon={<AdminPanelSettingsOutlinedIcon fontSize="small" />}
+            sx={{ fontWeight: 600 }}
+          />
+        </Box>
+      )}
+    </>
   );
 }
 
@@ -231,6 +249,7 @@ export default function Navbar() {
           openUserModal={openUserModal}
           openHistoryModal={openHistoryModal}
           handleRefreshData={handleRefreshSessionsAndExpensesData}
+          isAdminUser={isAuthenticated && isAdmin}
         />
       )}
     </Container>

@@ -13,7 +13,10 @@ import {
   InputAdornment,
   TextField,
   CircularProgress,
+  Chip,
+  Typography,
 } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 import {
   useGetExpensesByDateQuery,
   useDeleteExpenseMutation,
@@ -28,7 +31,7 @@ import { handleNumberInputKeyDown } from '@/utils/handleNumberInputKeyDown';
 import { sanitizeAmount } from '@/utils/sanitizeAmount';
 import { useTranslate } from '@/locales/hooks/useTranslate';
 import { HistoryActionType } from '@/types/history';
-import { useTheme } from '@mui/material/styles';
+import { alpha, useTheme } from '@mui/material/styles';
 import { YYYYMMDD } from '@/types/date';
 
 const DATE_FORMAT = 'YYYY-MM-DD';
@@ -126,10 +129,10 @@ export default function ExpensesModal({
         logAction(HistoryActionType.EditExpense, 'Edited expense(s)', undefined);
       }
 
-      onSuccess(t('dashboard.stat_card.total_expenses.update_expense_success'));
+      onSuccess(t('expense_updated_successfully'));
       onClose();
     } catch {
-      onError(t('dashboard.stat_card.total_expenses.update_expense_fail'));
+      onError(t('failed_to_update_expense'));
     }
   };
 
@@ -138,10 +141,10 @@ export default function ExpensesModal({
     try {
       await deleteExpense(expenseToDelete.id).unwrap();
       setExpenseToDelete(null);
-      onSuccess(t('dashboard.stat_card.total_expenses.delete_expense_success'));
+      onSuccess(t('expense_deleted_successfully'));
       logAction(HistoryActionType.DeleteExpense, 'Deleted expense', undefined);
     } catch {
-      onError(t('dashboard.stat_card.total_expenses.delete_expense_fail'));
+      onError(t('failed_to_delete_expense'));
     }
   };
 
@@ -185,9 +188,12 @@ export default function ExpensesModal({
           edge="end"
           aria-label="delete"
           sx={{
-            border: '1px solid rgba(0, 0, 0, 0.2)',
-            borderRadius: '8px',
-            padding: '8px',
+            width: 40,
+            height: 40,
+            borderRadius: 2,
+            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+            backgroundColor: theme.palette.secondary.main,
+            color: theme.palette.text.primary,
           }}
         >
           <DeleteOutlinedIcon fontSize="medium" />
@@ -213,7 +219,7 @@ export default function ExpensesModal({
             return updated;
           })
         }
-        placeholder={t('dashboard.stat_card.total_expenses.description_placeholder')}
+        placeholder={t('write_the_new_expense_here')}
         variant="outlined"
         size="small"
         sx={{ flexGrow: 1 }}
@@ -237,32 +243,48 @@ export default function ExpensesModal({
           },
         }}
       />
-      <IconButton
-        disabled={isReadOnly}
-        onClick={() => setNewExpenses((prev) => prev.filter((_, i) => i !== index))}
-        edge="end"
-        aria-label="delete"
-        sx={{
-          width: 40,
-          height: 40,
-          borderRadius: 2,
-          boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
-          backgroundColor: theme.palette.secondary.main,
-          color: theme.palette.text.primary,
-        }}
-      >
-        <DeleteOutlinedIcon fontSize="medium" />
-      </IconButton>
+      {!(expenses.length === 0 && newExpenses.length === 1) && (
+        <IconButton
+          disabled={isReadOnly}
+          onClick={() => setNewExpenses((prev) => prev.filter((_, i) => i !== index))}
+          edge="end"
+          aria-label="delete"
+          sx={{
+            width: 40,
+            height: 40,
+            borderRadius: 2,
+            boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+            backgroundColor: theme.palette.secondary.main,
+            color: theme.palette.text.primary,
+          }}
+        >
+          <DeleteOutlinedIcon fontSize="medium" />
+        </IconButton>
+      )}
     </Stack>
   ));
 
   return (
     <Dialog open={open} onClose={handleCancel} fullWidth maxWidth="sm">
-      <DialogTitle variant="h3" fontWeight="bold" sx={{ px: 4, pt: 6 }}>
-        {t('dashboard.stat_card.total_expenses.add_expenses')}
+      <DialogTitle
+        variant="h3"
+        fontWeight="bold"
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          px: 4,
+          pt: 3,
+          pb: 1,
+        }}
+      >
+        {t('add_expenses')}
+        <IconButton onClick={handleCancel} aria-label="Close" size="small">
+          <CloseIcon fontSize="small" />
+        </IconButton>
       </DialogTitle>
 
-      <DialogContent sx={{ px: 4, py: 4 }}>
+      <DialogContent sx={{ px: 4 }}>
         <Stack spacing={2} sx={{ pt: 1, pb: 2 }}>
           {isLoading ? (
             <Box display="flex" justifyContent="center" py={4}>
@@ -274,56 +296,65 @@ export default function ExpensesModal({
               {renderedNewExpenses}
 
               <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-                <Button
+                <IconButton
                   disabled={isReadOnly}
-                  size="large"
                   onClick={() =>
                     setNewExpenses((prev) => [...prev, { description: '', amount: '' }])
                   }
-                  variant="contained"
-                  startIcon={<AddIcon />}
+                  aria-label={t('expense')}
                   sx={{
-                    backgroundColor: theme.palette.secondary.main,
+                    width: 48,
+                    height: 48,
+                    borderRadius: '50%',
+                    backgroundColor: theme.custom.colors.pink,
                     color: theme.palette.text.primary,
+                    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.15)',
+                    '&:hover': { backgroundColor: theme.palette.primary.light },
                   }}
                 >
-                  {t('dashboard.stat_card.total_expenses.expense_button')}
-                </Button>
+                  <AddIcon />
+                </IconButton>
               </Box>
 
               <Divider />
 
-              <Stack direction="row" spacing={2} alignItems="center">
-                <TextField
-                  value={t('dashboard.stat_card.total_expenses.total_label')}
-                  variant="standard"
-                  size="small"
-                  slotProps={{
-                    input: {
-                      readOnly: true,
-                      disableUnderline: true,
-                      sx: { fontWeight: 'bold' },
-                    },
-                  }}
-                  sx={{
-                    flexGrow: 1,
-                    maxWidth: 'calc(98% - 140px - 42px)',
-                  }}
-                />
-                <TextField
-                  value={totalExpenses}
-                  variant="outlined"
-                  size="small"
-                  sx={{ flexBasis: theme.spacing(15), flexShrink: 0 }}
-                  slotProps={{
-                    input: {
-                      readOnly: true,
-                      startAdornment: <InputAdornment position="start">€</InputAdornment>,
-                      sx: { fontWeight: 'bold' },
-                    },
-                  }}
-                />
-              </Stack>
+              <Box
+                sx={{
+                  borderRadius: 1.5,
+                  background: `linear-gradient(135deg, ${alpha(
+                    theme.palette.error.main,
+                    theme.custom.surfaces.balance.netBgStartOpacity
+                  )} 0%, ${alpha(
+                    theme.custom.colors.slateLight,
+                    theme.custom.surfaces.balance.netBgEndOpacity
+                  )} 100%)`,
+                  border: `1px solid ${alpha(
+                    theme.palette.error.main,
+                    theme.custom.surfaces.balance.netBorderOpacity
+                  )}`,
+                  px: 1.75,
+                  py: 1.1,
+                }}
+              >
+                <Stack direction="row" justifyContent="space-between" alignItems="center">
+                  <Typography variant="body2" fontWeight={900} color={theme.palette.error.main}>
+                    {t('total_expenses')}
+                  </Typography>
+                  <Chip
+                    size="medium"
+                    label={`€ ${Number(totalExpenses).toFixed(2)}`}
+                    sx={{
+                      backgroundColor: alpha(
+                        theme.palette.error.main,
+                        theme.custom.surfaces.balance.netChipBgOpacity
+                      ),
+                      color: theme.palette.error.main,
+                      fontWeight: 800,
+                      px: 0.5,
+                    }}
+                  />
+                </Stack>
+              </Box>
 
               <Stack direction="row" spacing={2}>
                 <Button
@@ -333,9 +364,12 @@ export default function ExpensesModal({
                   sx={{
                     backgroundColor: theme.palette.secondary.main,
                     color: theme.palette.text.primary,
+                    '&:hover': {
+                      backgroundColor: theme.palette.secondary.light,
+                    },
                   }}
                 >
-                  {t('dashboard.stat_card.total_expenses.cancel_button')}
+                  {t('cancel')}
                 </Button>
                 <Button
                   variant="contained"
@@ -351,7 +385,7 @@ export default function ExpensesModal({
                   {isUpdating || isCreating ? (
                     <CircularProgress size={18} color="inherit" />
                   ) : (
-                    t('dashboard.stat_card.total_expenses.save_button')
+                    t('save')
                   )}
                 </Button>
               </Stack>
@@ -361,7 +395,7 @@ export default function ExpensesModal({
       </DialogContent>
 
       <Dialog open={Boolean(expenseToDelete)} onClose={() => setExpenseToDelete(null)}>
-        <DialogTitle>{t('dashboard.stat_card.total_expenses.confirm_delete')}</DialogTitle>
+        <DialogTitle>{t('are_you_sure_you_want_to_delete_this_expense')}</DialogTitle>
         <DialogContent sx={{ p: 4 }}>
           <Stack spacing={2} direction="row" justifyContent="center">
             <Button
@@ -371,8 +405,11 @@ export default function ExpensesModal({
               onClick={() => setExpenseToDelete(null)}
               disabled={isDeleting}
               sx={{
-                backgroundColor: theme.palette.secondary.light,
+                backgroundColor: theme.palette.secondary.main,
                 color: theme.palette.text.primary,
+                '&:hover': {
+                  backgroundColor: theme.palette.secondary.light,
+                },
               }}
             >
               Cancel

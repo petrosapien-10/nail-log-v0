@@ -9,7 +9,7 @@ import {
   useDeleteUserMutation,
   useUpdateUserMutation,
 } from '@/app/store/secureApiSlice';
-import { Box, Button, CircularProgress, Container, Typography } from '@mui/material';
+import { Box, CircularProgress, Container, Typography, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useTranslate } from '@/locales/hooks/useTranslate';
 import { useTheme } from '@mui/material/styles';
@@ -105,12 +105,16 @@ export default function ProfilesPage() {
       };
 
       await createUser(payload).unwrap();
-      setSuccessMessage(t('profiles.add_user_success', { name: newEmployeeData.name }));
+      setSuccessMessage(
+        t('employee_name_has_been_added_successfully', { name: newEmployeeData.name })
+      );
 
       refetchUsers();
       setIsModalOpen(false);
     } catch {
-      setErrorMessage(t('profiles.add_user_fail', { name: newEmployeeData.name }));
+      setErrorMessage(
+        t('failed_to_add_employee_name_please_try_again', { name: newEmployeeData.name })
+      );
     }
   };
 
@@ -131,11 +135,15 @@ export default function ProfilesPage() {
 
       await updateUser({ userId: updatedUserData.id, data: userPayload }).unwrap();
 
-      setSuccessMessage(t('profiles.edit_user_success', { name: updatedUserData.name }));
+      setSuccessMessage(
+        t('employee_name_has_been_updated_successfully', { name: updatedUserData.name })
+      );
       refetchUsers();
       setIsModalOpen(false);
     } catch {
-      setErrorMessage(t('profiles.edit_user_fail', { name: updatedUserData.name }));
+      setErrorMessage(
+        t('failed_to_update_employee_name_please_try_again', { name: updatedUserData.name })
+      );
     }
   };
 
@@ -149,10 +157,10 @@ export default function ProfilesPage() {
 
     try {
       await deleteUser(userToDelete.id).unwrap();
-      setSuccessMessage(t('profiles.delete_user_success', { name: userToDelete.name }));
+      setSuccessMessage(t('user_name_was_deleted_successfully', { name: userToDelete.name }));
       refetchUsers();
     } catch {
-      setErrorMessage(t('profiles.delete_user_fail', { name: userToDelete.name }));
+      setErrorMessage(t('failed_to_delete_user_name', { name: userToDelete.name }));
     } finally {
       setIsConfirmModalOpen(false);
       setUserToDelete(null);
@@ -162,7 +170,7 @@ export default function ProfilesPage() {
   if (isError) {
     return (
       <Container sx={{ mt: 4 }}>
-        <Typography color="error">{t('profiles.failed_to_load_users')}</Typography>
+        <Typography color="error">{t('failed_to_load_users')}</Typography>
       </Container>
     );
   }
@@ -174,10 +182,14 @@ export default function ProfilesPage() {
         onClose={() => setIsConfirmModalOpen(false)}
         onConfirm={confirmDeleteUser}
         description={
-          userToDelete ? t('profiles.delete_confirm_description', { name: userToDelete.name }) : ''
+          userToDelete
+            ? t('are_you_sure_you_want_to_delete_name_this_action_cannot_be_undone', {
+                name: userToDelete.name,
+              })
+            : ''
         }
-        confirmText={t('profiles.confirm_button')}
-        cancelText={t('profiles.cancel_button')}
+        confirmText={t('confirm')}
+        cancelText={t('cancel')}
         isLoading={isDeleting}
       />
       <SnackbarMessage
@@ -228,23 +240,25 @@ export default function ProfilesPage() {
             pt={2}
             mb={2}
           >
-            <Typography variant="h3">{t('profiles.employee_list')}</Typography>
+            <Typography variant="h3">{t('employee_list')}</Typography>
 
-            <Button
-              variant="contained"
-              size="xxlarge"
-              startIcon={<AddIcon />}
+            <IconButton
               onClick={handleAddUser}
+              aria-label={t('employee')}
               sx={{
+                width: 52,
+                height: 52,
+                borderRadius: '50%',
                 backgroundColor: theme.custom.colors.darkPink,
                 color: theme.palette.text.primary,
+                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.15)',
                 '&:hover': {
                   backgroundColor: theme.palette.primary.light,
                 },
               }}
             >
-              {t('profiles.add_employee_button')}
-            </Button>
+              <AddIcon />
+            </IconButton>
           </Box>
 
           <Box

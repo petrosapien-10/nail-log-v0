@@ -1,15 +1,7 @@
 'use client';
 
 import React, { Suspense, useEffect, useMemo, useState, useCallback } from 'react';
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Container,
-  MenuItem,
-  Select,
-  Typography,
-} from '@mui/material';
+import { Box, Button, CircularProgress, Container, MenuItem, Select, Typography } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 import AddTicketModal from './components/AddTicketModal';
@@ -37,7 +29,6 @@ import {
 import { HistoryActionType } from '@/types/history';
 import { User } from '@/types/user';
 import { TimeEditType } from '@/types/timeEdit';
-import ViewBonusModal from './components/ViewBonusModal';
 import { UserWithSession } from '@/types/user';
 import { summarizeTicketPayments } from '@/utils/summarizeTicketPayments';
 import SalonIncomeViewModal from './components/SalonIncomeViewModal';
@@ -107,7 +98,6 @@ export default function Page() {
   const [isIncomeModalOpen, setIsIncomeModalOpen] = useState(false);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [isExpensesModalOpen, setIsExpensesModalOpen] = useState(false);
-  const [isViewBonusModalOpen, setIsViewBonusModalOpen] = useState(false);
   const [deletingSessionInfo, setDeletingSessionInfo] = useState<{
     userId: string;
     sessionId: string;
@@ -144,109 +134,122 @@ export default function Page() {
     userImage?: string;
   } | null>(null);
 
-  const logAction = useCallback(async (actionType: HistoryActionType, description: string, userId?: string) => {
-    try {
-      await createHistory({ actionType, description, userId }).unwrap();
-    } catch {
-      setErrorMessage(t('dashboard.alert.add_history_fail'));
-    }
-  }, [createHistory, t]);
+  const logAction = useCallback(
+    async (actionType: HistoryActionType, description: string, userId?: string) => {
+      try {
+        await createHistory({ actionType, description, userId }).unwrap();
+      } catch {
+        setErrorMessage(t('faild_to_add_history'));
+      }
+    },
+    [createHistory, t]
+  );
 
-  const handleUserCheckIn = useCallback((user: User) => {
-    setSuccessMessage(t('dashboard.alert.check_in_success', { name: user.name }));
-    logAction(HistoryActionType.CheckIn, `Checked in ${user.name}`, user.id);
-  }, [t, logAction]);
-  const handleUserCheckOut = useCallback(async (userId: string, sessionId: string, userName: string) => {
-    try {
-      setCheckingOutId(sessionId);
-      const checkOutTime = new Date().toTimeString().slice(0, 5);
+  const handleUserCheckIn = useCallback(
+    (user: User) => {
+      setSuccessMessage(t('name_checked_in_successfully', { name: user.name }));
+      logAction(HistoryActionType.CheckIn, `Checked in ${user.name}`, user.id);
+    },
+    [t, logAction]
+  );
+  const handleUserCheckOut = useCallback(
+    async (userId: string, sessionId: string, userName: string) => {
+      try {
+        setCheckingOutId(sessionId);
+        const checkOutTime = new Date().toTimeString().slice(0, 5);
 
-      await updateSessionTime({
+        await updateSessionTime({
+          userId,
+          sessionId,
+          data: { checkOut: checkOutTime },
+        }).unwrap();
+
+        setSuccessMessage(t('name_checked_out_successfully', { name: userName }));
+        logAction(HistoryActionType.CheckOut, `Checked out ${userName}`, userId);
+      } catch (error) {
+        const errorMessage =
+          error?.data?.message === 'INVALID_TIME_RANGE'
+            ? t('check_out_time_cannot_be_earlier_than_check_in_time')
+            : t('failed_to_check_out_for_name', { name: userName });
+
+        setErrorMessage(errorMessage);
+      } finally {
+        setCheckingOutId(null);
+      }
+    },
+    [updateSessionTime, t, logAction]
+  );
+  const handleViewTickets = useCallback(
+    (userId: string, sessionId: string, userName: string, userImage?: string) => {
+      setViewingTicketsInfo({ userId, sessionId, userName, userImage });
+    },
+    []
+  );
+  const handleEditTime = useCallback(
+    (
+      userId: string,
+      sessionId: string,
+      type: TimeEditType,
+      currentTime: string,
+      userName: string,
+      userImage?: string
+    ) => {
+      setEditingTimeInfo({
         userId,
         sessionId,
-        data: { checkOut: checkOutTime },
-      }).unwrap();
+        currentTime,
+        type,
+        userName,
+        userImage,
+      });
+    },
+    []
+  );
+  const handleSaveEditedTime = useCallback(
+    async (newTime: string) => {
+      if (!editingTimeInfo) return;
+      const { userId, sessionId, type, userName } = editingTimeInfo;
 
-      setSuccessMessage(t('dashboard.alert.check_out_success', { name: userName }));
-      logAction(HistoryActionType.CheckOut, `Checked out ${userName}`, userId);
-    } catch (error) {
-      const errorMessage =
-        error?.data?.message === 'INVALID_TIME_RANGE'
-          ? t('dashboard.alert.invalid_time_range')
-          : t('dashboard.alert.check_out_fail', { name: userName });
+      try {
+        await updateSessionTime({
+          userId,
+          sessionId,
+          data: {
+            [type === TimeEditType.CheckIn ? 'checkIn' : 'checkOut']: newTime,
+          },
+        }).unwrap();
 
-      setErrorMessage(errorMessage);
-    } finally {
-      setCheckingOutId(null);
-    }
-  }, [updateSessionTime, t, logAction]);
-  const handleViewTickets = useCallback((
-    userId: string,
-    sessionId: string,
-    userName: string,
-    userImage?: string
-  ) => {
-    setViewingTicketsInfo({ userId, sessionId, userName, userImage });
-  }, []);
-  const handleEditTime = useCallback((
-    userId: string,
-    sessionId: string,
-    type: TimeEditType,
-    currentTime: string,
-    userName: string,
-    userImage?: string
-  ) => {
-    setEditingTimeInfo({
-      userId,
-      sessionId,
-      currentTime,
-      type,
-      userName,
-      userImage,
-    });
-  }, []);
-  const handleSaveEditedTime = useCallback(async (newTime: string) => {
-    if (!editingTimeInfo) return;
-    const { userId, sessionId, type, userName } = editingTimeInfo;
+        setSuccessMessage(
+          t(
+            type === 'check-in'
+              ? 'check_in_time_edited_for_name_successfully'
+              : 'check_out_time_edited_for_name_successfully',
+            { name: userName }
+          )
+        );
+        logAction(
+          type === 'check-in' ? HistoryActionType.EditCheckIn : HistoryActionType.EditCheckOut,
+          `Edited ${type} time for ${userName}`,
+          userId
+        );
+      } catch (error) {
+        const errorMessage =
+          error?.data?.message === 'INVALID_TIME_RANGE'
+            ? t('check_out_time_cannot_be_earlier_than_check_in_time')
+            : t(
+                type === 'check-in'
+                  ? 'failed_to_edit_check_in_time_for_name'
+                  : 'failed_to_edit_check_out_time_for_name',
+                { name: userName }
+              );
 
-    try {
-      await updateSessionTime({
-        userId,
-        sessionId,
-        data: {
-          [type === TimeEditType.CheckIn ? 'checkIn' : 'checkOut']: newTime,
-        },
-      }).unwrap();
-
-      setSuccessMessage(
-        t(
-          type === 'check-in'
-            ? 'dashboard.alert.edit_check_in_success'
-            : 'dashboard.alert.edit_check_out_success',
-          { name: userName }
-        )
-      );
-      logAction(
-        type === 'check-in' ? HistoryActionType.EditCheckIn : HistoryActionType.EditCheckOut,
-        `Edited ${type} time for ${userName}`,
-        userId
-      );
-    } catch (error) {
-      const errorMessage =
-        error?.data?.message === 'INVALID_TIME_RANGE'
-          ? t('dashboard.alert.invalid_time_range')
-          : t(
-              type === 'check-in'
-                ? 'dashboard.alert.edit_check_in_fail'
-                : 'dashboard.alert.edit_check_out_fail',
-              { name: userName }
-            );
-
-      setErrorMessage(errorMessage);
-    } finally {
-      setEditingTimeInfo(null);
-    }
-  }, [editingTimeInfo, updateSessionTime, t, logAction]);
+        setErrorMessage(errorMessage);
+      } finally {
+        setEditingTimeInfo(null);
+      }
+    },
+    [editingTimeInfo, updateSessionTime, t, logAction]
+  );
 
   //Calculation
   const totalExpenses = useMemo(() => {
@@ -309,10 +312,10 @@ export default function Page() {
 
     try {
       await deleteSession({ userId, sessionId }).unwrap();
-      setSuccessMessage(t('dashboard.alert.delete_session_success', { name: userName }));
+      setSuccessMessage(t('session_deleted_successfully_for_name', { name: userName }));
       logAction(HistoryActionType.DeleteSession, `Deleted session for ${userName}`, userId);
     } catch {
-      setErrorMessage(t('dashboard.alert.delete_session_fail', { name: userName }));
+      setErrorMessage(t('failed_to_delete_session_for_name', { name: userName }));
     } finally {
       setIsConfirmModalOpen(false);
       setDeletingSessionInfo(null);
@@ -338,25 +341,23 @@ export default function Page() {
   const statCards = useMemo(
     () => [
       {
-        title: t('dashboard.stat_card.salon_income.title'),
+        title: t('net_income'),
         value: Number(incomeModalData.totalSalonIncome.toFixed(2)),
-        buttonLabel: t('dashboard.stat_card.total_bonus.view_button'),
+        buttonLabel: t('details'),
         onClick: () => setIsIncomeModalOpen(true),
       },
       {
-        title: t('dashboard.stat_card.total_basic_income'),
+        title: t('ticket_revenue'),
         value: totalBasicIncome,
       },
       {
-        title: t('dashboard.stat_card.total_bonus.title'),
+        title: t('staff_bonus'),
         value: Number(totalBonus.toFixed(2)),
-        buttonLabel: t('dashboard.stat_card.salon_income.view_button'),
-        onClick: () => setIsViewBonusModalOpen(true),
       },
       {
-        title: t('dashboard.stat_card.total_expenses.title'),
+        title: t('expenses'),
         value: Number(totalExpenses.toFixed(2)),
-        buttonLabel: t('dashboard.stat_card.total_expenses.add_button'),
+        buttonLabel: t('add'),
         onClick: () => setIsExpensesModalOpen(true),
       },
     ],
@@ -376,13 +377,6 @@ export default function Page() {
         open={isIncomeModalOpen}
         onClose={() => setIsIncomeModalOpen(false)}
         data={incomeModalData}
-      />
-      <ViewBonusModal
-        open={isViewBonusModalOpen}
-        onClose={() => setIsViewBonusModalOpen(false)}
-        totalSharedBonus={totalSharedBonus}
-        totalDailyBonus={totalDailyBonus}
-        totalBonus={totalBonus}
       />
       <ExpensesModal
         isReadOnly={isReadOnly}
@@ -416,10 +410,10 @@ export default function Page() {
           onCreate={async (userId, sessionId, userName, ticketData) => {
             const result = await handleCreateTicket(userId, sessionId, ticketData);
             if (result.success) {
-              setSuccessMessage(t('dashboard.alert.add_ticket_success', { name: userName }));
+              setSuccessMessage(t('ticket_created_for_name_successfully', { name: userName }));
               logAction(HistoryActionType.AddTicket, `Added ticket for ${userName}`, userId);
             } else {
-              setErrorMessage(t('dashboard.alert.add_ticket_fail', { name: userName }));
+              setErrorMessage(t('failed_to_add_ticket_for_name', { name: userName }));
             }
           }}
         />
@@ -469,13 +463,13 @@ export default function Page() {
         onConfirm={confirmDeleteSession}
         description={
           deletingSessionInfo
-            ? t('dashboard.session_delete_confirm_modal.delete_confirm', {
+            ? t('are_you_sure_you_want_to_delete_name_s_session', {
                 name: deletingSessionInfo.userName,
               })
             : ''
         }
-        confirmText={t('dashboard.session_delete_confirm_modal.delete')}
-        cancelText={t('dashboard.session_delete_confirm_modal.cancel')}
+        confirmText={t('delete')}
+        cancelText={t('cancel')}
         isLoading={isDeleting}
       />
 
@@ -535,10 +529,13 @@ export default function Page() {
           pt: 2,
         }}
       >
-        <Box pb={4} sx={{ 
-          backgroundColor: theme.custom.colors.slateLight, 
-          borderRadius: 2,
-        }}>
+        <Box
+          pb={4}
+          sx={{
+            backgroundColor: theme.custom.colors.slateLight,
+            borderRadius: 2,
+          }}
+        >
           <Box
             display="flex"
             justifyContent="space-between"
@@ -550,7 +547,7 @@ export default function Page() {
             sx={{}}
           >
             <Typography variant="h3" component="label" htmlFor="sort-select" fontWeight={700}>
-              {t('dashboard.team_and_income')}
+              {t('team_and_income')}
             </Typography>
 
             <Box
@@ -566,12 +563,13 @@ export default function Page() {
                 boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
                 transition: 'all 0.2s ease',
                 '&:hover': {
-                  boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
+                  boxShadow:
+                    '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
                 },
               }}
             >
               <Typography variant="h5" component="label">
-                {t('dashboard.sort')}
+                {t('sort_by')}
               </Typography>
 
               <Select

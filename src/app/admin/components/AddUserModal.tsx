@@ -29,8 +29,6 @@ import AvatarsModal from './AvatarsModal';
 import { ModalMode } from '@/types/modalMode';
 
 const DATE_FORMAT = 'YYYY-MM-DD';
-const BONUS_RATE_LIMIT = 99.99;
-
 type Avatar = {
   id: string;
   url: string;
@@ -242,25 +240,20 @@ export default function AddUserModal({
       const errors: Record<string, string> = {};
 
       if (!data.name.trim()) {
-        errors.name = t('profiles.form_error.name');
+        errors.name = t('name_is_required');
       }
 
-      const numberFields: (keyof FormData)[] = [
-        'ticketBonusRate',
-        'basicSalaryRate',
-        'dailyBonusMinThreshold',
-      ];
+      if (!data.basicSalaryRate.trim()) {
+        errors.basicSalaryRate = t('basic_salary_is_required');
+      }
 
-      numberFields.forEach((field) => {
-        const value = data[field] ?? '';
-        const num = parseFloat(value);
+      if (!data.ticketBonusRate.trim()) {
+        errors.ticketBonusRate = t('shared_bonus_rate_is_required');
+      }
 
-        if (isNaN(num) || num < 0) {
-          errors[field] = t('profiles.form_error.amount');
-        } else if (field === 'ticketBonusRate' && num > BONUS_RATE_LIMIT) {
-          errors[field] = t('profiles.form_error.bonus_rate');
-        }
-      });
+      if (!data.dailyBonusMinThreshold.trim()) {
+        errors.dailyBonusMinThreshold = t('daily_bonus_threshold_is_required');
+      }
 
       setFormErrors(errors);
       return errors;
@@ -350,15 +343,15 @@ export default function AddUserModal({
     label: string;
     field: keyof FormData;
   }[] = [
-    { component: PersonalInfoField, label: t('profiles.full_name_label'), field: 'name' },
-    { component: PersonalInfoField, label: t('profiles.phone_number_label'), field: 'phone' },
-    { component: DobField, label: t('profiles.dob_label'), field: 'dob' },
-    { component: PersonalInfoField, label: t('profiles.address_label'), field: 'address' },
-    { component: MoneyField, label: t('profiles.basic_salary_label'), field: 'basicSalaryRate' },
-    { component: BonusField, label: t('profiles.shared_bonus_label'), field: 'ticketBonusRate' },
+    { component: PersonalInfoField, label: t('full_name'), field: 'name' },
+    { component: PersonalInfoField, label: t('phone_number'), field: 'phone' },
+    { component: DobField, label: t('date_of_birth'), field: 'dob' },
+    { component: PersonalInfoField, label: t('address'), field: 'address' },
+    { component: MoneyField, label: t('basic_salary_per_hour'), field: 'basicSalaryRate' },
+    { component: BonusField, label: t('shared_bonus_rate'), field: 'ticketBonusRate' },
     {
       component: MoneyField,
-      label: t('profiles.daily_bonus_limit_label'),
+      label: t('limit_to_earn_a_daily_bonus'),
       field: 'dailyBonusMinThreshold',
     },
   ];
@@ -367,9 +360,9 @@ export default function AddUserModal({
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
       <DialogTitle sx={{ paddingTop: theme.spacing(4.5) }}>
         <Typography variant="h3" component="span" margin={1}>
-          {mode === ModalMode.Add && t('profiles.add_employee')}
-          {mode === ModalMode.Edit && t('profiles.edit_employee')}
-          {mode === ModalMode.View && t('profiles.view_employee')}
+          {mode === ModalMode.Add && t('add_employee')}
+          {mode === ModalMode.Edit && t('edit_employee')}
+          {mode === ModalMode.View && t('view_employee')}
         </Typography>
       </DialogTitle>
 
@@ -384,11 +377,11 @@ export default function AddUserModal({
             <Box display="flex" justifyContent="center" gap={2} mb={4} flexWrap="wrap">
               <Button
                 variant="contained"
-                size="xxlarge"
+                size="xxxlarge"
                 startIcon={<PhotoCameraIcon fontSize="small" />}
                 onClick={() => setIsAvatarModalOpen(true)}
                 sx={{
-                  backgroundColor: theme.palette.secondary.light,
+                  backgroundColor: theme.custom.colors.pink,
                   color: theme.palette.text.primary,
                   boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)',
                   px: 2,
@@ -397,12 +390,12 @@ export default function AddUserModal({
                   whiteSpace: 'nowrap',
                 }}
               >
-                {t('profiles.upload_photo_button')}
+                {t('select_avatar')}
               </Button>
 
               <Button
                 variant="contained"
-                size="xxlarge"
+                size="xxxlarge"
                 startIcon={<DeleteOutlineIcon fontSize="small" />}
                 onClick={() => handleChange('image', '')}
                 disabled={!formData.image}
@@ -416,7 +409,7 @@ export default function AddUserModal({
                   whiteSpace: 'nowrap',
                 }}
               >
-                {t('profiles.remove_photo_button')}
+                {t('remove_avatar')}
               </Button>
             </Box>
           )}
@@ -440,11 +433,17 @@ export default function AddUserModal({
         <Button
           onClick={handleClose}
           variant="contained"
-          color="secondary"
           size="medium"
           disabled={isLoading}
+          sx={{
+            backgroundColor: theme.palette.secondary.main,
+            color: theme.palette.text.primary,
+            '&:hover': {
+              backgroundColor: theme.palette.secondary.light,
+            },
+          }}
         >
-          {mode === ModalMode.View ? t('profiles.close_button') : t('profiles.cancel_button')}
+          {mode === ModalMode.View ? t('close') : t('cancel')}
         </Button>
 
         {mode !== ModalMode.View && (
@@ -453,9 +452,15 @@ export default function AddUserModal({
             variant="contained"
             size="medium"
             disabled={!isFormValid() || isLoading}
-            sx={{ backgroundColor: theme.custom.colors.pink, color: theme.palette.text.primary }}
+            sx={{
+              backgroundColor: theme.custom.colors.pink,
+              color: theme.palette.text.primary,
+              '&:hover': {
+                backgroundColor: theme.palette.primary.light,
+              },
+            }}
           >
-            {isLoading ? <CircularProgress size={24} color="inherit" /> : t('profiles.save_button')}
+            {isLoading ? <CircularProgress size={24} color="inherit" /> : t('save')}
           </Button>
         )}
       </DialogActions>

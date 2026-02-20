@@ -85,7 +85,7 @@ export default function EditTimeModal({
           }}
         >
           <Typography variant="h3" color="text.primary" fontWeight="bold">
-            {t('dashboard.user_card.edit_time_modal.title', { type: type })}
+            {t('edit_type_time', { type: type })}
           </Typography>
           <Box display="flex" alignItems="center" gap={1}>
             <Avatar src={userImage} sx={{ width: 40, height: 40 }} />

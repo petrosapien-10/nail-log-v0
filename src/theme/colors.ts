@@ -6,7 +6,7 @@ const colors = {
 
   lightPink: '#FFD6E1',
   pink: '#FCC6D6',
-  darkPink: '#F895B3',
+  darkPink: '#FAB1C7',
 
   lightGrey: '#F1F5F9',
   grey: '#E2E8F0',
@@ -21,6 +21,9 @@ const colors = {
   mint: '#E8FFE9',
 
   yellow: '#F9CB23',
+
+  // Accents
+  cardAccent: '#9B8AFB',
 };
 
 export default colors;

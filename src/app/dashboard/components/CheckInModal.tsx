@@ -95,19 +95,26 @@ export default function CheckInModal({
       }}
     >
       {!isCreating && (
-        <DialogTitle variant="h3" mt={2} ml={3}>
-          {t('dashboard.add_user_modal.choose_your_profile_message')}
+        <DialogTitle
+          variant="h3"
+          sx={{
+            px: 4,
+            pt: 3,
+            pb: 1,
+          }}
+        >
+          {t('choose_your_profile')}
         </DialogTitle>
       )}
 
-      <DialogContent>
+      <DialogContent sx={{ px: 4 }}>
         {isCreating ? (
           <Box display="flex" justifyContent="center" py={4}>
             <CircularProgress size={40} sx={{ color: theme.palette.text.primary }} />
           </Box>
         ) : users.length === 0 ? (
           <Typography textAlign="center" mt={2}>
-            {t('dashboard.add_user_modal.all_profiles_are_checked_in_message')}
+            {t('all_profiles_have_been_checked_in')}
           </Typography>
         ) : (
           <Box
@@ -139,13 +146,13 @@ export default function CheckInModal({
         onConfirm={handleConfirmCheckIn}
         description={
           confirmUser
-            ? t('dashboard.check_in_comfirm_modal.check_in_confirm', {
+            ? t('do_you_want_to_check_in_name', {
                 name: confirmUser.name,
               })
             : ''
         }
-        confirmText={t('dashboard.check_in_comfirm_modal.confirm')}
-        cancelText={t('dashboard.check_in_comfirm_modal.cancel')}
+        confirmText={t('ok')}
+        cancelText={t('cancel')}
         isLoading={isConfirming}
       />
     </Dialog>

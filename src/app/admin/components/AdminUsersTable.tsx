@@ -179,7 +179,7 @@ export default function AdminUsersTable({ data, onView, isLoading }: AdminUsersT
                         },
                       }}
                     >
-                      <Typography variant="body2">{t('admin.view_button')}</Typography>
+                      <Typography variant="body2">{t('details')}</Typography>
                     </Button>
                   </TableCell>
                 </TableRow>

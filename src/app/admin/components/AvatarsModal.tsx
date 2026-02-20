@@ -50,7 +50,7 @@ export default function AvatarsModal({ isOpen, onClose, onSelect, avatars }: Ava
         }}
       >
         <Typography variant="h3" component="span">
-          {t('profiles.avatars_modal.title')}
+          {t('choose_a_profile_photo')}
         </Typography>
       </DialogTitle>
 
@@ -64,7 +64,7 @@ export default function AvatarsModal({ isOpen, onClose, onSelect, avatars }: Ava
       >
         {avatars.length === 0 ? (
           <Typography textAlign="center" mt={2}>
-            {t('profiles.avatars_modal.no_avatars_message')}
+            {t('no_avatars_available')}
           </Typography>
         ) : (
           <Box

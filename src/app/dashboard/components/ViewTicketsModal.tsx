@@ -157,7 +157,7 @@ export default function ViewTicketsModal({
   ) => {
     const result = await handleCreateTicket(userId, sessionId, ticketData);
     if (result.success) {
-      onSuccess(t('dashboard.alert.add_ticket_success', { name: userName }));
+      onSuccess(t('ticket_created_for_name_successfully', { name: userName }));
 
       const ticketNumber = sortedTickets.length + 1;
       logAction(
@@ -166,7 +166,7 @@ export default function ViewTicketsModal({
         userId
       );
     } else {
-      onError(t('dashboard.alert.add_ticket_fail', { name: userName }));
+      onError(t('failed_to_add_ticket_for_name', { name: userName }));
     }
   };
 
@@ -179,7 +179,7 @@ export default function ViewTicketsModal({
     setIsUpdating(true);
     try {
       await updateTicket({ userId, sessionId, ticketId, data: ticketData }).unwrap();
-      onSuccess(t('dashboard.alert.edit_ticket_success', { name: userName }));
+      onSuccess(t('ticket_edited_for_name_successfully', { name: userName }));
 
       const editedIndex = sortedTickets.findIndex((ticket) => ticket.id === ticketId);
 
@@ -194,7 +194,7 @@ export default function ViewTicketsModal({
       closeTicketModal();
       setTicketToEdit(null);
     } catch {
-      onError(t('dashboard.alert.edit_ticket_fail', { name: userName }));
+      onError(t('failed_to_edit_ticket_for_name', { name: userName }));
     } finally {
       setIsUpdating(false);
     }
@@ -210,7 +210,7 @@ export default function ViewTicketsModal({
     handleMenuClose();
     try {
       await deleteTicket({ userId, sessionId, ticketId: selectedTicketId }).unwrap();
-      onSuccess(t('dashboard.alert.delete_ticket_success', { name: userName }));
+      onSuccess(t('ticket_deleted_for_name_successfully', { name: userName }));
 
       logAction(
         HistoryActionType.DeleteTicket,
@@ -218,7 +218,7 @@ export default function ViewTicketsModal({
         userId
       );
     } catch {
-      onError(t('dashboard.alert.delete_ticket_fail', { name: userName }));
+      onError(t('failed_to_delete_ticket', { name: userName }));
     } finally {
       setIsDeleting(false);
     }
@@ -285,7 +285,7 @@ export default function ViewTicketsModal({
             }}
             onClick={openTicketModal}
           >
-            {t('dashboard.user_card.add_ticket_button')}
+            {t('add_ticket')}
           </Button>
 
           <Box
@@ -311,24 +311,12 @@ export default function ViewTicketsModal({
               <>
                 <CircularProgress size={20} />
                 <Typography variant="body2" color="textSecondary">
-                  {t('dashboard.user_card.view_tickets_modal.deleting')}
+                  {t('deleting')}
                 </Typography>
               </>
             )}
-            <IconButton
-              aria-label="close"
-              onClick={onClose}
-              sx={{
-                width: 40,
-                height: 40,
-                borderRadius: 2,
-                backgroundColor: theme.custom.colors.slateLight,
-                '&:hover': {
-                  backgroundColor: theme.custom.colors.grey,
-                },
-              }}
-            >
-              <CloseIcon />
+            <IconButton aria-label="Close" onClick={onClose} size="small">
+              <CloseIcon fontSize="small" />
             </IconButton>
           </Box>
         </Box>
@@ -343,7 +331,7 @@ export default function ViewTicketsModal({
           <Typography color="error">Failed to load tickets.</Typography>
         ) : tickets.length === 0 ? (
           <Typography textAlign="center" color="textSecondary" py={4}>
-            {t('dashboard.user_card.view_tickets_modal.empty_table_message')}
+            {t('no_tickets_added_yet_use_the_add_ticket_button_to_create_one')}
           </Typography>
         ) : (
           <>
@@ -376,40 +364,40 @@ export default function ViewTicketsModal({
                 >
                   <TableRow>
                     <TableCell rowSpan={2} sx={{ fontWeight: 'bold' }}>
-                      {t('dashboard.user_card.view_tickets_modal.ticket')} #
+                      {t('ticket')} #
                     </TableCell>
                     <TableCell rowSpan={2} sx={{ fontWeight: 'bold' }}>
-                      {t('dashboard.user_card.view_tickets_modal.create_time')}
+                      {t('created_time')}
                     </TableCell>
                     <TableCell rowSpan={2} sx={{ fontWeight: 'bold' }}>
-                      {t('dashboard.user_card.basic_income')} (€)
+                      {t('basic_income')} (€)
                     </TableCell>
                     <TableCell rowSpan={2} sx={{ fontWeight: 'bold' }}>
-                      {t('dashboard.user_card.view_tickets_modal.bonus_income')} (€)
+                      {t('bonus_income')} (€)
                     </TableCell>
                     <TableCell colSpan={5} align="center" sx={{ fontWeight: 'bold' }}>
-                      {t('dashboard.user_card.view_tickets_modal.payment_type')} (€)
+                      {t('payment_type')} (€)
                     </TableCell>
                     <TableCell rowSpan={2} sx={{ fontWeight: 'bold' }}>
-                      {t('dashboard.user_card.view_tickets_modal.actions')}
+                      {t('actions')}
                     </TableCell>
                   </TableRow>
 
                   <TableRow>
                     <TableCell sx={{ fontWeight: 'bold' }}>
-                      {t('dashboard.user_card.add_ticket_modal.cash')}
+                      {t('cash')}
                     </TableCell>
                     <TableCell sx={{ fontWeight: 'bold' }}>
-                      {t('dashboard.user_card.add_ticket_modal.card')}
+                      {t('card')}
                     </TableCell>
                     <TableCell sx={{ fontWeight: 'bold' }}>
-                      {t('dashboard.user_card.add_ticket_modal.treatwell')}
+                      {t('treatwell')}
                     </TableCell>
                     <TableCell sx={{ fontWeight: 'bold' }}>
-                      {t('dashboard.user_card.add_ticket_modal.gift_card')}
+                      {t('gift_card')}
                     </TableCell>
                     <TableCell sx={{ fontWeight: 'bold' }}>
-                      {t('dashboard.user_card.add_ticket_modal.others')}
+                      {t('others')}
                     </TableCell>
                   </TableRow>
                 </TableHead>
@@ -505,11 +493,11 @@ export default function ViewTicketsModal({
             >
               <MenuItem onClick={handleEdit}>
                 <EditIcon sx={{ marginRight: 1 }} />
-                {t('dashboard.user_card.view_tickets_modal.edit_button')}
+                {t('edit')}
               </MenuItem>
               <MenuItem onClick={handleDelete} sx={{ color: 'error.main' }}>
                 <DeleteIcon sx={{ marginRight: 1, color: 'error.main' }} />
-                {t('dashboard.user_card.view_tickets_modal.delete_button')}
+                {t('delete')}
               </MenuItem>
             </Menu>
           </>

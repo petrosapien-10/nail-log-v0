@@ -141,25 +141,25 @@ export default function AdminPage() {
   const adminStatCards = useMemo(
     () => [
       {
-        title: t('admin.admin_stat_card.salon_income'),
+        title: t('net_income'),
         value: totalSalonIncome,
-        buttonLabel: t('admin.view_button'),
+        buttonLabel: t('details'),
         onClick: () => setShowSalonIncomeModal(true),
       },
       {
-        title: t('admin.admin_stat_card.profit'),
+        title: t('profit'),
         value: profit,
       },
       {
-        title: t('admin.admin_stat_card.total_salary'),
+        title: t('salary'),
         value: totalSalary,
       },
       {
-        title: t('admin.admin_stat_card.total_shared_bonus'),
+        title: t('shared_bonus'),
         value: totalSharedBonus,
       },
       {
-        title: t('admin.admin_stat_card.total_daily_bonus'),
+        title: t('daily_bonus'),
         value: totalDailyBonus,
       },
     ],

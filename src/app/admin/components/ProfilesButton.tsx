@@ -31,7 +31,7 @@ export default function ProfilesButton({ onClick }: ProfilesButtonProps) {
       onClick={onClick}
     >
       <PeopleIcon fontSize="small" />
-      {t('admin.profiles_button')}
+      {t('profiles')}
     </Button>
   );
 }

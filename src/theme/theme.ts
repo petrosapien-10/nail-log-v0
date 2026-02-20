@@ -5,15 +5,34 @@ import '@fontsource/open-sans/500.css';
 import '@fontsource/open-sans/600.css';
 import '@fontsource/open-sans/700.css';
 
+const surfaces = {
+  payment: {
+    borderColor: colors.slateLight,
+    bgStartOpacity: 0.08,
+    bgEndOpacity: 0.1,
+    chipBgOpacity: 0.14,
+  },
+  balance: {
+    backgroundColor: colors.slateLight,
+    borderOpacity: 0.06,
+    netBgStartOpacity: 0.14,
+    netBgEndOpacity: 0.85,
+    netBorderOpacity: 0.35,
+    netChipBgOpacity: 0.16,
+  },
+};
+
 declare module '@mui/material/styles' {
   interface Theme {
     custom: {
       colors: typeof colors;
+      surfaces: typeof surfaces;
     };
   }
   interface ThemeOptions {
     custom?: {
       colors?: typeof colors;
+      surfaces?: typeof surfaces;
     };
   }
 }
@@ -23,12 +42,14 @@ declare module '@mui/material/Button' {
     xsmall: true;
     xlarge: true;
     xxlarge: true;
+    xxxlarge: true;
   }
 }
 
 export const theme = createTheme({
   custom: {
     colors,
+    surfaces,
   },
   typography: {
     fontFamily: ['OpenSans', 'Arial', 'Cambria'].join(','),
@@ -207,6 +228,15 @@ export const theme = createTheme({
             fontSize: '14px',
             padding: '8px',
             width: 118,
+            height: 40,
+          },
+        },
+        {
+          props: { size: 'xxxlarge' },
+          style: {
+            fontSize: '14px',
+            padding: '10px 18px',
+            width: 140,
             height: 40,
           },
         },

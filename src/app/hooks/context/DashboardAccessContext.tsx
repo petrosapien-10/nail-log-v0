@@ -149,21 +149,21 @@ export const DashboardAccessProvider = ({ children }: { children: React.ReactNod
     } catch (error) {
       switch (true) {
         case error?.status === status.UNAUTHORIZED:
-          setError(t('dashboard.login.error.unauthorized'));
+          setError(t('incorrect_password'));
           clearDashboardAccess();
           setHasDashboardAccess(false);
           break;
 
         case error?.status === status.BAD_REQUEST:
-          setError(t('dashboard.login.error.bad_request'));
+          setError(t('missing_or_invalid_input'));
           break;
 
         case error?.status === status.NOT_FOUND:
-          setError(t('dashboard.login.error.not_found'));
+          setError(t('dashboard_access_not_found'));
           break;
 
         default:
-          setError(t('dashboard.login.error.default'));
+          setError(t('something_went_wrong_refresh_the_page_and_try_again'));
           break;
       }
     } finally {
@@ -188,10 +188,10 @@ export const DashboardAccessProvider = ({ children }: { children: React.ReactNod
         <Box display="flex" justifyContent="center" alignItems="center" minHeight="80vh">
           <Paper elevation={3} sx={{ p: 4, maxWidth: 400, width: '100%' }}>
             <Typography variant="h3" mb={2}>
-              {t('dashboard.login.title')}
+              {t('enter_password_to_access_dashboard')}
             </Typography>
             <TextField
-              label={t('dashboard.login.password_label')}
+              label={t('password')}
               fullWidth
               type={showPassword ? 'text' : 'password'}
               value={password}
@@ -237,7 +237,7 @@ export const DashboardAccessProvider = ({ children }: { children: React.ReactNod
                   },
                 }}
               >
-                {isLoading ? <CircularProgress size={24} /> : t('dashboard.login.login_button')}
+                {isLoading ? <CircularProgress size={24} /> : t('login')}
               </Button>
             </Box>
           </Paper>

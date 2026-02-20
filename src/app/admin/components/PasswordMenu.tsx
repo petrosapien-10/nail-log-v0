@@ -12,6 +12,7 @@ import {
   Menu,
   MenuItem,
   CircularProgress,
+  IconButton,
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import { useTranslate } from '../../../locales/hooks/useTranslate';
@@ -22,6 +23,7 @@ import {
 
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import LockIcon from '@mui/icons-material/Lock';
+import CloseIcon from '@mui/icons-material/Close';
 import SnackbarMessage from '@/app/components/SnackBarMessage';
 import dayjs from 'dayjs';
 
@@ -75,13 +77,13 @@ export default function PasswordMenu({ onRefetchExpiryInfo }: PasswordMenuProps)
       const res = await createPassword({ password }).unwrap();
 
       if (res.success) {
-        setSnackbarMessage(t('admin.snackbar.create_password_success'));
+        setSnackbarMessage(t('new_password_created_successfully'));
         setSnackbarSeverity('success');
         handleClosePasswordModal();
         onRefetchExpiryInfo?.();
       }
     } catch {
-      setSnackbarMessage(t('admin.snackbar.create_password_error'));
+      setSnackbarMessage(t('failed_to_create_new_password_please_try_again'));
       setSnackbarSeverity('error');
     }
   };
@@ -91,12 +93,12 @@ export default function PasswordMenu({ onRefetchExpiryInfo }: PasswordMenuProps)
       const res = await extendSession().unwrap();
 
       if (res.success) {
-        setSnackbarMessage(t('admin.snackbar.extend_password_success'));
+        setSnackbarMessage(t('password_session_extended_successfully'));
         setSnackbarSeverity('success');
         onRefetchExpiryInfo?.();
       }
     } catch {
-      setSnackbarMessage(t('admin.snackbar.extend_password_error'));
+      setSnackbarMessage(t('failed_to_extend_password_session_please_try_again'));
       setSnackbarSeverity('error');
     }
 
@@ -116,7 +118,7 @@ export default function PasswordMenu({ onRefetchExpiryInfo }: PasswordMenuProps)
 
       <Button
         variant="contained"
-        size="xxlarge"
+        size="xxxlarge"
         onClick={handleMenuClick}
         sx={{
           backgroundColor: theme.custom.colors.darkPink,
@@ -131,7 +133,7 @@ export default function PasswordMenu({ onRefetchExpiryInfo }: PasswordMenuProps)
         }}
       >
         <LockIcon fontSize="small" />
-        {t('admin.password_button')}
+        {t('password')}
         <MoreHorizIcon fontSize="small" />
       </Button>
 
@@ -149,23 +151,31 @@ export default function PasswordMenu({ onRefetchExpiryInfo }: PasswordMenuProps)
         }}
       >
         <MenuItem onClick={handleOpenExtendModal} disabled={isExtending}>
-          {t('admin.extend_password')}
+          {t('renew')}
         </MenuItem>
-        <MenuItem onClick={handleOpenPasswordModal}>{t('admin.create_password')}</MenuItem>
+        <MenuItem onClick={handleOpenPasswordModal}>{t('set_password')}</MenuItem>
       </Menu>
 
       <Dialog open={passwordModalOpen} onClose={handleClosePasswordModal}>
-        <DialogTitle>
-          <Typography variant="h3" sx={{ pt: 2 }}>
-            {t('admin.create_password')}
-          </Typography>
+        <DialogTitle
+          variant="h3"
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          {t('set_password')}
+          <IconButton aria-label="Close" size="small" onClick={handleClosePasswordModal}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
         </DialogTitle>
 
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
-            label={t('admin.password_label')}
+            label={t('password')}
             fullWidth
             type="password"
             value={password}
@@ -173,7 +183,7 @@ export default function PasswordMenu({ onRefetchExpiryInfo }: PasswordMenuProps)
             disabled={isLoading}
           />
         </DialogContent>
-        <DialogActions sx={{ justifyContent: 'center', gap: 2, pb: 4 }}>
+        <DialogActions sx={{ justifyContent: 'center', gap: 2, pb: 4, px: 4 }}>
           <Button
             variant="contained"
             size="small"
@@ -182,9 +192,12 @@ export default function PasswordMenu({ onRefetchExpiryInfo }: PasswordMenuProps)
             sx={{
               backgroundColor: theme.palette.secondary.main,
               color: theme.palette.text.primary,
+              '&:hover': {
+                backgroundColor: theme.palette.secondary.light,
+              },
             }}
           >
-            {t('admin.cancel_button')}
+            {t('cancel')}
           </Button>
 
           <Button
@@ -195,44 +208,49 @@ export default function PasswordMenu({ onRefetchExpiryInfo }: PasswordMenuProps)
             sx={{
               backgroundColor: theme.custom.colors.pink,
               color: theme.palette.text.primary,
+              '&:hover': {
+                backgroundColor: theme.palette.primary.light,
+              },
             }}
           >
-            {isLoading ? (
-              <CircularProgress size={18} color="inherit" />
-            ) : (
-              t('admin.save_password_button')
-            )}
+            {isLoading ? <CircularProgress size={18} color="inherit" /> : t('save')}
           </Button>
         </DialogActions>
       </Dialog>
 
       <Dialog open={extendModalOpen} onClose={() => setExtendModalOpen(false)}>
-        <DialogTitle>
-          <Typography variant="h3" component="span" sx={{ pt: 2 }}>
-            {t('admin.extend_password')}
+        <DialogTitle
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
+        >
+          <Typography variant="h3" component="span">
+            {t('renew_dashboard_password_access')}
           </Typography>
+          <IconButton aria-label="Close" size="small" onClick={() => setExtendModalOpen(false)}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
         </DialogTitle>
 
         <DialogContent>
-          <Typography variant="h4" sx={{ marginTop: 2 }}>
-            {t('admin.password_expiration_text')}{' '}
-            <strong>
-              <strong>{dayjs().add(7, 'day').format('DD MMM YYYY, HH:mm')}</strong>
-            </strong>
+          <Typography variant="h5">
+            {t('password_will_expire_at')}{' '}
+            <strong>{dayjs().add(7, 'day').format('DD MMM YYYY, HH:mm')}</strong>
           </Typography>
 
           <Typography
             sx={{
               color: theme.palette.text.secondary,
-              marginTop: 1,
             }}
           >
             {' '}
-            {t('admin.warning_text')}
+            {t('renewing_will_make_it_valid_for_the_next_7_days_from_now')}
           </Typography>
         </DialogContent>
 
-        <DialogActions sx={{ justifyContent: 'center', gap: 2, pb: 4 }}>
+        <DialogActions sx={{ justifyContent: 'center', pb: 2 }}>
           <Button
             variant="contained"
             size="small"
@@ -241,9 +259,12 @@ export default function PasswordMenu({ onRefetchExpiryInfo }: PasswordMenuProps)
             sx={{
               backgroundColor: theme.palette.secondary.main,
               color: theme.palette.text.primary,
+              '&:hover': {
+                backgroundColor: theme.palette.secondary.light,
+              },
             }}
           >
-            {t('admin.cancel_button')}
+            {t('cancel')}
           </Button>
 
           <Button
@@ -257,13 +278,12 @@ export default function PasswordMenu({ onRefetchExpiryInfo }: PasswordMenuProps)
             sx={{
               backgroundColor: theme.custom.colors.pink,
               color: theme.palette.text.primary,
+              '&:hover': {
+                backgroundColor: theme.palette.primary.light,
+              },
             }}
           >
-            {isExtending ? (
-              <CircularProgress size={18} color="inherit" />
-            ) : (
-              t('admin.confirm_extend_password_button')
-            )}
+            {isExtending ? <CircularProgress size={18} color="inherit" /> : t('extend')}
           </Button>
         </DialogActions>
       </Dialog>

@@ -5,6 +5,7 @@ import {
   Box,
   Dialog,
   DialogTitle,
+  DialogContent,
   IconButton,
   Typography,
   Divider,
@@ -53,7 +54,7 @@ export default function HistoryModal({ open, onClose }: HistoryModalProps) {
 
   const formatCreatedAt = useCallback(
     (createdAt: { seconds: number; nanoseconds: number }) => {
-      if (!createdAt?.seconds) return t('dashboard.history_modal.invalid_date');
+      if (!createdAt?.seconds) return t('invalid_date');
 
       const logTime = dayjs.unix(createdAt.seconds);
       const now = dayjs();
@@ -89,81 +90,69 @@ export default function HistoryModal({ open, onClose }: HistoryModalProps) {
 
   return (
     <Dialog open={open} onClose={onClose} fullWidth maxWidth="sm">
-      <DialogTitle sx={{ p: 0 }}>
-        <Box pt={6} px={6} pb={2}>
-          <Box display="flex" justifyContent="flex-end" mb={3}>
-            <IconButton
-              aria-label="close"
-              onClick={onClose}
-              sx={{
-                width: 40,
-                height: 40,
-                borderRadius: 2,
-                backgroundColor: theme.custom.colors.slateLight,
-                '&:hover': {
-                  backgroundColor: theme.custom.colors.grey,
-                },
-              }}
-            >
-              <CloseIcon />
-            </IconButton>
-          </Box>
+      <DialogTitle
+        sx={{
+          px: 4,
+          pt: 3,
+          pb: 1,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 1.5,
+        }}
+      >
+        <Box display="flex" alignItems="center" justifyContent="space-between" gap={2}>
+          <Typography variant="h3" sx={{ flexShrink: 0 }}>
+            History
+          </Typography>
+          <IconButton aria-label="close" onClick={onClose} size="small" sx={{ flexShrink: 0 }}>
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </Box>
 
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            alignItems="center"
-            flexWrap="wrap"
-            gap={2}
-          >
-            <Box>
-              <Typography variant="h3">History</Typography>
-            </Box>
-
-            <DateSelector
-              selectedDate={selectedDate}
-              onChange={handleDateChange}
-              label="Pick the date"
-              format={DISPLAY_FORMAT}
-              sx={{
-                maxWidth: 205,
-                height: 48,
-                '& .MuiOutlinedInput-root': {
-                  borderRadius: '4px',
-                  height: '48px',
-                  backgroundColor: theme.palette.background.paper,
-                  border: `1px solid ${theme.palette.text.primary}`,
-                },
-                '& .MuiOutlinedInput-notchedOutline': {
-                  border: 'none',
-                },
-                '& .MuiInputBase-input': {
-                  fontSize: '14px',
-                  paddingTop: 1,
-                  paddingBottom: 0,
-                  height: '48px',
-                  display: 'flex',
-                  alignItems: 'center',
-                },
-              }}
-            />
-          </Box>
+        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+          <DateSelector
+            selectedDate={selectedDate}
+            onChange={handleDateChange}
+            label="Pick the date"
+            format={DISPLAY_FORMAT}
+            sx={{
+              maxWidth: 205,
+              height: 48,
+              '& .MuiOutlinedInput-root': {
+                borderRadius: '4px',
+                height: '48px',
+                backgroundColor: theme.palette.background.paper,
+                border: `1px solid ${theme.palette.text.primary}`,
+              },
+              '& .MuiOutlinedInput-notchedOutline': {
+                border: 'none',
+              },
+              '& .MuiInputBase-input': {
+                fontSize: '14px',
+                paddingTop: 1,
+                paddingBottom: 0,
+                height: '48px',
+                display: 'flex',
+                alignItems: 'center',
+              },
+            }}
+          />
         </Box>
       </DialogTitle>
 
-      <Box px={6} pt={2} pb={6} maxHeight="60vh" overflow="auto">
+      <DialogContent sx={{ px: 4, maxHeight: '60vh' }}>
         {isLoading ? (
-          <Box display="flex" justifyContent="center" py={2}>
+          <Box display="flex" justifyContent="center">
             <CircularProgress size={24} />
           </Box>
         ) : error ? (
-          <Typography color="error">{t('dashboard.history_modal.fail_to_load_message')}</Typography>
+          <Typography color="error">{t('failed_to_load_logs')}</Typography>
         ) : logs.length === 0 ? (
-          <Typography>{t('dashboard.history_modal.no_logs_message')}</Typography>
+          <Typography>{t('no_logs_found_for_this_date')}</Typography>
         ) : (
           renderSortedLogs(logs)
         )}
-      </Box>
+      </DialogContent>
     </Dialog>
   );
 }
