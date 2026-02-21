@@ -44,7 +44,7 @@ function AdminProfilesNavbar({
       gap={{ xs: 2, sm: 0 }}
     >
       <BackButton onClick={goToAdminPage} />
-      <Box display="flex" gap={4} flexWrap="wrap">
+      <Box display="flex" gap={2} flexWrap="wrap">
         <RefreshButton onClick={handleRefreshData} isLoading={isRefreshing} />
         <AdminSignOutButton />
       </Box>

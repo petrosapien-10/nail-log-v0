@@ -14,9 +14,11 @@ import {
   InputAdornment,
   CircularProgress,
   Typography,
+  IconButton,
 } from '@mui/material';
-import PhotoCameraIcon from '@mui/icons-material/PhotoCamera';
+import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
+import CloseIcon from '@mui/icons-material/Close';
 import { useTheme } from '@mui/material/styles';
 import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -358,12 +360,24 @@ export default function AddUserModal({
 
   return (
     <Dialog open={open} onClose={handleClose} fullWidth maxWidth="sm">
-      <DialogTitle sx={{ paddingTop: theme.spacing(4.5) }}>
+      <DialogTitle
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+          px: 4,
+          pt: theme.spacing(4.5),
+          pb: 1,
+        }}
+      >
         <Typography variant="h3" component="span" margin={1}>
           {mode === ModalMode.Add && t('add_employee')}
           {mode === ModalMode.Edit && t('edit_employee')}
           {mode === ModalMode.View && t('view_employee')}
         </Typography>
+        <IconButton onClick={handleClose} aria-label="Close" size="small">
+          <CloseIcon fontSize="small" />
+        </IconButton>
       </DialogTitle>
 
       <DialogContent>
@@ -378,7 +392,7 @@ export default function AddUserModal({
               <Button
                 variant="contained"
                 size="xxxlarge"
-                startIcon={<PhotoCameraIcon fontSize="small" />}
+                startIcon={<AddPhotoAlternateIcon fontSize="small" />}
                 onClick={() => setIsAvatarModalOpen(true)}
                 sx={{
                   backgroundColor: theme.custom.colors.pink,
