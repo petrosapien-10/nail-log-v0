@@ -150,12 +150,12 @@ export default function TabsBar() {
           setLoginOpen(false);
           setRedirectToAdmin(true);
 
-          setSnackMessage(t('sign_in.success_message'));
+          setSnackMessage(t('signed_in_successfully'));
           setSnackSeverity('success');
           setSnackOpen(true);
         }}
         onError={() => {
-          setSnackMessage(t('sign_in.fail_message'));
+          setSnackMessage(t('failed_to_sign_in'));
           setSnackSeverity('error');
           setSnackOpen(true);
         }}

@@ -17,9 +17,9 @@ export default function LogoutStatusHandler({ setSuccessMessage, setErrorMessage
 
   useEffect(() => {
     if (logoutStatus === 'success') {
-      setSuccessMessage(t('sign_out.success_message'));
+      setSuccessMessage(t('signed_out_successfully'));
     } else if (logoutStatus === 'fail') {
-      setErrorMessage(t('sign_out.fail_message'));
+      setErrorMessage(t('failed_to_sign_out'));
     }
 
     if (logoutStatus) {

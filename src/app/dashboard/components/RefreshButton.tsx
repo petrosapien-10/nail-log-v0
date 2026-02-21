@@ -36,7 +36,7 @@ export default function RefreshButton({ onClick, isLoading }: RefreshButtonProps
       ) : (
         <>
           <RefreshIcon fontSize="small" />
-          {t('dashboard.navbar.refresh_button')}
+          {t('refresh')}
         </>
       )}
     </Button>

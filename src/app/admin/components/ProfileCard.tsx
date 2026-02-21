@@ -136,14 +136,14 @@ export default function ProfileCard({ user, onEdit, onDelete }: ProfileCardProps
             <ListItemIcon>
               <EditIcon fontSize="small" />
             </ListItemIcon>
-            <ListItemText primary={t('profiles.edit_button')} />
+            <ListItemText primary={t('edit')} />
           </MenuItem>
 
           <MenuItem onClick={handleDelete} sx={{ color: theme.palette.error.main }}>
             <ListItemIcon>
               <DeleteOutlineIcon fontSize="small" sx={{ color: theme.palette.error.main }} />
             </ListItemIcon>
-            <ListItemText primary={t('profiles.delete_button')} />
+            <ListItemText primary={t('delete')} />
           </MenuItem>
         </Menu>
       </Box>
@@ -159,15 +159,15 @@ export default function ProfileCard({ user, onEdit, onDelete }: ProfileCardProps
 
       <Box display="flex" flexDirection="column" gap={1}>
         <InfoRow
-          label={t('profiles.card_basic_salary_label')}
+          label={t('basic_salary_per_hour')}
           value={`€ ${user.basicSalaryRate.toFixed(2)}`}
         />
         <InfoRow
-          label={t('profiles.card_shared_bonus_label')}
+          label={t('shared_bonus_rate_2')}
           value={`${(user.ticketBonusRate * 100).toFixed(2)} %`}
         />
         <InfoRow
-          label={t('profiles.card_daily_bonus_limit_label')}
+          label={t('limit_to_earn_a_daily_bonus_2')}
           value={`€ ${user.dailyBonusMinThreshold}`}
         />
       </Box>

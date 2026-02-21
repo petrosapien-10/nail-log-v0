@@ -228,8 +228,8 @@ export default function AddTicketModal({
         >
           <Typography variant="h3">
             {ticketToEdit
-              ? t('dashboard.user_card.edit_ticket_modal.title')
-              : t('dashboard.user_card.add_ticket_modal.title')}
+              ? t('edit_ticket')
+              : t('add_ticket')}
           </Typography>
 
           <Box display="flex" alignItems="center" gap={1}>
@@ -243,18 +243,18 @@ export default function AddTicketModal({
         <Box width={504} mx="auto">
           <Box display="flex" alignItems="center" gap={2} mb={3}>
             <Typography variant="h5" fontWeight={theme.typography.fontWeightBold}>
-              {t('dashboard.user_card.add_ticket_modal.sub_title')}
+              {t('amount_and_payment_methods')}
             </Typography>
           </Box>
 
           <Box display="flex" gap={4} mb={2}>
             <PaymentInput
-              label={t('dashboard.user_card.add_ticket_modal.cash')}
+              label={t('cash')}
               value={amounts[PaymentMethod.Cash]}
               onChange={(val) => handleAmountChange(PaymentMethod.Cash, val)}
             />
             <PaymentInput
-              label={t('dashboard.user_card.add_ticket_modal.card')}
+              label={t('card')}
               value={amounts[PaymentMethod.Card]}
               onChange={(val) => handleAmountChange(PaymentMethod.Card, val)}
             />
@@ -262,12 +262,12 @@ export default function AddTicketModal({
 
           <Box display="flex" gap={4} mb={2}>
             <PaymentInput
-              label={t('dashboard.user_card.add_ticket_modal.treatwell')}
+              label={t('treatwell')}
               value={amounts[PaymentMethod.Treatwell]}
               onChange={(val) => handleAmountChange(PaymentMethod.Treatwell, val)}
             />
             <PaymentInput
-              label={t('dashboard.user_card.add_ticket_modal.gift_card')}
+              label={t('gift_card')}
               value={amounts[PaymentMethod.GiftCard]}
               onChange={(val) => handleAmountChange(PaymentMethod.GiftCard, val)}
             />
@@ -275,7 +275,7 @@ export default function AddTicketModal({
 
           <Box display="flex" alignItems="center" gap={2.8} flex={1} mb={2}>
             <Typography width={80} variant="body1">
-              {t('dashboard.user_card.add_ticket_modal.others')}
+              {t('others')}
             </Typography>
 
             <TextField
@@ -325,7 +325,7 @@ export default function AddTicketModal({
 
           <Box mt={3} display="flex" alignItems="center" gap={2}>
             <Typography variant="h5" fontWeight="bold">
-              {t('dashboard.user_card.add_ticket_modal.bonus_button')}
+              {t('bonus')}
             </Typography>
 
             <Switch
@@ -353,14 +353,13 @@ export default function AddTicketModal({
             sx={{
               backgroundColor: theme.palette.secondary.main,
               color: theme.palette.text.primary,
-              border: `0.5px solid ${theme.palette.text.primary}`,
               '&:hover': {
                 backgroundColor: theme.palette.secondary.light,
               },
               fontSize: theme.typography.body1.fontSize,
             }}
           >
-            {t('dashboard.user_card.add_ticket_modal.cancel_button')}
+            {t('cancel')}
           </Button>
           <Button
             onClick={handleSave}
@@ -378,7 +377,7 @@ export default function AddTicketModal({
             {isLoading ? (
               <CircularProgress size={24} color="inherit" />
             ) : (
-              t('dashboard.user_card.add_ticket_modal.save_button')
+              t('save')
             )}
           </Button>
         </Box>

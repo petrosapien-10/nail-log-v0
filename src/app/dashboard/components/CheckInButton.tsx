@@ -37,7 +37,7 @@ export default function CheckInButton({ onClick, isReadOnly }: CheckInButtonProp
       onClick={onClick}
     >
       <LoginIcon fontSize="small" />
-      {t('dashboard.navbar.check_in_button')}
+      {t('check_in')}
     </Button>
   );
 }

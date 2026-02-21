@@ -64,26 +64,15 @@ export default function AdminUserViewModal({ user, dateRange, onClose }: AdminUs
       }}
     >
       <Box display="flex" justifyContent="flex-end">
-        <IconButton
-          onClick={onClose}
-          sx={{
-            width: 40,
-            height: 40,
-            borderRadius: '4px',
-            backgroundColor: theme.custom.colors.slateLight,
-            '&:hover': {
-              backgroundColor: theme.custom.colors.grey,
-            },
-          }}
-        >
-          <CloseIcon />
+        <IconButton aria-label="Close" onClick={onClose} size="small">
+          <CloseIcon fontSize="small" />
         </IconButton>
       </Box>
 
       <Box display="flex" justifyContent="space-between" alignItems="center" flexWrap="wrap">
         <Box display="flex" alignItems="center">
           <Avatar src={user.image} sx={{ mr: 2 }} />
-          <Typography>{user.name}</Typography>
+          <Typography variant="h3">{user.name}</Typography>
         </Box>
         <Box
           display="flex"
@@ -123,11 +112,11 @@ export default function AdminUserViewModal({ user, dateRange, onClose }: AdminUs
           >
             <TableRow>
               {[
-                t('admin.view_modal.date'),
-                t('admin.view_modal.check_in_time'),
-                t('admin.view_modal.check_out_time'),
-                t('admin.view_modal.working_hour'),
-                t('admin.view_modal.salary'),
+                t('date'),
+                t('check_in_time'),
+                t('check_out_time'),
+                t('working_hour'),
+                t('salary'),
               ].map((text) => (
                 <TableCell key={text}>
                   <Typography variant="body2">{text}</Typography>

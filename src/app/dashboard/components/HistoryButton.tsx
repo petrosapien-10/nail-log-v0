@@ -30,7 +30,7 @@ export default function HistoryButton({ onClick }: HistoryButtonProps) {
       onClick={onClick}
     >
       <HistoryIcon fontSize="small" />
-      {t('dashboard.navbar.history_button')}
+      {t('history')}
     </Button>
   );
 }

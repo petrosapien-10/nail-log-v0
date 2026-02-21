@@ -36,8 +36,8 @@ export default function PasswordExpiryInfo({ data, isRefreshing }: PasswordExpir
       <LockIcon sx={{ fontSize: 14, mb: 0.4 }} />
       <Typography variant="body1" fontWeight={700} color={isExpired ? 'error' : 'textPrimary'}>
         {isExpired
-          ? t('admin.password_set_new_message')
-          : `${t('admin.password_expires_message')} ${expiresAt.diff(now, 'hour') < 24 ? expiresAt.fromNow() : expiresAt.format(DATE_TIME_FORMAT)}`}
+          ? t('password_expired_set_a_new_one')
+          : `${t('password_will_expire_on')} ${expiresAt.diff(now, 'hour') < 24 ? expiresAt.fromNow() : expiresAt.format(DATE_TIME_FORMAT)}`}
       </Typography>
       {isRefreshing && <CircularProgress size={14} sx={{ ml: 1 }} />}
     </Box>

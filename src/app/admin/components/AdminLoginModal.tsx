@@ -49,7 +49,7 @@ export default function AdminLoginModal({
       setError('');
       onSuccess();
     } catch {
-      setError(t('sign_in.error_message'));
+      setError(t('invalid_email_or_password'));
       onError();
     }
   };
@@ -61,7 +61,6 @@ export default function AdminLoginModal({
       sx={{
         '& .MuiDialog-paper': {
           borderRadius: 3,
-          p: 2,
           width: 416,
           backgroundColor: '#fff',
           position: 'relative',
@@ -85,7 +84,7 @@ export default function AdminLoginModal({
             mb={1}
           >
             <Typography variant="h3" component="span">
-              {t('sign_in.admin_sign_in_title')}
+              {t('admin_sign_in')}
             </Typography>
             <IconButton
               onClick={onClose}
@@ -113,13 +112,13 @@ export default function AdminLoginModal({
               },
             }}
           >
-            <InputLabel htmlFor="email">{t('sign_in.email')}</InputLabel>
+            <InputLabel htmlFor="email">{t('email')}</InputLabel>
             <OutlinedInput
               id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              label={t('sign_in.email')}
+              label={t('email')}
               endAdornment={
                 email && (
                   <InputAdornment position="end">
@@ -148,13 +147,13 @@ export default function AdminLoginModal({
               },
             }}
           >
-            <InputLabel htmlFor="password">{t('sign_in.password')}</InputLabel>
+            <InputLabel htmlFor="password">{t('password')}</InputLabel>
             <OutlinedInput
               id="password"
               type={showPassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              label={t('sign_in.password')}
+              label={t('password')}
               endAdornment={
                 <InputAdornment position="end">
                   <IconButton onClick={() => setShowPassword((prev) => !prev)} edge="end">
@@ -198,7 +197,7 @@ export default function AdminLoginModal({
             fontSize: theme.typography.body1.fontSize,
           }}
         >
-          {t('sign_in.sign_in_button')}
+          {t('sign_in')}
         </Button>
       </DialogActions>
     </Dialog>

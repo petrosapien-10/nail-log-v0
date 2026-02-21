@@ -43,6 +43,9 @@ export default function ConfirmModal({
           sx={{
             backgroundColor: theme.palette.secondary.main,
             color: theme.palette.text.primary,
+            '&:hover': {
+              backgroundColor: theme.palette.secondary.light,
+            },
           }}
           disabled={isLoading}
         >
@@ -57,6 +60,9 @@ export default function ConfirmModal({
           sx={{
             backgroundColor: theme.custom.colors.pink,
             color: theme.palette.text.primary,
+            '&:hover': {
+              backgroundColor: theme.palette.primary.light,
+            },
           }}
         >
           {isLoading ? <CircularProgress size={18} color="inherit" /> : confirmText}
