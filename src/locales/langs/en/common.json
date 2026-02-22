@@ -100,6 +100,8 @@
   "new_password_created_successfully": "New password created successfully.",
   "no_avatars_available": "No avatars available.",
   "no_logs_found_for_this_date": "No logs found for this date",
+  "no_sessions_checked_in_yet": "No one has checked in yet.",
+  "no_employee_data_available": "No employee data available.",
   "no_tickets_added_yet_use_the_add_ticket_button_to_create_one": "No tickets added yet. Use the ‘Add Ticket’ button to create one.",
   "notice_after_extending_your_password_will_remain_valid_for_the_next_7_days": "Notice: After extending, your password will remain valid for the next 7 days.",
   "ok": "OK",

@@ -256,7 +256,11 @@ export default function Page() {
     return expenses.reduce((sum, expense) => sum + (isNaN(expense.amount) ? 0 : expense.amount), 0);
   }, [expenses]);
 
-  const allTickets = checkedInUsers.flatMap((entry) => entry.session.tickets ?? []);
+  const allTickets = useMemo(
+    () => checkedInUsers.flatMap((entry) => entry.session.tickets ?? []),
+    [checkedInUsers]
+  );
+
   const { paymentTotals, incomeMap } = useMemo(() => {
     return summarizeTicketPayments(allTickets);
   }, [allTickets]);
@@ -494,6 +498,7 @@ export default function Page() {
             key={title + index}
             title={title}
             value={value}
+            isFetching={isFetchingExpenses}
             action={
               buttonLabel && onClick ? (
                 <Button
@@ -630,6 +635,15 @@ export default function Page() {
           >
             {isFetchingSessions ? (
               <CircularProgress size={40} />
+            ) : sortedUsers.length === 0 ? (
+              <Typography
+                variant="h5"
+                textAlign="center"
+                color={theme.palette.text.secondary}
+                sx={{ gridColumn: '1 / -1', py: 4 }}
+              >
+                {t('no_sessions_checked_in_yet')}
+              </Typography>
             ) : (
               sortedUsers.map((user) => (
                 <Box key={user.session.id} display="flex" justifyContent="center">

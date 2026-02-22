@@ -236,6 +236,7 @@ export default function AdminPage() {
             key={title}
             title={title}
             value={value}
+            isFetching={isFetchingExpenses}
             maxWidth={theme.spacing(21)}
             action={
               buttonLabel && onClick ? (
