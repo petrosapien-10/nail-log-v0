@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import {
   Dialog,
   DialogTitle,
@@ -134,10 +134,6 @@ export default function ViewTicketsModal({
     () => [...tickets].sort((a, b) => a.createdAt.seconds - b.createdAt.seconds),
     [tickets]
   );
-
-  useEffect(() => {
-    // RTK Query will automatically refetch when modal opens
-  }, [open]);
 
   const handleMenuOpen = useCallback((event: React.MouseEvent<HTMLElement>, ticketId: string) => {
     setAnchorEl(event.currentTarget);
@@ -384,21 +380,11 @@ export default function ViewTicketsModal({
                   </TableRow>
 
                   <TableRow>
-                    <TableCell sx={{ fontWeight: 'bold' }}>
-                      {t('cash')}
-                    </TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>
-                      {t('card')}
-                    </TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>
-                      {t('treatwell')}
-                    </TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>
-                      {t('gift_card')}
-                    </TableCell>
-                    <TableCell sx={{ fontWeight: 'bold' }}>
-                      {t('others')}
-                    </TableCell>
+                    <TableCell sx={{ fontWeight: 'bold' }}>{t('cash')}</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold' }}>{t('card')}</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold' }}>{t('treatwell')}</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold' }}>{t('gift_card')}</TableCell>
+                    <TableCell sx={{ fontWeight: 'bold' }}>{t('others')}</TableCell>
                   </TableRow>
                 </TableHead>
 

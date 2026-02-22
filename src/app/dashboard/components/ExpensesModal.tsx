@@ -412,7 +412,7 @@ export default function ExpensesModal({
                 },
               }}
             >
-              Cancel
+              {t('cancel')}
             </Button>
             <Button
               fullWidth
@@ -426,7 +426,7 @@ export default function ExpensesModal({
                 color: theme.palette.text.primary,
               }}
             >
-              {isDeleting ? <CircularProgress size={18} color="inherit" /> : 'Delete'}
+              {isDeleting ? <CircularProgress size={18} color="inherit" /> : t('delete')}
             </Button>
           </Stack>
         </DialogContent>

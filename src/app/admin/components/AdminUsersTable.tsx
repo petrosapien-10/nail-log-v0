@@ -126,6 +126,15 @@ export default function AdminUsersTable({ data, onView, isLoading }: AdminUsersT
                 </TableCell>
               </TableRow>
             )}
+            {!isLoading && rows.length === 0 && (
+              <TableRow>
+                <TableCell colSpan={7} align="center">
+                  <Typography variant="body2" color="text.secondary">
+                    {t('no_employee_data_available')}
+                  </Typography>
+                </TableCell>
+              </TableRow>
+            )}
             {!isLoading &&
               rows.map((row, index) => (
                 <TableRow key={index}>
