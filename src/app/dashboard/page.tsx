@@ -1,7 +1,15 @@
 'use client';
 
 import React, { Suspense, useEffect, useMemo, useState, useCallback } from 'react';
-import { Box, Button, CircularProgress, Container, MenuItem, Select, Typography } from '@mui/material';
+import {
+  Box,
+  Button,
+  CircularProgress,
+  Container,
+  MenuItem,
+  Select,
+  Typography,
+} from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 
 import AddTicketModal from './components/AddTicketModal';
@@ -13,7 +21,7 @@ import SnackbarMessage from '../components/SnackBarMessage';
 import EditTimeModal from './components/EditTimeModal';
 import ExpensesModal from './components/ExpensesModal';
 
-import { RefetchMap, useNavbarContext } from '../hooks/context/navbar-context';
+import { RefetchMap, useNavbarContext } from '../hooks/context/NavbarContext';
 import { useTranslate } from 'src/locales/hooks/useTranslate';
 import { useTicketManager } from '../hooks/useTicketManager';
 import LogoutStatusHandler from '@/app/components/LogoutStatusHandler';
@@ -72,8 +80,8 @@ export default function Page() {
   } = useGetSessionsByDateQuery(
     { date: selectedDateString, timeZone },
     {
-      refetchOnMountOrArgChange: 30, // Only refetch if data is older than 30 seconds
-      refetchOnFocus: false, // Don't refetch when window regains focus
+      refetchOnMountOrArgChange: 30,
+      refetchOnFocus: false,
     }
   );
 

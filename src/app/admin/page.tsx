@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState, useCallback } from 'react';
 import { useAuthContext } from '@/app/hooks/context/AuthContext';
 import { Button, Container, useTheme } from '@mui/material';
-import { useNavbarContext } from '../hooks/context/navbar-context';
+import { useNavbarContext } from '../hooks/context/NavbarContext';
 import { useGetExpensesByRangeQuery, useGetSessionsQuery } from '../store/secureApiSlice';
 import AdminUsersTable from './components/AdminUsersTable';
 import AdminUserViewModal from './components/AdminUserViewModal';

@@ -1,6 +1,6 @@
 'use client';
 
-import { NavbarProvider } from '../hooks/context/navbar-context';
+import { NavbarProvider } from '../hooks/context/NavbarContext';
 import Navbar from '../components/Navbar';
 import { useTheme } from '@mui/material/styles';
 import { Box } from '@mui/material';

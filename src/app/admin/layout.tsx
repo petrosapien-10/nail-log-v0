@@ -2,7 +2,7 @@
 
 import { ReactNode } from 'react';
 import { useTheme } from '@mui/material/styles';
-import { NavbarProvider } from '../hooks/context/navbar-context';
+import { NavbarProvider } from '../hooks/context/NavbarContext';
 import TabsBar from '../components/TabsBar';
 import Navbar from '../components/Navbar';
 import { Box } from '@mui/material';

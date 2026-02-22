@@ -2,7 +2,7 @@
 
 import { Box, Chip, Container } from '@mui/material';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
-import { useNavbarContext } from '../hooks/context/navbar-context';
+import { useNavbarContext } from '../hooks/context/NavbarContext';
 import DateSelector from '../admin/components/DateSelector';
 import CheckInButton from '../dashboard/components/CheckInButton';
 import HistoryButton from '../dashboard/components/HistoryButton';

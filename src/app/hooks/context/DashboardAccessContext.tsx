@@ -18,7 +18,7 @@ import {
   useGetDashboardSessionQuery,
 } from '@/app/store/publicApiSlice';
 
-import { useNavbarContext } from '@/app/hooks/context/navbar-context';
+import { useNavbarContext } from '@/app/hooks/context/NavbarContext';
 import status from 'http-status';
 import { useTheme } from '@mui/material/styles';
 import { useTranslate } from '@/locales/hooks/useTranslate';

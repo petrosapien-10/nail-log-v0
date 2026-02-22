@@ -19,7 +19,7 @@ import AddUserModal from '../components/AddUserModal';
 import { User, UserPayload } from '@/types/user';
 import { ModalMode } from '@/types/modalMode';
 import ConfirmModal from '@/app/components/ConfirmModal';
-import { RefetchMap, useNavbarContext } from '@/app/hooks/context/navbar-context';
+import { RefetchMap, useNavbarContext } from '@/app/hooks/context/NavbarContext';
 
 const mapUserToUserPayload = (user: User): UserPayload => ({
   id: user.id,
